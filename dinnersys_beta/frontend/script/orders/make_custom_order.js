@@ -15,6 +15,7 @@ function init_menu() {
             var name = value['dish_name'];
             var price = value['dish_cost'];
             var id = value['dish_id'];
+            if(value['is_idle'] == 'true') return;
             menu_array[id] = value;
             $("#ingres").append(make_ingre(id ,name ,price));
         });
