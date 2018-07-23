@@ -7,13 +7,20 @@ class user implements json_format
     public $id;
     public $name = "";
     public $class_no;
+    public $is_vege;
     public $able_serv;
+
+    public $login_id;
+    public $password;
     
-    function __construct($usr_id ,$name ,$class_no)
+    function __construct($usr_id ,$name ,$class_no ,$vege ,$login_id = null ,$password = null)
     {
         $this->id = $usr_id;
         $this->name = $name;
         $this->class_no = $class_no;
+        $this->is_vege = $vege;
+        $this->login_id = $login_id;
+        $this->password = $password;
     }
     
     public function init_serv()
@@ -42,7 +49,8 @@ class user implements json_format
         $data = 
             '{"id":"' . json_output::filter($this->id) . 
             '","name":"' . json_output::filter($this->name) .
-            '","class_no":"' . json_output::filter($this->class_no) .
+            '","vege":' . $this->is_vege->get_json() .
+            ',"class_no":"' . json_output::filter($this->class_no) .
             '","valid_oper":' . json_output::array_to_json($this->able_serv) . '}';
 
         return $data;

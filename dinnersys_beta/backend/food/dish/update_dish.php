@@ -1,35 +1,30 @@
 <?php
 
-function update_dish($id ,$idle ,$ingres)
+function update_dish($id ,$dname ,$csum ,$vege ,$idle)
 {
-    $data = []; $tmp = []; $counter = 0;
-    foreach($ingres as $value)    
-        $tmp[check_valid::white_list($value ,check_valid::$only_number)] = true;
+    load_dish();
     
-    ksort($tmp);
-    foreach($tmp as $key => $value) 
-        $data[$counter++] = $key;
-        
+    $id = check_valid::white_list($id ,check_valid::$only_number);
+    $dname = htmlspecialchars($dname);
+    $csum = check_valid::white_list($csum ,check_valid::$only_number);
+    $vege = check_valid::vege_check($vege);
+    if($idle != null) $idle = ($idle == 'true');
+    
+    $dish = unserialize($_SESSION['dish']);
+    if($dish[$id] == null || !$dish[$id]->updatable()) throw new Exception("Access denied");
     
     $mysqli = $_SESSION['sql_server'];
-    $sql = "SELECT update_dish(? ,?,
-        ? ,? ,? ,? ,? ,
-        ? ,? ,? ,? ,?)";
+    $mysqli->next_result();
+    $sql = "UPDATE `dinnersys`.`dish`
+        SET `dish_name` = ?,
+        `charge_sum` = ?,
+        `is_vegetarian` = ?,
+        `is_idle` = ?
+        WHERE `dinnersys`.`dish`.`id` = ?;";
     
     $statement = $mysqli->prepare($sql);
-    $statement->bind_param('iiiiiiiiiiii' ,$id ,$idle
-        ,$data[0] ,$data[1] ,$data[2] ,$data[3] ,$data[4]
-        ,$data[5] ,$data[6] ,$data[7] ,$data[8] ,$data[9]);
+    $statement->bind_param('siiii' ,$dname ,$csum ,$vege ,$idle ,$id);
     $statement->execute();
-    
-    $statement->bind_result($result);
-    if($statement->fetch()){
-        if($result != "success") {
-            throw new Exception($result);
-        }
-    } else {
-        throw new Exception("Unable to fetch data from server.");   
-    }    
 }
 
 ?>

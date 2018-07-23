@@ -6,16 +6,18 @@ class order implements json_format
 {
     public $id;
     public $user;
+    public $order_maker;
     public $dish;
     public $payment;        // $payment['usr'] = paymemt info;
     
     public $esti_recv;
     
-    public function __construct($id ,$dish, $user, $recv_date)
+    public function __construct($id ,$dish, $user, $order_maker, $recv_date)
     {
         $this->id = $id;
         $this->dish = $dish;
         $this->user = $user;
+        $this->order_maker = $order_maker;
         $this->esti_recv = $recv_date;
     }
     
