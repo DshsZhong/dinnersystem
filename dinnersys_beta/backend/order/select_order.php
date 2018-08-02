@@ -3,15 +3,13 @@
 function select_order($user_id ,$person ,$class ,$class_no ,$grade ,$yr)
 {
     $vege = ($_REQUEST['vege'] === null ? null : $_REQUEST['vege'] == 'true');
-    $usr = ($_REQUEST['usr'] === null ? null : $_REQUEST['usr'] == 'true');
+    $usr = ($_REQUEST['usr'] === null ? null : $_REQUEST['usr'] == 'true'); 
     $dm = ($_REQUEST['dm'] === null ? null : $_REQUEST['dm'] == 'true');
     $cafet = ($_REQUEST['cafet'] === null ? null : $_REQUEST['cafet'] == 'true');
     $facto = ($_REQUEST['facto'] === null ? null : $_REQUEST['facto'] == 'true');
     $esti_start = ($_REQUEST['esti_start'] === null ? null : date_api::is_valid_time($_REQUEST['esti_start'])->format('Y/m/d-H:i:s'));
     $esti_end = ($_REQUEST['esti_end'] === null ? null : date_api::is_valid_time($_REQUEST['esti_end'])->format('Y/m/d-H:i:s'));
     $factory_id = $_REQUEST['factory_id'];
-    
-    #var_dump(get_defined_vars());
     
     $command = 
     "CALL select_order

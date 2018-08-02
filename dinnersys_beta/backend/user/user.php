@@ -27,8 +27,10 @@ class user implements json_format
     {
         $services = get_able_oper($this->id);
         $_SESSION['able_serv'] = serialize($services);
-        foreach($services as $key => $value)
+        foreach($services as $key => $value) {
             $this->able_serv[$key] = true;
+        }
+            
     }
     
     public function get_ip()

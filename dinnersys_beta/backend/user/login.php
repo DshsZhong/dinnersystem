@@ -21,9 +21,11 @@ function login($login_id, $pswd ,$device_id ,$check = true)
     $statement->store_result();
     $statement->bind_result($id ,$name ,$class_id ,$is_vege);
     
-    if($statement->fetch())
+    $account = null;
+    if($statement->fetch()) {
         $account = new user($id ,$name ,$class_id ,new vege($is_vege)
             ,$login_id ,$pswd);   
+    }
         
     if($account == null) throw new Exception("No account.");
     

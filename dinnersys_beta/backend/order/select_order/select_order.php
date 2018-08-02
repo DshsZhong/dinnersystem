@@ -13,7 +13,7 @@ function select_order($user_id ,$person ,$class ,$class_no ,$grade ,$yr ,
     if($esti_end != null) $esti_end = date_api::is_valid_time($esti_end)->format('Y/m/d-H:i:s');
     $factory_id = check_valid::white_list_null($factory_id ,check_valid::$only_number);
     $person = check_valid::bool_null_check($person);
-    $class = check_valid::bool_null_check($class_no);
+    $class = check_valid::bool_null_check($class);
     $class_no = check_valid::white_list_null($class_no ,check_valid::$only_number);
     $grade = check_valid::white_list_null($grade ,check_valid::$only_number);
     $yr = check_valid::white_list_null($yr ,check_valid::$only_number);

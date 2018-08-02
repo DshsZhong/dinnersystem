@@ -9,7 +9,6 @@ function __construct($input)
     if($_SESSION['user'] == null)
     {
         $user = login('guest' ,'!!!!!' ,"NULL" ,false);
-        $user->init_serv();
         $_SESSION['user'] = serialize($user);
     }
     $this->input = $input;
@@ -93,7 +92,7 @@ function show_order()
                 $person = true;
                 break;
             case 'select_class':
-                $class = true;
+                $class = true; 
                 break;
             case 'select_facto':
                 $factory_id = strval(key(unserialize($_SESSION['factory_auth'])[$user_id]));
@@ -109,6 +108,7 @@ function show_order()
             case 'select_everyone':
                 break;
         }
+
         $result = select_order($user_id ,
             $person ,$class ,
             $class_no ,$grade ,$yr ,
