@@ -1,0 +1,13 @@
+D:\dinnersysetm\dinnersys_export\dinnersys_export\bin\Debug\dinnersys_export.exe.config
+D:\dinnersysetm\dinnersys_export\dinnersys_export\bin\Debug\dinnersys_export.exe
+D:\dinnersysetm\dinnersys_export\dinnersys_export\bin\Debug\dinnersys_export.pdb
+D:\dinnersysetm\dinnersys_export\dinnersys_export\bin\Debug\Newtonsoft.Json.dll
+D:\dinnersysetm\dinnersys_export\dinnersys_export\bin\Debug\Newtonsoft.Json.xml
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.csprojAssemblyReference.cache
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.Form1.resources
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.Properties.Resources.resources
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.csproj.GenerateResource.cache
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.csproj.CoreCompileInputs.cache
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.csproj.CopyComplete
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.exe
+D:\dinnersysetm\dinnersys_export\dinnersys_export\obj\Debug\dinnersys_export.pdb
