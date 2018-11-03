@@ -1,0 +1,8 @@
+.department {
+    width: 90%;
+    margin: auto;
+    border-color: white;
+    border-width: 3px;
+    border-style: solid;
+    padding: 5px;
+}
