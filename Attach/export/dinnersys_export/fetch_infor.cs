@@ -7,15 +7,18 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace dinnersys_export
 {
     class fetch_infor
     {
-        string id, pswd, date , cookieHeader;
-        public fetch_infor(string id, string pswd, string date)
+        string id, pswd, start ,end , cookieHeader;
+        public fetch_infor(string id, string pswd, string start ,string end)
         {
-            this.date = date;
+            this.start = start;
+            this.end = end;
+
             string url = "http://dinnersystem.ddns.net/dinnersys_beta/backend/backend.php?cmd=login&id=" + id + "&password=" + pswd;
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Method = "GET";
@@ -25,9 +28,11 @@ namespace dinnersys_export
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
         }
 
-        public JArray get()
+        public JArray get(bool history)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://dinnersystem.ddns.net/dinnersys_beta/backend/backend.php?cmd=select_other&cafet=true&esti_start=" + date + "-00:00:00&esti_end=" + date + "-23:59:59");
+            String url = "http://dinnersystem.ddns.net/dinnersys_beta/backend/backend.php?cmd=select_other&cafet=true&esti_start=" + start + "-00:00:00&esti_end=" + end + "-23:59:59";
+            url += (history ? "&history=true" : "");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");

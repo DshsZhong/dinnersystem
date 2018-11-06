@@ -24,7 +24,9 @@ namespace dinnersys_export
 
         private void export_Click(object sender, EventArgs e)
         {
-            string date_string = date.Value.ToShortDateString().Replace("-" ,"/");
+            string start = this.start.Value.ToShortDateString().Replace("-" ,"/");
+            string end = this.end.Value.ToShortDateString().Replace("-", "/");
+
             string fileName = "";
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -34,8 +36,8 @@ namespace dinnersys_export
                 }
             }
             excel = new export_excel(fileName);
-            info = new fetch_infor(account.Text, password.Text, date_string);
-            JArray arr = info.get();
+            info = new fetch_infor(account.Text, password.Text, start ,end);
+            JArray arr = info.get(history.Checked);
 
             string[] money = { "40", "55" };
             string[] facto = { "台灣小吃部", "愛佳便當" };
@@ -50,7 +52,7 @@ namespace dinnersys_export
                             int value = (from objs in arr.Values<JObject>()
                                          where objs["dish"]["dish_cost"].ToString() == money[charge]
                                              && objs["user"]["class"]["class_no"].ToString() == (grade * 100 + cls).ToString()
-                                             && objs["dish"]["factory"]["name"].ToString() == facto[factory]
+                                             && objs["dish"]["factory"]["name"].ToString().Split('-')[0] == facto[factory]
                                          select objs).Count();
                             excel.write(grade * 100 + cls, facto[factory], Int32.Parse(money[charge]), value);
                         }
