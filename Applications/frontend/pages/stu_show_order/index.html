@@ -1,4 +1,4 @@
-<html>
+<html manifest="../../manifest.appcache">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,6 +17,7 @@
 	<script src="../../script/modules/bootstrap.min.js"></script>
 	<script src="../../script/modules/date.js"></script>
 	<script src="../../script/modules/jquery-cookie.js"></script>
+	<script src="../../script/modules/hash.js"></script>
 	<script src="../../script/function.js"></script>
 
 	<script src="ui.js"></script>
@@ -45,7 +46,13 @@
 						<div id="loading" style="height:30px;width:90%;margin: auto;">
 							<p style="text-align: center;margin: auto;font-size: 16px;">系統正在下載資料，請耐心等候。</p>
 						</div>
+						
 						<div style="height:10px;"> </div>
+						<div class="info">
+							<div class="index index_adjust" style="width:45%;background-color: red;"><label>學生證餘額:</label></div>
+							<div class="value valye_adjust" style="width:30%;background-color: red;"><label id="money">載入中...</label></div>
+						</div>
+						<div style="height:30px;"> </div>
 
 						<div id="data"> <hr />
 							

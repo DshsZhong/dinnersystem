@@ -6,11 +6,17 @@ class order_handler
 {
 
 public $input;
+public $req_id;
 
 function __construct($input)
 {
+    session_start();
+    \other\init_server();
+    if($input["cmd"] != "login")
+        session_write_close();
+
     if($_SESSION['me'] == null)
-        $user = \user\login('guest' ,'!!!!!' ,"NULL" ,false);
+        $_SESSION['me'] = serialize(\user\user::get_guest());
     $this->input = $input;
 }
 
@@ -19,21 +25,20 @@ function process_order()
     $cmd = $this->input['cmd'];
     $func = unserialize($_SESSION['me'])->services[$cmd];
     $user = unserialize($_SESSION['me']);
-
-    \other\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
-
+    $this->req_id = \other\log\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
     try
     {
         return $this->$func();   # A very danger way to call a function. #
+    } catch(\Exception $e) { 
+        $output = $e->getMessage(); 
+        \other\log\make_error_log($this->req_id ,$output);
+        return $output;
     }
-    catch(\Exception $e) { return $e->getMessage(); }
 }
 
 function login()
 {
-    return \user\login($this->input['id']
-        ,$this->input['password'] 
-        ,$this->input['device_id']);
+    return \user\login\login($this->input['id'] ,$this->input['hash'] ,$this->input['device_id'] ,$this->req_id);
 }
 
 function logout() 
@@ -86,9 +91,6 @@ function make_order()
         case 'make_self_order':
             return \order\make_order\make_order(null ,$this->input['dish_id'] ,$this->input['time'] ,'self');
             break;
-        case 'make_class_order':
-            return \order\make_order\make_order($this->input['target_id'] ,$this->input['dish_id'] ,$this->input['time'] ,'class');
-            break;
         case 'make_everyone_order':
             return \order\make_order\make_order($this->input['target_id'] ,$this->input['dish_id'] ,$this->input['time'] ,'everyone');
             break;
@@ -98,23 +100,16 @@ function make_order()
 function set_payment()
 {   
     $target = ($this->input['target'] == 'true');
-    $user_id = unserialize($_SESSION['me'])->id;
     switch($this->input['cmd'])
     {
-        case 'payment_usr':
-            $money_to = 'user';
+        case 'payment_self':
+            return \order\money_info\set_payment($this->req_id ,$this->input['hash'] ,$this->input['order_id'] ,"self" ,$target);
             break;
-        case 'payment_dm':
-            $money_to = 'dinnerman';
-            break;
-        case 'payment_cafet':
-            $money_to = 'cafeteria';
-            break;
-        case 'payment_facto':
-            $money_to = 'factory';
+        case 'payment_everyone':
+            return \order\money_info\set_payment($this->req_id ,$this->input['hash'] ,$this->input['order_id'] ,"everyone" ,$target);
             break;
     }
-    return \order\money_info\set_payment($this->input['order_id'] ,$user_id ,$money_to ,$target);
+    
 }
 
 function change_password()
@@ -129,45 +124,16 @@ function delete_order()
         case 'delete_self':
             return \order\delete_order($this->input['order_id'] ,'self');
             break;
-        case 'delete_dm':
-            return \order\delete_order($this->input['order_id'] ,'class');
-            break;
         case 'delete_everyone':
             return \order\delete_order($this->input['order_id'] ,'none');
             break;
     }
 }
 
-
-# This funciton has been disabled. #
-/*
-function register()
+function get_money()
 {
-    \user\register($this->input['user_name'] ,
-        $this->input['phone_number'] ,
-        $this->input['is_vege'] ,
-        $this->input['gen'] ,
-        $this->input['email'] ,
-        $this->input['login_id'] ,
-        $this->input['password']);
-    return "Succesfully registered user.";
+    return \bank\get_money();
 }
-*/
-
-function announce_handle()
-{
-    if($this->input['cmd'] == 'get_announce')
-    {
-        $result = \order\get_announce($this->input['start'] ,$this->input['end']);
-        return $result;
-    }
-    if($this->input['cmd'] == 'done_announce')
-    {
-        \order\done_announce($this->input['id'] ,$this->input['device_id']);
-        return 'Succesfully recorded to server.';
-    }
-}
-
 }
 
 ?>

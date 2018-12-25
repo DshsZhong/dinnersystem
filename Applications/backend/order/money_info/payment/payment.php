@@ -31,13 +31,13 @@ class payment implements json_format
     public function get_json()
     {
         $data = 
-             '{"id" : "' . json_output::filter($this->id) . 
-             '","paid" : "' . ($this->paid ? 'true' : 'false') . 
-             '","able_dt" : "' . json_output::filter($this->able_dt) . 
-             '","paid_dt" : "' . json_output::filter($this->paid_dt) . 
-             '","freeze_dt" : "' . json_output::filter($this->freeze_dt) . 
-             '","name" : "' . json_output::filter($this->name) .
-             '","reversable" : "' . json_output::filter($this->reversable) . '"}';
+             '{"id":"' . json_output::filter($this->id) . 
+             '","paid":"' . ($this->paid ? 'true' : 'false') . 
+             '","able_dt":"' . json_output::filter($this->able_dt) . 
+             '","paid_dt":"' . json_output::filter($this->paid_dt) . 
+             '","freeze_dt":"' . json_output::filter($this->freeze_dt) . 
+             '","name":"' . json_output::filter($this->name) .
+             '","reversable":"' . json_output::filter($this->reversable) . '"}';
          return $data;
     }
 

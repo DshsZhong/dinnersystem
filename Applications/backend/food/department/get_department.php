@@ -4,7 +4,6 @@ namespace food;
 function get_department()
 {
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $sql = "SELECT D.id ,D.name ,D.factory
             FROM department AS D;";
     

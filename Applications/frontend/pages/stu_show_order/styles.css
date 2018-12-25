@@ -40,7 +40,27 @@
 }
 
 .payment {
-    margin-left: 15px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-left: 10px;
+    width: 120px;
+    float: left;
+    height: 30px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    transition: all .2s ease-in-out;
+    border-radius: 20px;
+    color: white;
+}
+
+.payment label {
+    color: black;
+    font-size: 17px;
+    text-align: center;
+    height: 30px;
+    width: 100%;
+    margin-top: 4px;
+    float: left;
+    margin-bottom: 0px;
+}
+
+.payment label:hover {
+    color: white;
 }

@@ -1,0 +1,7 @@
+D:\dinnersysetm\bank_server2\bank_server2\bin\Debug\bank_server2.exe.config
+D:\dinnersysetm\bank_server2\bank_server2\bin\Debug\bank_server2.exe
+D:\dinnersysetm\bank_server2\bank_server2\bin\Debug\bank_server2.pdb
+D:\dinnersysetm\bank_server2\bank_server2\obj\Debug\bank_server2.csprojAssemblyReference.cache
+D:\dinnersysetm\bank_server2\bank_server2\obj\Debug\bank_server2.csproj.CoreCompileInputs.cache
+D:\dinnersysetm\bank_server2\bank_server2\obj\Debug\bank_server2.exe
+D:\dinnersysetm\bank_server2\bank_server2\obj\Debug\bank_server2.pdb

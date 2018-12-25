@@ -17,8 +17,9 @@ function categorize($data)
 
         $department_name[$value->department->id] = $value->department->name;
     }
+
     foreach($data as $value)
-        $department[$value->dish->department->id][$value->dish->id]['count'] += 1;
+        $department[$value->vdish->department->id][$value->vdish->id]['count'] += 1;
     
     ksort($department);
     foreach($department as $key => $value)

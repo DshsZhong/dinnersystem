@@ -25,7 +25,7 @@ class json_output
         if(gettype($var) != "array") {
             throw new \Exception("This is not an array.");
         } else {
-            foreach ($var as $key => $value)
+            foreach ($var as $value)
             {
                 if ($has_run == true)
                     $json .= ',';
@@ -42,7 +42,7 @@ class json_output
                     $json .= self::array_to_json($value);
                 }
                 else{
-                    $json .= '{"' . self::filter($key) . '":"' . self::filter($value) . '"}';
+                    $json .= '"' . self::filter($value) . '"';
                 }
             }
         }

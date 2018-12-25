@@ -3,27 +3,31 @@ namespace order\money_info;
 
 use \other\check_valid;
 
-function set_payment($ord_id ,$user_id ,$money_to ,$target ,$check = true)
+function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target ,$check = true)
 {
+    $ord_id = check_valid::white_list($ord_id ,check_valid::$only_number);
+    $result = \order\select_order\select_order(['oid' => $ord_id]);
+    $user_id = unserialize($_SESSION['me'])->id;
+    $row = reset($result);
+    if($row === null) 
+        throw new \Exception("Can't find order.");
     if($check)
-    {
-        $ord_id = check_valid::white_list($ord_id ,check_valid::$only_number);
-        $result = \order\select_order\select_order(['oid' => $ord_id]);
-        $row = reset($result);
-        if($row === null) 
-            throw new \Exception("Can't find order.");
-        if(!payment_auth($row ,$user_id ,$money_to ,$target))
-            throw new \Exception("Access denied.");
-    }
-    $ip = \other\get_ip();
+        payment_auth($row ,$user_id ,$permission ,$target);
     
-    $sql_command = "CALL make_payment(? ,? ,? ,? ,?);";
+    if(intval(\bank\get_money()) < $row->money->charge)
+        throw new \Exception("Not enough money.");
+    \bank\debit($row ,$req_id ,$hash);
+
+    $sql_command = "UPDATE `dinnersys`.`payment` AS P
+        SET `paid` = ?,
+        `paid_datetime` = CURRENT_TIMESTAMP
+        WHERE P.money_info = (SELECT O.money_id FROM `dinnersys`.`orders` AS O WHERE O.id = ?) 
+        AND P.tag = 'payment';";
     
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $statement = $mysqli->prepare($sql_command);
     
-    $statement->bind_param('iisis',$ord_id ,$user_id ,$money_to ,$target ,$ip);
+    $statement->bind_param('ii',$target ,$ord_id);
     $statement->execute();
     
     return $row;

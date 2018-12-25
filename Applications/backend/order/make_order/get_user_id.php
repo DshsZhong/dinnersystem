@@ -9,22 +9,16 @@ function get_user_id($seat_id ,$type)
         case "self":
             return $self->id;
             break;
-        case "class":
-            $cno = $self->class->class_no;
-            break;
         case "everyone":
             break;
     }
 
     $sql_command = "SELECT U.id FROM users AS U ,user_information AS UI
-        WHERE UI.seat_id = ?
-        AND UI.class_id = IFNULL(? ,UI.class_id)
-        AND UI.id = U.info_id;";
+        WHERE UI.seat_id = ? AND UI.id = U.info_id;";
     
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $statement = $mysqli->prepare($sql_command);
-    $statement->bind_param('ss' ,$seat_id ,$cno);
+    $statement->bind_param('s' ,$seat_id);
     $statement->execute();
     $statement->store_result();
     $statement->bind_result($result);

@@ -20,8 +20,7 @@ $(document).ready(function(){
 
     var opers = [];
     $.each(json['valid_oper'], function(index ,value) {
-        var tmp = Object.keys(value)[0];
-        opers[tmp] = true;
+        opers[value] = true;
     });
     
     var welcome = "";// = "你的身分是：";

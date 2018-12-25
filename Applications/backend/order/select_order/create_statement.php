@@ -13,12 +13,12 @@ function create_statement($param)
         ['oid'           ,'AND (? = O.id)'                                                         ,'i']
     ];
 
-    $sql = ($param["history"] == "true" ? history_sql() : normal_sql());
+    $sql = normal_sql();
     $type = "";
     $value = [];
 
     foreach($syntax as $row) {
-        if($param[$row[0]] === null) continue;
+        if(!isset($param[$row[0]])) continue;
         
         if(array_key_exists(3 ,$row))
             $value[] = intval($row[3]);
@@ -32,13 +32,16 @@ function create_statement($param)
     $sql .= " ORDER BY O.id";
 
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     
     /*var_dump($value);
     die($sql);*/
 
     $statement = $mysqli->prepare($sql);
-    $statement->bind_param($type , ...$value);
+
+    if(count($value) != 0)
+    {
+        $statement->bind_param($type , ...$value);
+    }
     $statement->execute();
     $statement->store_result();
 

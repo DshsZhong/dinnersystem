@@ -4,7 +4,6 @@ namespace user;
 function get_class()
 {
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $sql = "SELECT C.id ,C.year ,C.grade ,C.class_no
             FROM dinnersys.class AS C;";
     

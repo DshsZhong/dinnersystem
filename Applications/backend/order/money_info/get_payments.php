@@ -6,7 +6,6 @@ function get_payments($oids)
     if(count($oids) == 0) return [];
 
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $sql = "SELECT
         O.id,
         P.id, P.paid,

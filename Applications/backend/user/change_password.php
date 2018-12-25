@@ -17,7 +17,6 @@ function change_password($old_password ,$new_password)
         WHERE `users`.`id` = ?;";
     
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $statement = $mysqli->prepare($sql);
     
     $statement->bind_param('si', $new_password , $self->id);

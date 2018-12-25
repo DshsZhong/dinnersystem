@@ -1,18 +1,16 @@
 <?php
 namespace food;
 
-function get_dish($id = null)
+function get_dish($did = null)
 {
-    $user = unserialize($_SESSION['user']);
-    
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
 
     $sql = "SELECT D.id ,D.dish_name ,D.charge ,D.is_idle ,DP.id ,D.is_vegetarian
         FROM `dinnersys`.`dish` AS D ,`dinnersys`.`department` AS DP
-        WHERE D.department_id = DP.id AND D.id = IFNULL(? ,D.id);";
+        WHERE D.department_id = DP.id 
+		AND D.id = IFNULL(? ,D.id);";
     $statement = $mysqli->prepare($sql);
-    $statement->bind_param('i' ,$id);
+    $statement->bind_param('i' ,$did);
     $statement->execute();
     $statement->store_result();
     $statement->bind_result(

@@ -56,7 +56,6 @@ class info {
         $this->count = 1;
         if(get_class($data) === "order\\order") {
             $this->charge_sum = $data->money->charge;
-            $this->fname = $data->dish->department->factory->name;
             $this->class = $data->user->class->class_no;
             foreach($data->money->payment as $key => $value) {
                 $this->paid[$key] = ($value->paid == 1);
@@ -65,10 +64,11 @@ class info {
             foreach($data->money->payment as $key => $value) {
                 $this->time[$key] = strtotime($value->paid_dt);         # ten minutes a tick
             }
-            $this->dname = $data->dish->name;
-            $this->dcharge = $data->dish->charge;
-            $this->did = $data->dish->id;
-            $this->department = $data->dish->department->name;
+            $this->dname = $data->vdish->name;
+            $this->dcharge = $data->vdish->charge;
+            $this->did = $data->vdish->id;
+            $this->department = $data->vdish->department->name;
+            $this->fname =  $data->vdish->department->factory->name;
         }
         if(get_class($data) === "food\\dish") {
             $this->fname = $data->department->factory->name;;

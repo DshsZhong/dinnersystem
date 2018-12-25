@@ -5,7 +5,10 @@ function submit() {
     $(".dish_content").each(function (index, value) {
         var uid = parseInt($(this).find('input').val());
         var did = $(this).find('input').attr('name').split('_')[1];
-        make_order(uid, did, "everyone", function (result) {});
+        make_order(uid, did, "everyone", function (result) {
+            result = $.parseJSON(result)[0];
+            make_payment(result["id"], 'everyone', '123', (result) => {});
+        });
     });
     $(document).ajaxStop(function () {
         show("成功點餐");

@@ -12,7 +12,7 @@ function update_dish($id ,$dname ,$csum ,$vege ,$idle)
     
     $row = get_dish($id)[$id];
     if($row == null || !$row->updatable()) 
-        throw new \Exception("Access denied");
+        throw new \Exception("Access denied..");
     $same = (
         $row->name == $dname &&
         $row->charge == $csum  &&
@@ -22,7 +22,6 @@ function update_dish($id ,$dname ,$csum ,$vege ,$idle)
     if($same) return "Nothing to update.";
 
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $sql = "CALL update_dish(? ,? ,? ,? ,?)";
     
     $statement = $mysqli->prepare($sql);

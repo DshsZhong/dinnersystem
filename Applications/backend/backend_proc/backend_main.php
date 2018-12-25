@@ -9,6 +9,7 @@ class backend_main
     function __construct($input = null)
     {
         require_once (__DIR__ . '/order_handler.php');
+        require_once (__DIR__ . '/config.php');
         
 
         
@@ -19,7 +20,10 @@ class backend_main
 
 
         require_once (__DIR__ . '/../food/food.php');
+
         require_once (__DIR__ . '/../food/buffet/buffet.php');
+        require_once (__DIR__ . '/../food/buffet/get_buffets.php');
+        require_once (__DIR__ . '/../food/buffet/buffet_func.php');
 
         require_once (__DIR__ . '/../food/department/department.php');
         require_once (__DIR__ . '/../food/department/get_department.php');
@@ -47,7 +51,8 @@ class backend_main
 
         require_once (__DIR__ . '/../order/make_order/get_user_id.php');
         require_once (__DIR__ . '/../order/make_order/make_order.php');
-        require_once (__DIR__ . '/../order/make_order/get_time.php');
+        require_once (__DIR__ . '/../order/make_order/check_time.php');
+        require_once (__DIR__ . '/../order/make_order/check_dish.php');
 
         require_once (__DIR__ . '/../order/money_info/payment/payment.php');
         require_once (__DIR__ . '/../order/money_info/payment/payment_auth.php');
@@ -67,12 +72,26 @@ class backend_main
         require_once (__DIR__ . '/../order/order.php');
 
 
+
+        require_once (__DIR__ . '/../bank/auth.php');
+        require_once (__DIR__ . '/../bank/debit.php');
+        require_once (__DIR__ . '/../bank/get_money.php');
+
+
+
+        require_once (__DIR__ . '/../punish/attempt.php');
+        require_once (__DIR__ . '/../punish/check.php');
+
+
         
         require_once (__DIR__ . '/../other/check_valid.php');
         require_once (__DIR__ . '/../other/date_api.php');
         require_once (__DIR__ . '/../other/get_ip.php');
         require_once (__DIR__ . '/../other/init_vars.php');
-        require_once (__DIR__ . '/../other/make_log.php');
+        require_once (__DIR__ . '/../other/sql_server.php');
+
+        require_once (__DIR__ . '/../other/log/make_log.php');
+        require_once (__DIR__ . '/../other/log/make_error_log.php');
         
 
         
@@ -88,34 +107,23 @@ class backend_main
 
         require_once (__DIR__ . '/../user/change_password.php');
         require_once (__DIR__ . '/../user/get_user.php');
-        require_once (__DIR__ . '/../user/login.php');
         require_once (__DIR__ . '/../user/logout.php');
         require_once (__DIR__ . '/../user/user.php');
+
+        require_once (__DIR__ . '/../user/login/login.php');
+        require_once (__DIR__ . '/../user/login/auth.php');
 
         $this->input = $input;
     }
     
-    function init_serv()    #start a new connection.
+    function run()
     {
-        if($_SESSION['sql_server'] == null || !$_SESSION['sql_server']->ping()) {
-            $server_connection = new \mysqli("localhost", "root", "", "dinnersys");
-            \mysqli_set_charset($server_connection ,"utf8");
-            $_SESSION['sql_server'] = $server_connection;
-        }
-        
         if($this->input == null) {
             \header("charset=utf-8;");
             $this->order_handler = new order_handler($_REQUEST);  
         } else {
             $this->order_handler = new order_handler($this->input);  
         }
-    }
-    
-    function run()
-    {
-        session_start();
-        $this->init_serv();
-        #sleep(1);
         return $this->order_handler->process_order();
     }
 }

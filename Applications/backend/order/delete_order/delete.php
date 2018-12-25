@@ -14,13 +14,11 @@ function delete_order($order_id ,$type)
     if(!delete_auth($row ,$type))
         throw new \Exception("Access denied");
 
-    $sql_command = "UPDATE `dinnersys`.`orders` ,`dinnersys`.`announce`
+    $sql_command = "UPDATE `dinnersys`.`orders`
         SET `dinnersys`.`orders`.`disabled` = TRUE
-        WHERE `dinnersys`.`orders`.`id` = ? 
-        AND `dinnersys`.`orders`.`announce_id` = `dinnersys`.`announce`.`id`";
+        WHERE `dinnersys`.`orders`.`id` = ?";
     
     $mysqli = $_SESSION['sql_server'];
-    $mysqli->next_result();
     $statement = $mysqli->prepare($sql_command);
     
     $statement->bind_param('i' ,$order_id);

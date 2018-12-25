@@ -16,7 +16,7 @@ class check_valid
         'OTHER' => 'OTHER'
     ];
     
-    function white_list($string ,$pattern ,$auto_remove = false)
+    static function white_list($string ,$pattern ,$auto_remove = false)
     {
         search:
         {
@@ -37,45 +37,45 @@ class check_valid
         return $string;
     }
 
-    function white_list_null($string ,$pattern) {
+    static function white_list_null($string ,$pattern) {
         if($string != null) 
             $string = check_valid::white_list($string ,$pattern);
         return $string;
     }
 
-    function bool_check($string)
+    static function bool_check($string)
     {
         return $string == "true";
     }
 
-    function bool_null_check($string)
+    static function bool_null_check($string)
     {
         if($string != null) 
             $string = check_valid::bool_check($string);
         return $string;
     }
     
-    function regex_check($string ,$regex)
+    static function regex_check($string ,$regex)
     {
         #die($string);
         if(preg_match($regex ,$string)) return $string;
         throw new \Exception("Invalid string.");
     }
     
-    function gen_check($gender)
+    static function gen_check($gender)
     {
         $ret = self::$gen_adapt[$gender];
         if($ret === null) throw new \Exception("Invalid gen code.");
         return $ret;
     }
     
-    function vege_check($vege)
+    static function vege_check($vege)
     {
         $tmp = new \food\vege(null ,$vege);
         return $tmp->name;
     }
     
-    function pswd_check($password)      # at least four characters.
+    static function pswd_check($password)      # at least four characters.
     {
         $password = self::white_list($password ,self::$white_list_pattern);
         if(strlen($password) < 3) throw new \Exception("password too short.");

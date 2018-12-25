@@ -11,12 +11,14 @@ class user implements json_format
     public $class;
     public $seat_no;
 
-    public $login_id = "";
-    public $password  = "";
+    public $login_id;
+    public $password;
+    public $bank_id;
     public $is_vege;
     public $prev_sum = 0;
+    public $PIN;
 
-    public $servives = [];
+    public $services = [];
     public $prev = [];
     public $services_output = [];
     
@@ -26,23 +28,36 @@ class user implements json_format
         $this->name = $name;
         $this->class= $class;
         $this->seat_no = $seat_no;
-
         $this->is_vege = new \food\vege(null ,null);
     }
     
-    public function full_init($services ,$prev)
+    public function full_init()
     {
+        $services = \user\get_able_oper($this->prev_sum);
+        $prev = \user\previleges::get_prevs($this->prev_sum);
         $this->services = $services;
         $this->prev = $prev;
-        foreach($services as $key => $value) $this->services_output[$key] = true;
+        foreach($services as $key => $value) 
+            $this->services_output[] = $key;
     }
 
-    public function private_init($prev_sum ,$vege ,$login_id ,$password)
+    public function private_init($prev_sum ,$vege ,$login_id ,$bank_id ,$password ,$PIN)
     {
         $this->prev_sum = $prev_sum;
         $this->is_vege = $vege;
         $this->login_id = $login_id;
+        $this->bank_id = $bank_id;
         $this->password = $password;
+        $this->PIN = $PIN;
+        $this->full_init();
+    }
+
+    public static function get_guest()
+    {
+        $user = new user(null ,null ,null ,null);
+        $user->prev_sum = 1;
+        $user->full_init();
+        return $user;
     }
     
     public function get_json()
