@@ -40,14 +40,8 @@ class backend_main
         
 
 
-        require_once (__DIR__ . '/../order/announce/announce.php');
-        require_once (__DIR__ . '/../order/announce/done_announce.php');
-        require_once (__DIR__ . '/../order/announce/get_announce.php');
-
         require_once (__DIR__ . '/../order/delete_order/delete.php');
         require_once (__DIR__ . '/../order/delete_order/delete_auth.php');
-
-        require_once (__DIR__ . '/../order/logistics/logistics.php');
 
         require_once (__DIR__ . '/../order/make_order/get_user_id.php');
         require_once (__DIR__ . '/../order/make_order/make_order.php');
@@ -101,9 +95,6 @@ class backend_main
         require_once (__DIR__ . '/../user/oper_prev/get_able_oper.php');
         require_once (__DIR__ . '/../user/oper_prev/operation.php');
         require_once (__DIR__ . '/../user/oper_prev/previleges.php');
-
-        require_once (__DIR__ . '/../user/register/register.php');
-        require_once (__DIR__ . '/../user/register/check_id.php');
 
         require_once (__DIR__ . '/../user/change_password.php');
         require_once (__DIR__ . '/../user/get_user.php');
