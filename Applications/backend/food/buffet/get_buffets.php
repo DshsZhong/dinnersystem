@@ -10,7 +10,8 @@ function get_buffets($oids)
         O.id,
         BF.id ,BF.dish,
         (SELECT DH.dish_name FROM dish_history AS DH WHERE LO.esti_recv_datetime BETWEEN DH.born_at AND DH.die_at AND DH.dish_id = BF.dish LIMIT 1),
-        (SELECT DH.charge FROM dish_history AS DH WHERE LO.esti_recv_datetime BETWEEN DH.born_at AND DH.die_at AND DH.dish_id = BF.dish LIMIT 1)
+        (SELECT DH.charge FROM dish_history AS DH WHERE LO.esti_recv_datetime BETWEEN DH.born_at AND DH.die_at AND DH.dish_id = BF.dish LIMIT 1),
+        (SELECT DH.daily_limit FROM dish_history AS DH WHERE LO.esti_recv_datetime BETWEEN DH.born_at AND DH.die_at AND DH.dish_id = BF.dish LIMIT 1)
 
         FROM orders AS O
         INNER JOIN buffet AS BF ON BF.order = O.id
@@ -38,7 +39,7 @@ function get_buffets($oids)
     $statement->store_result();
     $statement->bind_result($oid ,
         $bid ,$did ,
-        $dname ,$dcharge
+        $dname ,$dcharge ,$daily_limit
     );
 
     $result = [];
@@ -48,6 +49,7 @@ function get_buffets($oids)
         $dish = clone $dish_table[$did];
         $dish->name = $dname;
         $dish->charge = $dcharge;
+        $dish->daily_produce = $daily_limit;
         $result[$oid][] = new buffet($bid ,$dish ,$oid);
     }
     return $result;

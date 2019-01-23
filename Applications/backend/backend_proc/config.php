@@ -9,8 +9,8 @@ function config()
         ],
         "database" => [
             "ip" => "localhost",
-            "account" => "root",
-            "password" => "",
+            "account" => "dinnersystem",
+            "password" => "2rjurrru",
             "name" => "dinnersys"
         ],
         "login" => [

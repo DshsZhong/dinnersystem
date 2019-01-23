@@ -11,8 +11,8 @@ function check_time($dishes ,$esti_recv ,$supreme)
 
         foreach($dishes as $dish)
         {
-            $lower_bound = $date . ' ' . $dish->department->factory->lower_bound;
-            $upper_bound = $date . ' ' . $dish->department->factory->upper_bound;
+            $lower_bound = $date . ' ' . substr($dish->department->factory->lower_bound , 0, 8);
+            $upper_bound = $date . ' ' . substr($dish->department->factory->upper_bound , 0 ,8);
             $prepare = $dish->department->factory->prepare_time;
             
             # esti_recv >= now + prepare
@@ -23,7 +23,7 @@ function check_time($dishes ,$esti_recv ,$supreme)
     
             # $lower_bound < $esti_recv < $upper_bound
             # echo $lower_bound . " " . $esti_recv . " " . $upper_bound;
-            $recv_parsed = date('Y-m-d H:i:s' ,intval(\other\date_api::is_valid_time($esti_recv)->getTimestamp()));
+            $recv_parsed = $recv->format("Y-m-d H:i:s");
             if(!\other\date_api::is_between($lower_bound ,$recv_parsed ,$upper_bound))
                 throw new \Exception("Off hours.");
         }

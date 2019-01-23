@@ -30,6 +30,13 @@ function check_dish($dishes)
         
         $ret[] = $dish;
     }
+
+    $sum = 0;
+    foreach($dishes as $did)
+        $sum += $dish_table[$did]->charge;
+    $minimum = $dish_table[reset($dishes)]->department->factory->minimum;
+    if($sum < $minimum && $minimum > 0)
+        throw new \Exception("Must be higher than mimimum.");
     return $ret;
 }
 

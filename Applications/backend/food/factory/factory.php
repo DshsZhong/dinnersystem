@@ -15,7 +15,7 @@ class factory implements json_format
     public $boss_id;
     public $allow_custom;
 
-    public function __construct($id ,$name ,$lower_bound ,$prepare_time ,$upper_bound ,$disabled ,$boss_id ,$allow_custom)
+    public function __construct($id ,$name ,$lower_bound ,$prepare_time ,$upper_bound ,$disabled ,$boss_id ,$allow_custom ,$minimum)
     {
         $this->id = $id;
         $this->name = $name;
@@ -25,6 +25,7 @@ class factory implements json_format
         $this->disabled = $disabled;
         $this->boss_id = $boss_id;
         $this->allow_custom = $allow_custom;
+        $this->minimum = $minimum;
     }
     
     public function get_json()

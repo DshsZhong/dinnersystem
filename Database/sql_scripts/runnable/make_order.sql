@@ -1,125 +1,132 @@
-#### MAKE ANNOUNCE ####
-USE dinnersys;
-
-DROP PROCEDURE IF EXISTS make_announce;
-DROP FUNCTION IF EXISTS make_order;
-DROP PROCEDURE IF EXISTS make_logistics_info;
-
+/*---------------------------------------------------------------------------------------------------------------*/
+/*-----------please ensure this procedure run in serializable transaction mode----------------------*/
+DROP PROCEDURE IF EXISTS make_order;
+SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 DELIMITER $$
 
-#### MAKE ORDER ####
-CREATE FUNCTION make_order(usr_id INT ,maker_id INT ,dish_id INT ,esti_recv DATETIME) RETURNS INT
-BEGIN
-	#####################################################################################################################
-	DECLARE is_vege INT DEFAULT (
-		SELECT D.is_vegetarian FROM dinnersys.dish AS D WHERE D.id = dish_id
-    );
-     
-    DECLARE dish_name VARCHAR(1024) DEFAULT (
-		SELECT D.dish_name FROM dish AS D WHERE D.id = dish_id
-    );
-    
-    DECLARE factory_id INT DEFAULT (
-		SELECT DP.factory FROM dish AS D ,department AS DP WHERE D.id = dish_id AND DP.id = D.department_id
-	);
-    
-    DECLARE charge INT DEFAULT (
-		SELECT D.charge FROM dish AS D WHERE D.id = dish_id
-    );
-    
+CREATE PROCEDURE make_order(usr_id INT ,maker_id INT ,dishes varchar(1024) ,esti_recv DATETIME)
+proce: BEGIN
     DECLARE money_id INT;
     DECLARE logistics_id INT;
-    #####################################################################################################################
-    
-    #####################################################################################################################
+	DECLARE dcharge INT;
+	DECLARE oid INT;
+	DECLARE daily_limit INT;
+	DECLARE orders INT;
+	
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+		SELECT "database deadlock";
+        ROLLBACK;
+    END;
+
+	START TRANSACTION;
+
+	SET @cmd = concat("SET @output = (SELECT SUM(D.charge) FROM dish AS D WHERE D.id IN" ,dishes ,");");
+    PREPARE stmt FROM @cmd;
+    EXECUTE stmt;
+	SET dcharge = @output;
+
     INSERT INTO `dinnersys`.`money_info` (`money_sum`)
-	VALUES (charge);
+	VALUES (dcharge);
     
     SET money_id = (SELECT MAX(id) FROM money_info);
     
 	INSERT INTO `dinnersys`.`payment`
 	(`paid`, `money_info` ,`reversable` ,
-	 `able_datetime`, `freeze_datetime`, `paid_datetime`,
-	`include_credit`, `authority_id` ,`tag`)
+	 `able_datetime`, `freeze_datetime`, `paid_datetime` ,`tag`)
 	VALUES
-	(
-		FALSE, money_id, TRUE,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL,
-		FALSE, -1 ,'user'
-    ),
 	(
 		FALSE, money_id, FALSE,
 		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL,
-		FALSE, -1 ,'dinnerman'
-    ),
-	(
-		FALSE, money_id, TRUE,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL,
-		FALSE, -1 ,'cafeteria'
-    ),
-	(
-		FALSE, money_id, TRUE,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL,
-		FALSE, -1 ,'factory'
+		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL, 'payment'
     );
-    #####################################################################################################################
     
-    #####################################################################################################################
     INSERT INTO `dinnersys`.`logistics_info` (`esti_recv_datetime`)
 	VALUES (esti_recv);
     
 	SET logistics_id = (SELECT MAX(id) FROM logistics_info);
     
     INSERT INTO `dinnersys`.`cargo`
-	(`get`, `reversable`,`authority_id`,
+	(`get`, `reversable`,
 	`able_datetime`, `get_datetime`, `freeze_datetime`, 
 	`logistics_info`, `tag`)
 	VALUES
 	(
-		FALSE ,TRUE ,-1 ,
+		FALSE ,TRUE ,
 		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
 		logistics_id ,'user'
 	),
 	(
-		FALSE ,TRUE ,-1 ,
+		FALSE ,TRUE ,
 		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
 		logistics_id ,'dinnerman'
 	),
 	(
-		FALSE ,TRUE ,-1 ,
+		FALSE ,TRUE ,
 		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
 		logistics_id ,'factory'
 	);
-    #####################################################################################################################
-    
-    
-    #####################################################################################################################
-    INSERT INTO `dinnersys`.`announce`
-	(`msg`, `anno_type`, `estimate_datetime`, `pushed_datetime`, `announced`)
-	VALUES (CONCAT('午餐系統提醒您今天有訂購「' ,dish_name ,'」 喔') , 'VIBRATE ,ANNOUNCE' , esti_recv, NULL, FALSE);
-    #####################################################################################################################
     
     
     INSERT INTO `dinnersys`.`orders`
-	(`announce_id`,
-	`money_id`,
-	`dish`,
+	(`money_id`,
 	`user_id`, `order_maker` ,
 	`logistics_id`)
 	VALUES
 	(
-		(SELECT MAX(A.id) FROM dinnersys.announce AS A LIMIT 1),
 		money_id,
-		dish_id,
 		usr_id, maker_id ,
 		logistics_id
     );
-    
-	RETURN (SELECT MAX(O.id) FROM dinnersys.orders AS O);
-END$$
+	SELECT MAX(O.id) FROM dinnersys.orders AS O INTO @oid;
 
-SELECT make_order(1 ,2 ,1 ,CURRENT_TIMESTAMP)
+
+	/*-------------------------------------------------------------------------------------------------------*/
+	/* To avoid race conditions ,I used some business logic here.
+	 * Whenever it fails ,the procedure rollbacks everything it has done.
+	 * In php ,we can't ensure everything is serialized ,so we put the codes here.
+	 * In this sql transacation ,everything is serialized. */
+	SET @cmd = concat('INSERT INTO `dinnersys`.`buffet` (`dish`,`order`) SELECT D.id ,@oid FROM dish AS D WHERE D.id IN' ,dishes ,';');
+    PREPARE stmt FROM @cmd;
+    EXECUTE stmt;
+
+	SET @cmd = concat("SET @maxi = (SELECT MAX(count) FROM 
+        (
+            SELECT IF(D.daily_limit < 0 ,0 ,D.daily_limit - COUNT(O.id)) AS count
+            FROM orders AS O ,buffet AS B ,logistics_info AS LO ,dish AS D
+            WHERE O.logistics_id = LO.id AND B.order = O.id AND D.id = B.dish
+			AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(?) ,'-00:00:00') AND CONCAT(DATE(?) ,'-23:59:59')
+			AND D.id IN", dishes,
+			"GROUP BY D.id
+        ) AS tmp);");
+    PREPARE stmt FROM @cmd;
+	SET @esti_recv = esti_recv;
+    EXECUTE stmt USING @esti_recv ,@esti_recv;
+	
+    IF @maxi < 0 THEN 
+		SELECT "not enough dish";
+		ROLLBACK;
+		LEAVE proce;
+    END IF;
+	
+	/* Must ensure this statement won't scan the older part of dinnersys.
+	 * It would cause the user can unlimited order if it scans the older part of database. */
+	SELECT COUNT(O.id)
+	FROM orders AS O ,logistics_info AS LO ,money_info AS MI ,payment AS P
+	WHERE O.logistics_id = LO.id AND O.user_id = usr_id
+	AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(esti_recv) ,'-00:00:00') AND CONCAT(DATE(esti_recv) ,'-23:59:59')
+	AND O.money_id = MI.id AND P.money_info = MI.id AND P.paid = FALSE AND P.tag = "payment"
+	INTO orders;
+
+	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;
+	IF orders > daily_limit AND daily_limit > 0 THEN
+		SELECT "daily limit exceed";
+		ROLLBACK;
+		LEAVE proce;
+	END IF;
+	/*-------------------------------------------------------------------------------------------------------*/
+
+	select @oid;
+    commit;
+END$$
+CALL make_order(1, 2, '(1,2,3,4)' ,CURRENT_TIMESTAMP);

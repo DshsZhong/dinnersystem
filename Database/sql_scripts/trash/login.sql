@@ -1,0 +1,24 @@
+#### login ####
+USE dinnersys;
+
+DROP PROCEDURE IF EXISTS login;
+
+DELIMITER $$
+CREATE PROCEDURE login(login_id VARCHAR(128) ,pswd VARCHAR(1024) ,device VARCHAR(1024))
+BEGIN
+	DECLARE id INT DEFAULT (
+		SELECT U.id FROM `dinnersys`.`users` AS U
+		WHERE U.login_id = login_id
+		AND U.password = pswd
+	);
+	
+	UPDATE `dinnersys`.`users`
+	SET `device_id` = device
+	WHERE users.`id` = id;
+	
+    SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,U.prev_sum FROM `dinnersys`.`users` AS U ,`dinnersys`.`user_information` AS UI
+    WHERE U.info_id = UI.id AND U.id = id;
+END$$
+
+DELIMITER ;
+

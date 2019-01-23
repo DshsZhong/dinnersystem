@@ -49,7 +49,12 @@ function logout()
 
 function show_dish()
 {
-    return \food\get_dish();
+    return unserialize($_SESSION["dish"]);
+}
+
+function get_remaining()
+{
+    return \food\show_remaining($this->input['id']);
 }
 
 function update_dish()
