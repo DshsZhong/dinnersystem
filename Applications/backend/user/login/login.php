@@ -15,7 +15,7 @@ function update_device($uid ,$device)
 
 function get_data($uid ,$class)
 {
-    $sql_command = "SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,UI.bank_id ,U.prev_sum ,U.login_id ,U.password ,U.PIN
+    $sql_command = "SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,UI.bank_id ,U.prev_sum ,U.login_id ,U.password ,U.PIN ,UI.daily_limit
         FROM `dinnersys`.`users` AS U ,`dinnersys`.`user_information` AS UI
         WHERE U.info_id = UI.id AND U.id = ?;";
     $mysqli = $_SESSION['sql_server'];
@@ -23,11 +23,11 @@ function get_data($uid ,$class)
     $statement->bind_param('i',$uid);
     $statement->execute();
     $statement->store_result();
-    $statement->bind_result($id ,$name ,$class_id ,$is_vege ,$seat_id, $bank_id, $prev_sum ,$login_id ,$pswd ,$PIN);
+    $statement->bind_result($id ,$name ,$class_id ,$is_vege ,$seat_id, $bank_id, $prev_sum ,$login_id ,$pswd ,$PIN ,$daily_limit);
     if($statement->fetch())
     {
         $account = new user($id ,$name ,$class[strval($class_id)] ,$seat_id);
-        $account->private_init($prev_sum ,new \food\vege($is_vege) ,$login_id ,$bank_id ,$pswd ,$PIN);  
+        $account->private_init($prev_sum ,new \food\vege($is_vege) ,$login_id ,$bank_id ,$pswd ,$PIN ,$daily_limit);  
     }
     return $account;
 }

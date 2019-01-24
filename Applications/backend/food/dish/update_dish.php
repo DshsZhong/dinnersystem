@@ -19,7 +19,7 @@ function update_dish($id ,$dname ,$csum ,$vege ,$idle ,$daily_limit)
         $row->charge == $csum  &&
         $row->vege->name == $vege &&
         $row->is_idle == $idle &&
-        $row->daily_produce == $daily_produce
+        $row->daily_produce == $daily_limit
     );
     if($same) return "Nothing to update.";
 

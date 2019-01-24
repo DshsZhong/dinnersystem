@@ -63,7 +63,8 @@ function update_dish()
         $this->input['dish_name'] ,
         $this->input['charge_sum'] ,
         $this->input['is_vege'] ,
-        $this->input['is_idle']);
+        $this->input['is_idle'] ,
+        $this->input['daily_limit']);
 }
 
 function show_order()

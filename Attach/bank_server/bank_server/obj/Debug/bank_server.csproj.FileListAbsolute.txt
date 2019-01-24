@@ -1,0 +1,10 @@
+D:\dinnersysetm\bank_server\bank_server\bin\Debug\bank_server.exe.config
+D:\dinnersysetm\bank_server\bank_server\bin\Debug\bank_server.exe
+D:\dinnersysetm\bank_server\bank_server\bin\Debug\bank_server.pdb
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csprojAssemblyReference.cache
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.Form1.resources
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.Properties.Resources.resources
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csproj.GenerateResource.cache
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csproj.CoreCompileInputs.cache
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.exe
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.pdb

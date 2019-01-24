@@ -17,6 +17,7 @@ class user implements json_format
     public $is_vege;
     public $prev_sum = 0;
     public $PIN;
+    public $daily_limit;
 
     public $services = [];
     public $prev = [];
@@ -41,7 +42,7 @@ class user implements json_format
             $this->services_output[] = $key;
     }
 
-    public function private_init($prev_sum ,$vege ,$login_id ,$bank_id ,$password ,$PIN)
+    public function private_init($prev_sum ,$vege ,$login_id ,$bank_id ,$password ,$PIN ,$daily_limit)
     {
         $this->prev_sum = $prev_sum;
         $this->is_vege = $vege;
@@ -49,6 +50,7 @@ class user implements json_format
         $this->bank_id = $bank_id;
         $this->password = $password;
         $this->PIN = $PIN;
+        $this->daily_limit = $daily_limit;
         $this->full_init();
     }
 
@@ -65,6 +67,7 @@ class user implements json_format
         $data = 
             '{"id":"' . json_output::filter($this->id) . 
             '","name":"' . json_output::filter($this->name) .
+            '","daily_limit":"' . json_output::filter($this->daily_limit) .
             '","vege":' . $this->is_vege->get_json() .
             ',"class":' . $this->class->get_json() .
             ',"seat_no":"' . json_output::filter($this->seat_no) .
