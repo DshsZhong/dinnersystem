@@ -16,8 +16,12 @@ function debit($row ,$req_id ,$hash)
     $port = config()["bank"]["port"];
 
     $fp = fsockopen($ip, $port);
-    # Avoid sending sensitive information #
-    $msg = \json\json_output::output($row);
+    $msg = [
+        "operation" => "write" ,
+        "uid" => $bank,
+        "charge" => $row->money->charge
+    ];
+    $msg = json_encode($msg);
     fwrite($fp, $msg . "\n");
 
     $data = "";
@@ -25,10 +29,9 @@ function debit($row ,$req_id ,$hash)
         $data .= fgets($fp, 128);
     }
     fclose($fp);
-
-    return true;
-    /*if($data == "success\n") return true;
-    else throw new \Exception("Unable debit from user's account");*/
+    
+    if($data == "success") return true;
+    else throw new \Exception("Unable debit from user's account");
 }
 
 

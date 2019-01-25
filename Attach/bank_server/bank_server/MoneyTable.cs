@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+
 
 namespace bank_server
 {
     class MoneyTable
     {
-        List<string> id;
-        List<int> money;
+        List<string> id = new List<string>();
+        List<int> money = new List<int>();
+
         public MoneyTable(string file)
         {
-            Application xlApp = new Application();
-            Workbook xlWorkbook = xlApp.Workbooks.Open(file);
-            _Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-            Range xlRange = xlWorksheet.UsedRange;
-            for (int i = 1; i <= xlRange.Row; i++)
+            ReadExcel reader = new ReadExcel(file);
+            string[,] buffer = reader.get_row();
+
+            //ignore the first label row
+            for (int i = 1; i != buffer.GetLength(0) ; i++)
             {
-                id.Add(xlRange[i, 1]);
-                money.Add(xlRange[i, 2]);
+                id.Add(buffer[i, 0]);
+                money.Add(Int32.Parse(buffer[i, 1]));
             }
-            xlWorkbook.Close();
         }
 
         public List<string> decompose(int charge)

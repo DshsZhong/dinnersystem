@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.show_data = new System.Windows.Forms.DataGridView();
             this.activate_read = new System.Windows.Forms.Button();
             this.activate_write = new System.Windows.Forms.Button();
@@ -36,9 +37,9 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.openLog = new System.Windows.Forms.Button();
             this.start_session = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.running_due = new System.Windows.Forms.Label();
+            this.writes = new System.Windows.Forms.Label();
+            this.reads = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.log_location = new System.Windows.Forms.TextBox();
             this.local_ip = new System.Windows.Forms.TextBox();
@@ -60,6 +61,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.db_account = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.Updater = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.show_data)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -126,9 +128,9 @@
             // 
             this.groupBox2.Controls.Add(this.openLog);
             this.groupBox2.Controls.Add(this.start_session);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.running_due);
+            this.groupBox2.Controls.Add(this.writes);
+            this.groupBox2.Controls.Add(this.reads);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.log_location);
             this.groupBox2.Controls.Add(this.local_ip);
@@ -162,32 +164,32 @@
             this.start_session.UseVisualStyleBackColor = true;
             this.start_session.Click += new System.EventHandler(this.start_session_Click);
             // 
-            // label6
+            // running_due
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(596, 85);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(83, 12);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "系統啟動時間: ";
+            this.running_due.AutoSize = true;
+            this.running_due.Location = new System.Drawing.Point(596, 85);
+            this.running_due.Name = "running_due";
+            this.running_due.Size = new System.Drawing.Size(59, 12);
+            this.running_due.TabIndex = 8;
+            this.running_due.Text = "啟動時間: ";
             // 
-            // label5
+            // writes
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(596, 57);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 12);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "累計繳款次數: ";
+            this.writes.AutoSize = true;
+            this.writes.Location = new System.Drawing.Point(596, 57);
+            this.writes.Name = "writes";
+            this.writes.Size = new System.Drawing.Size(83, 12);
+            this.writes.TabIndex = 7;
+            this.writes.Text = "累計繳款次數: ";
             // 
-            // label4
+            // reads
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(596, 28);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "累計讀取次數: ";
+            this.reads.AutoSize = true;
+            this.reads.Location = new System.Drawing.Point(596, 28);
+            this.reads.Name = "reads";
+            this.reads.Size = new System.Drawing.Size(83, 12);
+            this.reads.TabIndex = 6;
+            this.reads.Text = "累計讀取次數: ";
             // 
             // label3
             // 
@@ -306,7 +308,7 @@
             this.money_table.Name = "money_table";
             this.money_table.Size = new System.Drawing.Size(133, 22);
             this.money_table.TabIndex = 12;
-            this.money_table.Text = "D:\\money.xls";
+            this.money_table.Text = "D:\\dinnersysetm\\bank_server\\money_table.xlsx";
             // 
             // openMoneyTable
             // 
@@ -389,6 +391,11 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "資料庫帳號:";
             // 
+            // Updater
+            // 
+            this.Updater.Interval = 1000;
+            this.Updater.Tick += new System.EventHandler(this.Updater_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -421,9 +428,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button start_session;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label running_due;
+        private System.Windows.Forms.Label writes;
+        private System.Windows.Forms.Label reads;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox log_location;
         private System.Windows.Forms.TextBox local_ip;
@@ -446,6 +453,7 @@
         private System.Windows.Forms.TextBox money_table;
         private System.Windows.Forms.Button openMoneyTable;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Timer Updater;
     }
 }
 

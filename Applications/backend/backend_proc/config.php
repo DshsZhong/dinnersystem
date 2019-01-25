@@ -4,7 +4,7 @@ function config()
 {
     return [
         "bank" => [
-            "ip" => "localhost",
+            "ip" => "192.168.0.2",
             "port" => 8787
         ],
         "database" => [

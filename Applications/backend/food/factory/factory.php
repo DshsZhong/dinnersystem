@@ -36,6 +36,7 @@ class factory implements json_format
             '","lower_bound":"' . json_output::filter($this->lower_bound) .
             '","prepare_time":"' . json_output::filter($this->prepare_time) .
             '","upper_bound":"' . json_output::filter($this->upper_bound) .
+            '","minimum":"' . json_output::filter($this->minimum) .
             '","allow_custom":"' . ($this->allow_custom ? "true" : "false") .
             '","disabled":"' . json_output::filter($this->disabled) . '"}';
         return $json;

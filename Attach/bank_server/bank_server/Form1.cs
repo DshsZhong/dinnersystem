@@ -14,9 +14,18 @@ namespace bank_server
 {
     public partial class Form1 : Form
     {
+        Main_Controller controller;
         public Form1()
         {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
+            DataTable table = new DataTable();
+            table.Columns.Add(new DataColumn("行為"));
+            table.Columns.Add(new DataColumn("POS帳號"));
+            table.Columns.Add(new DataColumn("扣款額"));
+            table.Columns.Add(new DataColumn("時間"));
+            table.Columns.Add(new DataColumn("回傳值"));
+            show_data.DataSource = table;
         }
 
         string open_file()
@@ -51,12 +60,12 @@ namespace bank_server
         {
             log_location.Text = open_file();
         }
-        
 
         private void start_session_Click(object sender, EventArgs e)
         {
             init_database.Enabled = true;
             dinnersys_ip.Enabled = log_location.Enabled = openLog.Enabled = false;
+            start_session.Enabled = false;
         }
 
         private void init_database_Click(object sender, EventArgs e)
@@ -64,7 +73,12 @@ namespace bank_server
             activate_read.Enabled = activate_write.Enabled = true;
             close.Enabled = db_account.Enabled = db_name.Enabled = false;
             db_password.Enabled = allow_write.Enabled = process.Enabled = false;
-            money_table.Enabled = openMoneyTable.Enabled = false;
+            init_database.Enabled = money_table.Enabled = openMoneyTable.Enabled = false;
+            Database db = new Database(db_account.Text, db_name.Text, db_password.Text);
+            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text));
+            Reading r = new Reading(db);
+            controller = new Main_Controller(IPAddress.Parse(dinnersys_ip.Text) ,r,w ,show_data ,log_location.Text);
+            Updater.Enabled = true;
         }
 
         private void activate_read_Click(object sender, EventArgs e)
@@ -77,6 +91,7 @@ namespace bank_server
         {
             activate_write.Enabled = false;
             close.Enabled = true;
+            
         }
 
         private void close_Click(object sender, EventArgs e)
@@ -93,6 +108,20 @@ namespace bank_server
         private void openMoneyTable_Click(object sender, EventArgs e)
         {
             money_table.Text = open_file();
+        }
+
+        int running_seconds = 0;
+        private void Updater_Tick(object sender, EventArgs e)
+        {
+            running_seconds += 1;
+            int seconds = running_seconds;
+            int day = seconds / 24 / 60 / 60; seconds -= day * 24 * 60 * 60;
+            int hours = seconds / 60 / 60; seconds -= hours * 60 * 60;
+            int minutes = seconds / 60; seconds -= minutes * 60;
+            string show = day.ToString() + "天" + hours.ToString() + "小時" + minutes + "分鐘" + seconds + "秒";
+            running_due.Text = "啟動時間: " + show;
+            writes.Text = "累計繳款次數: " + controller.Writes.ToString();
+            reads.Text = "累計讀取次數: " + controller.Reads.ToString();
         }
     }
 }

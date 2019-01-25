@@ -73,7 +73,6 @@ class user implements json_format
             ',"seat_no":"' . json_output::filter($this->seat_no) .
             '","prev_sum":"' . json_output::filter($this->prev_sum) .
             '","valid_oper":' . json_output::array_to_json($this->services_output) . '}';
-
         return $data;
     }
 }

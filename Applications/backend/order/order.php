@@ -44,7 +44,7 @@ class order implements json_format
                 new department(-1 ,"自助部門" ,
                     clone reset($buffet)->dish->department->factory
                 ),
-                new vege(0));
+                new vege(0) ,-1);
         } else {
             $this->vdish = reset($buffet)->dish;
         }
