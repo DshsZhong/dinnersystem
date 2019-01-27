@@ -16,9 +16,11 @@ namespace bank_server
     {
         Execute function;
         Thread[] listen_thread;
+        TcpListener[] listeners;
         IPAddress allow;
         int Maximum_Threads = 100;
         int Threads = 0;
+        bool Keep_Alive;
 
         public Internet(IPAddress allow, Execute func)
         {
@@ -28,39 +30,50 @@ namespace bank_server
 
         public void Start_Listen()
         {
+            Keep_Alive = true;
             IPAddress self = new IPAddress(new byte[4] { 127, 0, 0, 1 });
             IPHostEntry iphostentry = Dns.GetHostEntry(Dns.GetHostName());
             listen_thread = new Thread[iphostentry.AddressList.Length];
+            listeners = new TcpListener[iphostentry.AddressList.Length];
             for (int i = 0; i != iphostentry.AddressList.Length; i++)
             {
-                TcpListener listener = new TcpListener(iphostentry.AddressList[i], 8787);
+                listeners[i] = new TcpListener(iphostentry.AddressList[i], 8787);
                 listen_thread[i] = new Thread(new ParameterizedThreadStart(Listen));
-                listen_thread[i].Start(listener);
+                listen_thread[i].Start(listeners[i]);
             }
         }
 
         public void Stop_Listen()
         {
-            foreach (Thread t in listen_thread) t.Abort();
+            Keep_Alive = false;
+            for (int i = 0; i != listen_thread.Length; i++)
+            {
+                listeners[i].Stop();
+                listen_thread[i].Abort();
+            }
         }
 
         void Listen(object param)
         {
             TcpListener listener = param as TcpListener;
             listener.Start();
-            while (true)
+            while (Keep_Alive)
             {
                 while (Threads >= Maximum_Threads) //Server overload.
                     Thread.Sleep(1000);
+
+                TcpClient client;
+                try { client = listener.AcceptTcpClient(); }
+                catch (SocketException e) { continue; /*Usally it means we want to close the thread. So just ignore the Exception*/ }
+
                 Thread t = new Thread(new ParameterizedThreadStart(Run));
-                TcpClient client = listener.AcceptTcpClient();
-                /*if ((client.Client.RemoteEndPoint as IPEndPoint).Address != allow) // unavailable ip.
-                    continue;*/
+                if ((client.Client.RemoteEndPoint as IPEndPoint).Address.ToString() != allow.ToString()) // unavailable ip.
+                    continue;
                 Tuple<NetworkStream, Thread> tuple = new Tuple<NetworkStream, Thread>(client.GetStream(), t);
                 t.Start(tuple);
                 Threads += 1;
             }
-        }
+        } 
 
         void Run(object p)
         {

@@ -30,8 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.show_data = new System.Windows.Forms.DataGridView();
-            this.activate_read = new System.Windows.Forms.Button();
-            this.activate_write = new System.Windows.Forms.Button();
+            this.activate = new System.Windows.Forms.Button();
             this.close = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -51,11 +50,11 @@
             this.init_database = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.virtual_client = new System.Windows.Forms.GroupBox();
+            this.force_delay = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.money_table = new System.Windows.Forms.TextBox();
             this.openMoneyTable = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.process = new System.Windows.Forms.ComboBox();
             this.allow_write = new System.Windows.Forms.CheckBox();
             this.db_password = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -78,36 +77,25 @@
             this.show_data.Size = new System.Drawing.Size(755, 326);
             this.show_data.TabIndex = 0;
             // 
-            // activate_read
+            // activate
             // 
-            this.activate_read.Enabled = false;
-            this.activate_read.Location = new System.Drawing.Point(77, 21);
-            this.activate_read.Name = "activate_read";
-            this.activate_read.Size = new System.Drawing.Size(120, 39);
-            this.activate_read.TabIndex = 1;
-            this.activate_read.Text = "啟動讀取剩餘金額";
-            this.activate_read.UseVisualStyleBackColor = true;
-            this.activate_read.Click += new System.EventHandler(this.activate_read_Click);
-            // 
-            // activate_write
-            // 
-            this.activate_write.Enabled = false;
-            this.activate_write.Location = new System.Drawing.Point(315, 21);
-            this.activate_write.Name = "activate_write";
-            this.activate_write.Size = new System.Drawing.Size(104, 39);
-            this.activate_write.TabIndex = 2;
-            this.activate_write.Text = "啟動繳款功能";
-            this.activate_write.UseVisualStyleBackColor = true;
-            this.activate_write.Click += new System.EventHandler(this.activate_write_Click);
+            this.activate.Enabled = false;
+            this.activate.Location = new System.Drawing.Point(203, 21);
+            this.activate.Name = "activate";
+            this.activate.Size = new System.Drawing.Size(104, 39);
+            this.activate.TabIndex = 2;
+            this.activate.Text = "啟動插件";
+            this.activate.UseVisualStyleBackColor = true;
+            this.activate.Click += new System.EventHandler(this.activate_Click);
             // 
             // close
             // 
             this.close.Enabled = false;
-            this.close.Location = new System.Drawing.Point(531, 21);
+            this.close.Location = new System.Drawing.Point(419, 21);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(114, 39);
             this.close.TabIndex = 3;
-            this.close.Text = "關閉所有功能";
+            this.close.Text = "暫停插件";
             this.close.UseVisualStyleBackColor = true;
             this.close.Click += new System.EventHandler(this.close_Click);
             // 
@@ -115,8 +103,7 @@
             // 
             this.groupBox1.Controls.Add(this.show_data);
             this.groupBox1.Controls.Add(this.close);
-            this.groupBox1.Controls.Add(this.activate_read);
-            this.groupBox1.Controls.Add(this.activate_write);
+            this.groupBox1.Controls.Add(this.activate);
             this.groupBox1.Location = new System.Drawing.Point(39, 25);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(767, 398);
@@ -290,21 +277,38 @@
             // 
             // virtual_client
             // 
+            this.virtual_client.Controls.Add(this.force_delay);
+            this.virtual_client.Controls.Add(this.label4);
             this.virtual_client.Controls.Add(this.money_table);
             this.virtual_client.Controls.Add(this.openMoneyTable);
-            this.virtual_client.Controls.Add(this.label9);
             this.virtual_client.Controls.Add(this.label10);
-            this.virtual_client.Controls.Add(this.process);
-            this.virtual_client.Location = new System.Drawing.Point(478, 43);
+            this.virtual_client.Location = new System.Drawing.Point(478, 49);
             this.virtual_client.Name = "virtual_client";
-            this.virtual_client.Size = new System.Drawing.Size(274, 78);
+            this.virtual_client.Size = new System.Drawing.Size(274, 68);
             this.virtual_client.TabIndex = 11;
             this.virtual_client.TabStop = false;
             this.virtual_client.Text = "虛擬客戶端";
             // 
+            // force_delay
+            // 
+            this.force_delay.Location = new System.Drawing.Point(92, 44);
+            this.force_delay.Name = "force_delay";
+            this.force_delay.Size = new System.Drawing.Size(176, 22);
+            this.force_delay.TabIndex = 19;
+            this.force_delay.Text = "100";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 12);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "強制延遲(ms): ";
+            // 
             // money_table
             // 
-            this.money_table.Location = new System.Drawing.Point(59, 46);
+            this.money_table.Location = new System.Drawing.Point(59, 18);
             this.money_table.Name = "money_table";
             this.money_table.Size = new System.Drawing.Size(133, 22);
             this.money_table.TabIndex = 12;
@@ -312,7 +316,7 @@
             // 
             // openMoneyTable
             // 
-            this.openMoneyTable.Location = new System.Drawing.Point(196, 46);
+            this.openMoneyTable.Location = new System.Drawing.Point(196, 18);
             this.openMoneyTable.Name = "openMoneyTable";
             this.openMoneyTable.Size = new System.Drawing.Size(72, 23);
             this.openMoneyTable.TabIndex = 18;
@@ -320,36 +324,19 @@
             this.openMoneyTable.UseVisualStyleBackColor = true;
             this.openMoneyTable.Click += new System.EventHandler(this.openMoneyTable_Click);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 24);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 12);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "程序: ";
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 51);
+            this.label10.Location = new System.Drawing.Point(6, 23);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 12);
             this.label10.TabIndex = 17;
             this.label10.Text = "金額表: ";
             // 
-            // process
-            // 
-            this.process.FormattingEnabled = true;
-            this.process.Location = new System.Drawing.Point(59, 21);
-            this.process.Name = "process";
-            this.process.Size = new System.Drawing.Size(209, 20);
-            this.process.TabIndex = 15;
-            // 
             // allow_write
             // 
             this.allow_write.AutoSize = true;
-            this.allow_write.Location = new System.Drawing.Point(562, 21);
+            this.allow_write.Location = new System.Drawing.Point(562, 27);
             this.allow_write.Name = "allow_write";
             this.allow_write.Size = new System.Drawing.Size(108, 16);
             this.allow_write.TabIndex = 14;
@@ -422,8 +409,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView show_data;
-        private System.Windows.Forms.Button activate_read;
-        private System.Windows.Forms.Button activate_write;
+        private System.Windows.Forms.Button activate;
         private System.Windows.Forms.Button close;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -445,8 +431,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox db_account;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox process;
         private System.Windows.Forms.CheckBox allow_write;
         private System.Windows.Forms.Button openLog;
         private System.Windows.Forms.GroupBox virtual_client;
@@ -454,6 +438,8 @@
         private System.Windows.Forms.Button openMoneyTable;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer Updater;
+        private System.Windows.Forms.TextBox force_delay;
+        private System.Windows.Forms.Label label4;
     }
 }
 

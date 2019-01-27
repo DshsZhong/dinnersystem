@@ -34,12 +34,16 @@ namespace bank_server
         public Main_Controller(IPAddress allow_ip, Reading reader ,Writing writer, DataGridView show ,string log)
         {
             internet = new Internet(allow_ip, new Execute(Run));
-            internet.Start_Listen();
             this.reader = reader;
             this.writer = writer;
             this.show = show;
             logger = new StreamWriter(log ,true);
             logger.AutoFlush = true;
+        }
+
+        public void Start()
+        {
+            internet.Start_Listen();
         }
 
         public void Stop()

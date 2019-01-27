@@ -13,6 +13,7 @@ namespace bank_server
         bool enable_writing;
         MoneyTable table;
         Database db;
+        KeyPress presser;
 
         public Writing(Database db)
         {
@@ -20,16 +21,21 @@ namespace bank_server
             enable_writing = true;
         }
 
-        public Writing(string file)
+        public Writing(string file ,int delay)
         {
             enable_writing = false;
             table = new MoneyTable(file);
+            presser = new KeyPress(delay);
         }
 
         public bool Write(string uid ,int charge)
         {
             if (enable_writing) return db.Debit(uid, charge);
-            else return true;
+            else
+            {
+                presser.Run(table.decompose(charge));
+                return true;
+            }
         }
     }
 

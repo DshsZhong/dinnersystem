@@ -15,7 +15,7 @@ namespace bank_server
         public Database(string db_account, string db_name, string db_password)
         {
             string source = System.Environment.MachineName;
-            string connetionString = "Data Source=" + source + ";Initial Catalog=" + db_name + ";User ID=" + db_account + ";Password=" + db_password;
+            string connetionString = "MultipleActiveResultSets=True;Data Source=" + source + ";Initial Catalog=" + db_name + ";User ID=" + db_account + ";Password=" + db_password;
             conn = new SqlConnection(connetionString);
             conn.Open();
         }

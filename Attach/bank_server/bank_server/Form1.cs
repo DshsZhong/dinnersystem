@@ -70,34 +70,29 @@ namespace bank_server
 
         private void init_database_Click(object sender, EventArgs e)
         {
-            activate_read.Enabled = activate_write.Enabled = true;
+            activate.Enabled = true;
             close.Enabled = db_account.Enabled = db_name.Enabled = false;
-            db_password.Enabled = allow_write.Enabled = process.Enabled = false;
+            force_delay.Enabled = db_password.Enabled = allow_write.Enabled = false ;
             init_database.Enabled = money_table.Enabled = openMoneyTable.Enabled = false;
             Database db = new Database(db_account.Text, db_name.Text, db_password.Text);
-            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text));
+            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text ,Int32.Parse(force_delay.Text)));
             Reading r = new Reading(db);
             controller = new Main_Controller(IPAddress.Parse(dinnersys_ip.Text) ,r,w ,show_data ,log_location.Text);
             Updater.Enabled = true;
         }
 
-        private void activate_read_Click(object sender, EventArgs e)
+        private void activate_Click(object sender, EventArgs e)
         {
-            activate_read.Enabled = false;
             close.Enabled = true;
-        }
-
-        private void activate_write_Click(object sender, EventArgs e)
-        {
-            activate_write.Enabled = false;
-            close.Enabled = true;
-            
+            activate.Enabled = false;
+            controller.Start();
         }
 
         private void close_Click(object sender, EventArgs e)
         {
-            activate_read.Enabled = activate_write.Enabled = true;
+            activate.Enabled = true;
             close.Enabled = false;
+            controller.Stop();
         }
 
         private void allow_write_CheckedChanged(object sender, EventArgs e)

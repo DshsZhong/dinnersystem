@@ -76,6 +76,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IO.cs" />
+    <Compile Include="KeyPress.cs" />
     <Compile Include="Main_Controller.cs" />
     <Compile Include="MoneyTable.cs" />
     <Compile Include="Program.cs" />
