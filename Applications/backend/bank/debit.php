@@ -1,25 +1,26 @@
 <?php
 namespace bank;
 
-function debit($row ,$req_id ,$hash)
+function debit($row ,$req_id)
 {
-    \punish\check($row->user->id ,"payment");
-    if(!auth($row->id ,$hash))
-    {
-        \punish\attempt($row->user->id ,$req_id ,"payment");
-        throw new \Exception("Wrong password");
-    }
-    
     $self = unserialize($_SESSION["me"]);
     $bank = $self->bank_id;
     $ip = config()["bank"]["ip"];
     $port = config()["bank"]["port"];
+    $password = config()["bank"]["password"];
+
+    $auth = json_encode([
+        "password" => $password,
+        "timestamp" => strval(time())
+    ]);
+    $auth = hash("SHA512" ,$auth);
 
     $fp = fsockopen($ip, $port);
     $msg = [
         "operation" => "write" ,
         "uid" => $bank,
-        "charge" => $row->money->charge
+        "charge" => $row->money->charge,
+        "auth" => $auth
     ];
     $msg = json_encode($msg);
     fwrite($fp, $msg . "\n");

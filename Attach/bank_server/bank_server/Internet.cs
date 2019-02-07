@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Sockets;
 using Newtonsoft.Json;
 using System.Threading;
-using System.IO;
 
 namespace bank_server
 {
@@ -17,15 +16,13 @@ namespace bank_server
         Execute function;
         Thread[] listen_thread;
         TcpListener[] listeners;
-        IPAddress allow;
         int Maximum_Threads = 100;
         int Threads = 0;
         bool Keep_Alive;
 
-        public Internet(IPAddress allow, Execute func)
+        public Internet(Execute func)
         {
             function = func;
-            this.allow = allow;
         }
 
         public void Start_Listen()
@@ -67,8 +64,6 @@ namespace bank_server
                 catch (SocketException e) { continue; /*Usally it means we want to close the thread. So just ignore the Exception*/ }
 
                 Thread t = new Thread(new ParameterizedThreadStart(Run));
-                if ((client.Client.RemoteEndPoint as IPEndPoint).Address.ToString() != allow.ToString()) // unavailable ip.
-                    continue;
                 Tuple<NetworkStream, Thread> tuple = new Tuple<NetworkStream, Thread>(client.GetStream(), t);
                 t.Start(tuple);
                 Threads += 1;

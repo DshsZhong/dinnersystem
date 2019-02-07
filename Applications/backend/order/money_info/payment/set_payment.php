@@ -12,11 +12,16 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target ,$check = tru
     if($row === null) 
         throw new \Exception("Can't find order.");
     if($check)
-        payment_auth($row ,$user_id ,$permission ,$target);
+        payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
     
-    if(intval(\bank\get_money()) < $row->money->charge)
+    $money = intval(\bank\get_money());
+    if($money < $row->money->charge)
         throw new \Exception("Not enough money.");
-    \bank\debit($row ,$req_id ,$hash);
+    \bank\debit($row ,$hash);
+    $after = intval(\bank\get_money());
+    if($money != $after + $row->money->charge)
+        throw new \Exception("Failed to debit.");
+    
 
     $sql_command = "UPDATE `dinnersys`.`payment` AS P
         SET `paid` = ?,

@@ -1,8 +1,12 @@
 <?php
 namespace order\money_info;
 
-function payment_auth($row ,$uid ,$permission ,$target)
+function payment_auth($row ,$uid ,$permission ,$target ,$hash ,$req_id)
 {
+	# password control
+	if(!password_auth($row ,$hash ,$req_id))
+		throw new \Exception("Wrong password");
+	
 	# already done control.
 	if($row->money->payment["payment"]->paid == $target)
 		throw new \Exception("Already done");
@@ -21,6 +25,7 @@ function payment_auth($row ,$uid ,$permission ,$target)
 	# permission control
 	if($row->user->id != $uid && $permission != "everyone")
 		throw new \Exception("Access denied.");
+
 	return true;
 }
 

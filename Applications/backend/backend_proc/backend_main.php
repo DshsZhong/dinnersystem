@@ -53,6 +53,7 @@ class backend_main
         require_once (__DIR__ . '/../order/money_info/payment/payment_auth.php');
         require_once (__DIR__ . '/../order/money_info/payment/payment.php');
         require_once (__DIR__ . '/../order/money_info/payment/set_payment.php');
+        require_once (__DIR__ . '/../order/money_info/payment/password_auth.php');
         require_once (__DIR__ . '/../order/money_info/get_payments.php');
         require_once (__DIR__ . '/../order/money_info/money_info.php');
 
@@ -61,14 +62,12 @@ class backend_main
         require_once (__DIR__ . '/../order/select_order/get_orders.php');
         require_once (__DIR__ . '/../order/select_order/select_sql.php');
         require_once (__DIR__ . '/../order/select_order/select_order.php');
-        require_once (__DIR__ . '/../order/select_order/select_payment.php');
         require_once (__DIR__ . '/../order/select_order/get_factory_id.php');
 
         require_once (__DIR__ . '/../order/order.php');
 
 
 
-        require_once (__DIR__ . '/../bank/auth.php');
         require_once (__DIR__ . '/../bank/debit.php');
         require_once (__DIR__ . '/../bank/get_money.php');
 

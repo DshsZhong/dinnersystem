@@ -1,9 +1,11 @@
 <?php
-namespace bank;
+namespace order\money_info;
 
-function auth($id ,$hash)
+function password_auth($row ,$hash ,$req_id)
 {
-    $self = unserialize($_SESSION["me"]);
+    \punish\check($row->user->id ,"payment");
+
+	$self = unserialize($_SESSION["me"]);
     $tolerance = config()["payment"]["time"];
     $now = \time();
     $success = false;
@@ -12,7 +14,7 @@ function auth($id ,$hash)
         $i += 1)
     {
         $json = [
-            "id" => strval($id),
+            "id" => strval($row->id),
             "usr_id" => strval($self->login_id),
             "usr_password" => strval($self->password),
             "pmt_password" => strval($self->PIN),
@@ -20,11 +22,13 @@ function auth($id ,$hash)
         ];
         $json = json_encode($json);
         $server_hash = hash("SHA512" ,$json);
-        # echo $json . " " . $server_hash . "<br>";
         $success |= ($server_hash == $hash);
-    }
+	}
+    
+    if(!$success)
+        \punish\attempt($row->user->id ,$req_id ,"payment");
+    
     return $success;
 }
-
 
 ?>

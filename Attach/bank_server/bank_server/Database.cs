@@ -10,7 +10,6 @@ namespace bank_server
     class Database
     {
         SqlConnection conn;
-        bool final_check = true;
 
         public Database(string db_account, string db_name, string db_password)
         {
@@ -37,15 +36,12 @@ namespace bank_server
             return ret;
         }
 
-        public bool Debit(string uid ,int charge)
+        public void Debit(string uid ,int charge)
         {
-            if (final_check && ReadBalance(uid) < charge)
-                return false;
             SqlCommand cmd = new SqlCommand("UPDATE Personnel SET Account = Account - @charge FROM Personnel WHERE IDno = @uid", conn);
             cmd.Parameters.AddWithValue("@uid", uid);
             cmd.Parameters.AddWithValue("@charge", charge);
             cmd.ExecuteNonQuery();
-            return true;
         }
     }
 }

@@ -1,13 +1,20 @@
 <html manifest="./manifest.appcache">
 
 <head>
+	<script>
+		window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+		ga('create', 'UA-133939861-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>板橋高中午餐系統</title>
 	<!-- Bootstrap -->
 	<link href="./css/bootstrap.min.css" rel="stylesheet">
 	<link href="./css/animate.css" rel="stylesheet">
-	<link href="./css/login_theme.css" rel="stylesheet">
 	<link href="./css/theme.css" rel="stylesheet">
+	<link href="./css/login_theme.css" rel="stylesheet">
 	<!-- cover some part of login_theme.css -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,13 +53,20 @@
 								 autocapitalize="none" />
 								<input style="width:250px" id="password" type="password" class="login-input1" name="password" placeholder="密碼(生日) ex. [911023]"
 								 autocapitalize="none" />
-
-								<div id="login">
-									<input style="width:250px" type="submit" id="btn-submit" value="登入" class="btn btn-login" onclick="normal_login()" />
-								</div>
 								<input type="hidden" name="dev_id" value="website" />
 							</div>
 						</div>
+						<div class="item login" onclick="normal_login()">
+								<div class="item-img-container">
+									<img style="margin-left: 5px;" class="item-img" src="./images/login.png" />
+								</div>
+								<div class="item-text-container">
+									<p> 登入 </p>
+								</div>
+							</div>
+						
+						<hr />
+
 						<div class="item" onclick="window.location='PrivacyPolicies.txt';">
 							<div class="item-img-container">
 								<img class="item-img" src="./images/arrow.png" />
@@ -62,7 +76,7 @@
 							</div>
 						</div>
 					</div>
-					<label style="float:right"><u>板橋高中資訊社協助製作</u></label>
+					<a style="float:right;color:black;" href="../../pcshic"><u>板橋高中資訊社協助製作</u></a>
 					<a style="float:left;color:white;" href="https://apple.co/2OWRx22"><u>iOS App</u></a>
 				</div>
 

@@ -8,19 +8,26 @@ using System.Windows.Forms;
 using System.Data;
 using System.Net.Sockets;
 using System.IO;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace bank_server
 {
     class Main_Controller
     {
+        public Writing writer;
         Internet internet;
         Reading reader;
-        Writing writer;
         DataGridView show;
         StreamWriter logger;
 
+        int Tolerance;
+        string password;
+
         int reads = 0;
         int writes = 0;
+        bool alive = true;
 
         public int Reads
         {
@@ -30,25 +37,58 @@ namespace bank_server
         {
             get { return writes; }
         }
-        
-        public Main_Controller(IPAddress allow_ip, Reading reader ,Writing writer, DataGridView show ,string log)
+        public bool Alive
         {
-            internet = new Internet(allow_ip, new Execute(Run));
+            get { return alive; }
+        }
+        public Main_Controller(string password, string tolerance ,Reading reader, Writing writer, DataGridView show, string log)
+        {
+            internet = new Internet(new Execute(Run));
             this.reader = reader;
             this.writer = writer;
             this.show = show;
-            logger = new StreamWriter(log ,true);
+            this.password = password;
+            this.Tolerance = Int32.Parse(tolerance);
+            logger = new StreamWriter(log, true);
             logger.AutoFlush = true;
         }
 
         public void Start()
         {
+            alive = true;
             internet.Start_Listen();
         }
 
         public void Stop()
         {
             internet.Stop_Listen();
+        }
+
+        bool Auth(string remote_hased)
+        {
+            SHA512 sha = new SHA512CryptoServiceProvider();
+            int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            for (int i = now - Tolerance; i != now + Tolerance; i++)
+            {
+                JObject json_obj = new JObject();
+                json_obj["password"] = this.password;
+                json_obj["timestamp"] = i.ToString();
+                string json = json_obj.ToString(Newtonsoft.Json.Formatting.None);
+                string local_hashed = BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(json)));
+                local_hashed = local_hashed.Replace("-", "").ToLower();
+                if (local_hashed == remote_hased) return true;
+            }
+            return false;
+        }
+
+        bool Write(dynamic json)
+        {
+            string uid = json.uid.ToString();
+            int charge = Int32.Parse(json.charge.ToString());
+            int money = reader.Get_Balance(uid);
+            if (money < charge) return false;                              // The check before write in.
+            writer.Write(uid, charge);                                     // Write in.
+            return alive = (reader.Get_Balance(uid) == (money - charge));  // The check after write in.
         }
 
         void Run(Tuple<dynamic, NetworkStream> data)
@@ -63,6 +103,7 @@ namespace bank_server
 
             DataTable table = show.DataSource as DataTable;
             DataRow row = table.NewRow();
+            string msg = "";
             if (json.operation == "read")
             {
                 int balance = reader.Get_Balance(json.uid.ToString());
@@ -74,22 +115,23 @@ namespace bank_server
                 byte[] buffer = Encoding.ASCII.GetBytes(balance.ToString());
                 nws.Write(buffer, 0, buffer.Length);
                 reads += 1;
+                msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4];
             }
             if (json.operation == "write")
             {
-                string uid = json.uid.ToString();
-                string charge = json.charge.ToString();
-                string buffer = (writer.Write(uid ,Int32.Parse(charge)) ? "success" : "fail");
+                int before = reader.Get_Balance(json.uid.ToString());
+                string result = (Auth(json.auth.ToString()) && Write(json) ? "success" : "fail");  //Write will not be executed if Auth returns false
+                int after = reader.Get_Balance(json.uid.ToString());
                 row[0] = "寫入";
-                row[1] = uid;
-                row[2] = charge;
+                row[1] = json.uid.ToString();
+                row[2] = Int32.Parse(json.charge.ToString());
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                row[4] = buffer;
-                byte[] buf = Encoding.ASCII.GetBytes(buffer);
+                row[4] = result;
+                byte[] buf = Encoding.ASCII.GetBytes(result);
                 nws.Write(buf, 0, buf.Length);
                 writes += 1;
+                msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4] + "\t," + before.ToString() + "\t," + after.ToString();
             }
-            string msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4];
             logger.WriteLine(msg);
 
             table.Rows.Add(row);

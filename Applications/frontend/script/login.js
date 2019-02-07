@@ -1,3 +1,8 @@
+$(document).on('keypress',function(e) {
+    if(e.which == 13) {
+        normal_login();
+    }
+});
 
 function normal_login()
 {
@@ -5,10 +10,12 @@ function normal_login()
     var pswd = $("#password").val();
 
     login(uid ,pswd ,function(result){
-        if(result == null) {
+        if(result == "Wrong password.") {
             show("帳號或密碼不對");
+        } else if(result == "Punish not over") {
+            show("重試次數過多");
         } else {
-            window.localStorage.user_data = JSON.stringify(result);
+            window.localStorage.user_data = result;
             window.localStorage.user_id = uid;
             window.localStorage.password = pswd;
             window.localStorage.login_date = Math.floor(Date.now() / 1000);

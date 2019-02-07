@@ -16,8 +16,7 @@ function select_order($param)
 
     $statement = create_statement($param); 
     $result = get_orders($statement);
-    $result = extend_payment($result); 
-    $result = select_payment($result ,$param);
+    $result = extend_payment($result);
     $result = extend_buffet($result ,($param["history"] ?? NULL == "true")); 
 
     return $result;

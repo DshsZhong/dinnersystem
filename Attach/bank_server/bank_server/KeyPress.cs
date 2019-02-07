@@ -10,7 +10,13 @@ namespace bank_server
 {
     class KeyPress
     {
-        int Delay = 100;
+        int delay = 1000;
+        public int Delay
+        {
+            get { return delay; }
+            set { delay = value; }
+        }
+
         int Id = 0;
         enum DwFlag : int
         {
@@ -19,9 +25,8 @@ namespace bank_server
         }
 
         Queue<Tuple<List<string>, int>> waiter = new Queue<Tuple<List<string>, int>>();
-        public KeyPress(int Delay)
+        public KeyPress()
         {
-            this.Delay = Delay;
             Task.Run(() => Cycle());
         }
 
@@ -30,7 +35,7 @@ namespace bank_server
             int self = Id++;
             Tuple<List<string>, int> sender = new Tuple<List<string>, int>(data, self);
             waiter.Enqueue(sender);
-            while (waiter.Count != 0 && waiter.Peek().Item2 < self)
+            while (waiter.Count != 0 && waiter.Peek().Item2 <= self)
                 Thread.Sleep(100);
         }
 
@@ -39,9 +44,10 @@ namespace bank_server
             while(true)
             {
                 while (waiter.Count == 0) Thread.Sleep(100);
-                List<string> commands = waiter.Dequeue().Item1;
+                List<string> commands = waiter.Peek().Item1;
                 foreach (string s in commands) Write(s);
                 Flush();
+                waiter.Dequeue();
             }
         }
 
@@ -60,16 +66,16 @@ namespace bank_server
             foreach(byte b in data)
             {
                 keyPress(b);
-                Thread.Sleep(Delay);
+                Thread.Sleep(delay);
             }
             keyPress(0xD);
-            Thread.Sleep(Delay);
+            Thread.Sleep(delay);
         }
 
         void Flush()
         {
             keyPress(0x7B);
-            Thread.Sleep(Delay);
+            Thread.Sleep(delay);
         }
     }
 }

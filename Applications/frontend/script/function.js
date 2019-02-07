@@ -12,12 +12,7 @@ function login(uid, pswd, callback, done) {
     hashed = sha512(hashed);
 
     $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&hash=" + hashed + "&device_id=website", function (data) {
-        try {
-            json = $.parseJSON(data);
-        }
-        catch (err) {
-            json = null;
-        }
+        json = data;
     }).done(function () {
         callback(json);
         done();

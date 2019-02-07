@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Media;
 
 namespace bank_server
 {
@@ -64,27 +65,27 @@ namespace bank_server
         private void start_session_Click(object sender, EventArgs e)
         {
             init_database.Enabled = true;
-            dinnersys_ip.Enabled = log_location.Enabled = openLog.Enabled = false;
-            start_session.Enabled = false;
+            protocol_password.Enabled = log_location.Enabled = openLog.Enabled = false;
+            Timestamp_Delay.Enabled = start_session.Enabled = false;
         }
 
         private void init_database_Click(object sender, EventArgs e)
         {
-            activate.Enabled = true;
+            force_delay.Enabled = activate.Enabled = true;
             close.Enabled = db_account.Enabled = db_name.Enabled = false;
-            force_delay.Enabled = db_password.Enabled = allow_write.Enabled = false ;
+            db_password.Enabled = allow_write.Enabled = false;
             init_database.Enabled = money_table.Enabled = openMoneyTable.Enabled = false;
             Database db = new Database(db_account.Text, db_name.Text, db_password.Text);
-            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text ,Int32.Parse(force_delay.Text)));
+            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text));
             Reading r = new Reading(db);
-            controller = new Main_Controller(IPAddress.Parse(dinnersys_ip.Text) ,r,w ,show_data ,log_location.Text);
+            controller = new Main_Controller(protocol_password.Text, Timestamp_Delay.Text, r, w, show_data, log_location.Text);
             Updater.Enabled = true;
         }
 
         private void activate_Click(object sender, EventArgs e)
         {
             close.Enabled = true;
-            activate.Enabled = false;
+            error_notified = activate.Enabled = false;
             controller.Start();
         }
 
@@ -106,6 +107,7 @@ namespace bank_server
         }
 
         int running_seconds = 0;
+        bool error_notified = false;
         private void Updater_Tick(object sender, EventArgs e)
         {
             running_seconds += 1;
@@ -117,6 +119,26 @@ namespace bank_server
             running_due.Text = "啟動時間: " + show;
             writes.Text = "累計繳款次數: " + controller.Writes.ToString();
             reads.Text = "累計讀取次數: " + controller.Reads.ToString();
+            if(!controller.Alive && close.Enabled)
+            {
+                activate.Enabled = true;
+                close.Enabled = false;
+                controller.Stop();
+                Task.Run(() =>
+                {
+                    MessageBox.Show("繳款時發生問題，緊急關閉系統");
+                    error_notified = true;
+                });
+                
+            }
+            if(!controller.Alive && !error_notified)
+                SystemSounds.Beep.Play();
+        }
+
+        private void force_delay_Scroll(object sender, EventArgs e)
+        {
+            controller.writer.presser.Delay = force_delay.Value;
+            force_delay_label.Text = "強制延遲(" + force_delay.Value.ToString() + "ms): ";
         }
     }
 }
