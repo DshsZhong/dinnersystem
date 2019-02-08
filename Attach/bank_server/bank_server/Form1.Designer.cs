@@ -73,10 +73,14 @@
             // 
             // show_data
             // 
+            this.show_data.AllowUserToAddRows = false;
+            this.show_data.AllowUserToDeleteRows = false;
+            this.show_data.AllowUserToOrderColumns = true;
             this.show_data.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.show_data.Location = new System.Drawing.Point(6, 66);
             this.show_data.Name = "show_data";
             this.show_data.RowTemplate.Height = 24;
+            this.show_data.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.show_data.Size = new System.Drawing.Size(755, 326);
             this.show_data.TabIndex = 0;
             // 

@@ -18,7 +18,7 @@ namespace bank_server
         Main_Controller controller;
         public Form1()
         {
-            CheckForIllegalCrossThreadCalls = false;
+            CheckForIllegalCrossThreadCalls = true;
             InitializeComponent();
             DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("行為"));
@@ -124,12 +124,9 @@ namespace bank_server
                 activate.Enabled = true;
                 close.Enabled = false;
                 controller.Stop();
-                Task.Run(() =>
-                {
-                    MessageBox.Show("繳款時發生問題，緊急關閉系統");
-                    error_notified = true;
-                });
-                
+                MessageBox.Show("繳款時發生問題，緊急關閉系統");
+                error_notified = true;
+
             }
             if(!controller.Alive && !error_notified)
                 SystemSounds.Beep.Play();

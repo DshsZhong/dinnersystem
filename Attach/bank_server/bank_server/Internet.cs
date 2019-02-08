@@ -10,13 +10,13 @@ using System.Threading;
 
 namespace bank_server
 {
-    delegate void Execute(Tuple<dynamic, NetworkStream> input);
+    delegate string Execute(dynamic input);
     class Internet
     {
         Execute function;
         Thread[] listen_thread;
         TcpListener[] listeners;
-        int Maximum_Threads = 100;
+        int Maximum_Threads = 10;
         int Threads = 0;
         bool Keep_Alive;
 
@@ -61,26 +61,27 @@ namespace bank_server
 
                 TcpClient client;
                 try { client = listener.AcceptTcpClient(); }
-                catch (SocketException e) { continue; /*Usally it means we want to close the thread. So just ignore the Exception*/ }
+                catch (Exception e) { break; /* Usally it means we want to close the thread. So just ignore the Exception */ }
 
-                Thread t = new Thread(new ParameterizedThreadStart(Run));
-                Tuple<NetworkStream, Thread> tuple = new Tuple<NetworkStream, Thread>(client.GetStream(), t);
-                t.Start(tuple);
+                Task.Run(() =>
+                {
+                    NetworkStream nws = client.GetStream();
+                    byte[] tmp = new byte[65536];
+                    nws.Read(tmp, 0, 65536);
+                    string data = Encoding.ASCII.GetString(tmp);
+
+                    string ret = function(JsonConvert.DeserializeObject(data));
+
+                    tmp = new byte[65536];
+                    tmp = Encoding.ASCII.GetBytes(ret);
+                    nws.WriteTimeout = 1000;
+                    nws.Write(tmp, 0, tmp.Length);
+                    nws.Close(1000);
+                    Threads -= 1;
+                });
                 Threads += 1;
             }
         } 
-
-        void Run(object p)
-        {
-            Tuple<NetworkStream, Thread> param = p as Tuple<NetworkStream, Thread>;
-            NetworkStream nws = param.Item1;
-            byte[] tmp = new byte[65536];
-            nws.Read(tmp, 0, 65536);
-            string data = Encoding.ASCII.GetString(tmp);
-            function(new Tuple<dynamic ,NetworkStream>(JsonConvert.DeserializeObject(data) ,nws));
-            param.Item2.Abort();
-            Threads -= 1;
-        }
     }
 }
 

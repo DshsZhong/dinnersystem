@@ -41,7 +41,7 @@ namespace bank_server
         {
             get { return alive; }
         }
-        public Main_Controller(string password, string tolerance ,Reading reader, Writing writer, DataGridView show, string log)
+        public Main_Controller(string password, string tolerance, Reading reader, Writing writer, DataGridView show, string log)
         {
             internet = new Internet(new Execute(Run));
             this.reader = reader;
@@ -91,19 +91,18 @@ namespace bank_server
             return alive = (reader.Get_Balance(uid) == (money - charge));  // The check after write in.
         }
 
-        void Run(Tuple<dynamic, NetworkStream> data)
+        string Run(dynamic data)
         {
             /* table.Columns.Add(new DataColumn("行為"));
             table.Columns.Add(new DataColumn("POS帳號"));
             table.Columns.Add(new DataColumn("扣款額"));
             table.Columns.Add(new DataColumn("時間"));
             table.Columns.Add(new DataColumn("回傳值")); */
-            dynamic json = data.Item1;
-            NetworkStream nws = data.Item2;
+            dynamic json = data;
 
-            DataTable table = show.DataSource as DataTable;
-            DataRow row = table.NewRow();
+            string[] row = new string[5];
             string msg = "";
+            string ret = "";
             if (json.operation == "read")
             {
                 int balance = reader.Get_Balance(json.uid.ToString());
@@ -112,8 +111,7 @@ namespace bank_server
                 row[2] = "-";
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 row[4] = balance.ToString();
-                byte[] buffer = Encoding.ASCII.GetBytes(balance.ToString());
-                nws.Write(buffer, 0, buffer.Length);
+                ret = balance.ToString();
                 reads += 1;
                 msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4];
             }
@@ -124,18 +122,25 @@ namespace bank_server
                 int after = reader.Get_Balance(json.uid.ToString());
                 row[0] = "寫入";
                 row[1] = json.uid.ToString();
-                row[2] = Int32.Parse(json.charge.ToString());
+                row[2] = json.charge.ToString();
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 row[4] = result;
-                byte[] buf = Encoding.ASCII.GetBytes(result);
-                nws.Write(buf, 0, buf.Length);
+                ret = result;
                 writes += 1;
                 msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4] + "\t," + before.ToString() + "\t," + after.ToString();
             }
             logger.WriteLine(msg);
 
-            table.Rows.Add(row);
-            nws.Close(3000);
+            show.Invoke((MethodInvoker)(() =>
+            {
+                DataTable table = show.DataSource as DataTable;
+                if (table.Rows.Count >= 100)
+                    table.Clear();
+                table.Rows.Add(row);
+                show.DataSource = table;
+            }));
+
+            return ret;
         }
     }
 }

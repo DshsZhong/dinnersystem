@@ -2,9 +2,10 @@ function make_order(value) {
     var dname = (value["dish"].length == 1 ? value['dish'][0]['dish_name'] : "自訂套餐");
     var has_paid = (value['money']["payment"][0]['paid'] == "true");
     var highlight = (value['user']['id'] !== value['order_maker']['id']);
+    var expired = (moment().isAfter(moment().format("YYYY-MM-DD") + " 10:30:00"));
     return '<div id="' + value['id'] + '"><div class="info"><div class="index index_adjust"><label>付款狀態:</label>' +
         '<img src="../../images/' + (has_paid ? 'paid' : 'unpaid') + '.png"></img></div>' +
-        (has_paid ? '' : '<div class="value payment clickable"><label> 確認繳款 </label></div>') +
+        (has_paid || expired ? '' : '<div class="value payment clickable"><label> 確認繳款 </label></div>') +
         (has_paid ? '' : '<div class="value value_adjust clickable"><img src="../../images/cross_symbol.png"></img></div>') +
         '</div><div class="info"><div class="index dish_name ' + (highlight ? " red-highlight " : "") + '"><label>' +
         dname + '(' + value['money']['charge'] + '$.)' + '</label></div></div><hr /></div>';

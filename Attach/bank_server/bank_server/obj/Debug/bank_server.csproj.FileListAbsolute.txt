@@ -11,3 +11,4 @@ D:\dinnersysetm\bank_server\bank_server\bin\Debug\Newtonsoft.Json.dll
 D:\dinnersysetm\bank_server\bank_server\bin\Debug\Newtonsoft.Json.pdb
 D:\dinnersysetm\bank_server\bank_server\bin\Debug\Newtonsoft.Json.xml
 D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csproj.CopyComplete
+D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csprojAssemblyReference.cache
