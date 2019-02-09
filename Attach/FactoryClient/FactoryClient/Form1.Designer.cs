@@ -28,35 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.open_menu = new System.Windows.Forms.Button();
+            this.Menu = new System.Windows.Forms.GroupBox();
+            this.download_menu = new System.Windows.Forms.Button();
+            this.upload_menu = new System.Windows.Forms.Button();
+            this.menu_file = new System.Windows.Forms.TextBox();
+            this.Scale = new System.Windows.Forms.GroupBox();
+            this.open_scale = new System.Windows.Forms.Button();
+            this.scale_file = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.button4 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.scale_end = new System.Windows.Forms.DateTimePicker();
+            this.scale_start = new System.Windows.Forms.DateTimePicker();
+            this.download_scale = new System.Windows.Forms.Button();
+            this.Custom = new System.Windows.Forms.GroupBox();
+            this.open_custom = new System.Windows.Forms.Button();
+            this.custom_file = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
-            this.button7 = new System.Windows.Forms.Button();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.custom_end = new System.Windows.Forms.DateTimePicker();
+            this.custom_start = new System.Windows.Forms.DateTimePicker();
+            this.download_custom = new System.Windows.Forms.Button();
+            this.preview = new System.Windows.Forms.WebBrowser();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.refresh = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -76,97 +71,109 @@
             this.dateTimePicker6 = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.Money = new System.Windows.Forms.GroupBox();
+            this.open_money = new System.Windows.Forms.Button();
+            this.money_file = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.money_end = new System.Windows.Forms.DateTimePicker();
+            this.money_start = new System.Windows.Forms.DateTimePicker();
+            this.download_money = new System.Windows.Forms.Button();
+            this.Menu.SuspendLayout();
+            this.Scale.SuspendLayout();
+            this.Custom.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.Money.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // open_menu
             // 
-            this.button1.Location = new System.Drawing.Point(6, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "選擇檔案";
-            this.button1.UseVisualStyleBackColor = true;
+            this.open_menu.Location = new System.Drawing.Point(6, 21);
+            this.open_menu.Name = "open_menu";
+            this.open_menu.Size = new System.Drawing.Size(75, 23);
+            this.open_menu.TabIndex = 0;
+            this.open_menu.Text = "選擇檔案";
+            this.open_menu.UseVisualStyleBackColor = true;
+            this.open_menu.Click += new System.EventHandler(this.open_menu_Click);
             // 
-            // groupBox1
+            // Menu
             // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(329, 83);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "更新菜單";
+            this.Menu.Controls.Add(this.download_menu);
+            this.Menu.Controls.Add(this.upload_menu);
+            this.Menu.Controls.Add(this.menu_file);
+            this.Menu.Controls.Add(this.open_menu);
+            this.Menu.Location = new System.Drawing.Point(12, 12);
+            this.Menu.Name = "Menu";
+            this.Menu.Size = new System.Drawing.Size(329, 83);
+            this.Menu.TabIndex = 1;
+            this.Menu.TabStop = false;
+            this.Menu.Text = "更新菜單";
             // 
-            // button3
+            // download_menu
             // 
-            this.button3.Location = new System.Drawing.Point(164, 49);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(159, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "下載菜單";
-            this.button3.UseVisualStyleBackColor = true;
+            this.download_menu.Location = new System.Drawing.Point(164, 49);
+            this.download_menu.Name = "download_menu";
+            this.download_menu.Size = new System.Drawing.Size(159, 23);
+            this.download_menu.TabIndex = 4;
+            this.download_menu.Text = "下載菜單";
+            this.download_menu.UseVisualStyleBackColor = true;
+            this.download_menu.Click += new System.EventHandler(this.download_menu_Click);
             // 
-            // button2
+            // upload_menu
             // 
-            this.button2.Location = new System.Drawing.Point(6, 49);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(152, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "上傳菜單";
-            this.button2.UseVisualStyleBackColor = true;
+            this.upload_menu.Location = new System.Drawing.Point(6, 49);
+            this.upload_menu.Name = "upload_menu";
+            this.upload_menu.Size = new System.Drawing.Size(152, 23);
+            this.upload_menu.TabIndex = 3;
+            this.upload_menu.Text = "上傳菜單";
+            this.upload_menu.UseVisualStyleBackColor = true;
+            this.upload_menu.Click += new System.EventHandler(this.upload_menu_Click);
             // 
-            // textBox1
+            // menu_file
             // 
-            this.textBox1.Location = new System.Drawing.Point(87, 21);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(236, 22);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "D:\\menu.xls";
+            this.menu_file.Location = new System.Drawing.Point(87, 21);
+            this.menu_file.Name = "menu_file";
+            this.menu_file.Size = new System.Drawing.Size(236, 22);
+            this.menu_file.TabIndex = 1;
+            this.menu_file.Text = "D:\\菜單.xlsx";
             // 
-            // groupBox2
+            // Scale
             // 
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.dateTimePicker2);
-            this.groupBox2.Controls.Add(this.dateTimePicker1);
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Location = new System.Drawing.Point(12, 101);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(329, 109);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "輸出規模化點單";
+            this.Scale.Controls.Add(this.open_scale);
+            this.Scale.Controls.Add(this.scale_file);
+            this.Scale.Controls.Add(this.label2);
+            this.Scale.Controls.Add(this.label1);
+            this.Scale.Controls.Add(this.scale_end);
+            this.Scale.Controls.Add(this.scale_start);
+            this.Scale.Controls.Add(this.download_scale);
+            this.Scale.Location = new System.Drawing.Point(12, 169);
+            this.Scale.Name = "Scale";
+            this.Scale.Size = new System.Drawing.Size(329, 109);
+            this.Scale.TabIndex = 2;
+            this.Scale.TabStop = false;
+            this.Scale.Text = "輸出規模化點單";
             // 
-            // button5
+            // open_scale
             // 
-            this.button5.Location = new System.Drawing.Point(6, 77);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "選擇檔案";
-            this.button5.UseVisualStyleBackColor = true;
+            this.open_scale.Location = new System.Drawing.Point(6, 77);
+            this.open_scale.Name = "open_scale";
+            this.open_scale.Size = new System.Drawing.Size(75, 23);
+            this.open_scale.TabIndex = 6;
+            this.open_scale.Text = "選擇檔案";
+            this.open_scale.UseVisualStyleBackColor = true;
+            this.open_scale.Click += new System.EventHandler(this.open_scale_Click);
             // 
-            // textBox2
+            // scale_file
             // 
-            this.textBox2.Location = new System.Drawing.Point(87, 77);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(155, 22);
-            this.textBox2.TabIndex = 5;
+            this.scale_file.Location = new System.Drawing.Point(87, 77);
+            this.scale_file.Name = "scale_file";
+            this.scale_file.Size = new System.Drawing.Size(155, 22);
+            this.scale_file.TabIndex = 5;
+            this.scale_file.Text = "D:\\規模化報表.xlsx";
             // 
             // label2
             // 
@@ -186,60 +193,67 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "起始日期";
             // 
-            // dateTimePicker2
+            // scale_end
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(75, 49);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(248, 22);
-            this.dateTimePicker2.TabIndex = 2;
+            this.scale_end.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.scale_end.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.scale_end.Location = new System.Drawing.Point(75, 49);
+            this.scale_end.Name = "scale_end";
+            this.scale_end.Size = new System.Drawing.Size(248, 22);
+            this.scale_end.TabIndex = 2;
             // 
-            // dateTimePicker1
+            // scale_start
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(75, 21);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(248, 22);
-            this.dateTimePicker1.TabIndex = 1;
+            this.scale_start.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.scale_start.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.scale_start.Location = new System.Drawing.Point(75, 21);
+            this.scale_start.Name = "scale_start";
+            this.scale_start.Size = new System.Drawing.Size(248, 22);
+            this.scale_start.TabIndex = 1;
             // 
-            // button4
+            // download_scale
             // 
-            this.button4.Location = new System.Drawing.Point(248, 77);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "下載點單";
-            this.button4.UseVisualStyleBackColor = true;
+            this.download_scale.Location = new System.Drawing.Point(248, 77);
+            this.download_scale.Name = "download_scale";
+            this.download_scale.Size = new System.Drawing.Size(75, 23);
+            this.download_scale.TabIndex = 0;
+            this.download_scale.Text = "下載點單";
+            this.download_scale.UseVisualStyleBackColor = true;
+            this.download_scale.Click += new System.EventHandler(this.download_scale_Click);
             // 
-            // groupBox3
+            // Custom
             // 
-            this.groupBox3.Controls.Add(this.button6);
-            this.groupBox3.Controls.Add(this.textBox3);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.dateTimePicker3);
-            this.groupBox3.Controls.Add(this.dateTimePicker4);
-            this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Location = new System.Drawing.Point(12, 216);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(329, 109);
-            this.groupBox3.TabIndex = 7;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "輸出精緻化點單";
+            this.Custom.Controls.Add(this.open_custom);
+            this.Custom.Controls.Add(this.custom_file);
+            this.Custom.Controls.Add(this.label3);
+            this.Custom.Controls.Add(this.label4);
+            this.Custom.Controls.Add(this.custom_end);
+            this.Custom.Controls.Add(this.custom_start);
+            this.Custom.Controls.Add(this.download_custom);
+            this.Custom.Location = new System.Drawing.Point(12, 339);
+            this.Custom.Name = "Custom";
+            this.Custom.Size = new System.Drawing.Size(329, 109);
+            this.Custom.TabIndex = 7;
+            this.Custom.TabStop = false;
+            this.Custom.Text = "輸出精緻化點單";
             // 
-            // button6
+            // open_custom
             // 
-            this.button6.Location = new System.Drawing.Point(6, 77);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 6;
-            this.button6.Text = "選擇檔案";
-            this.button6.UseVisualStyleBackColor = true;
+            this.open_custom.Location = new System.Drawing.Point(6, 77);
+            this.open_custom.Name = "open_custom";
+            this.open_custom.Size = new System.Drawing.Size(75, 23);
+            this.open_custom.TabIndex = 6;
+            this.open_custom.Text = "選擇檔案";
+            this.open_custom.UseVisualStyleBackColor = true;
+            this.open_custom.Click += new System.EventHandler(this.open_custom_Click);
             // 
-            // textBox3
+            // custom_file
             // 
-            this.textBox3.Location = new System.Drawing.Point(87, 77);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(155, 22);
-            this.textBox3.TabIndex = 5;
+            this.custom_file.Location = new System.Drawing.Point(87, 77);
+            this.custom_file.Name = "custom_file";
+            this.custom_file.Size = new System.Drawing.Size(155, 22);
+            this.custom_file.TabIndex = 5;
+            this.custom_file.Text = "D:\\精緻化報表.xlsx";
             // 
             // label3
             // 
@@ -259,41 +273,46 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "起始日期";
             // 
-            // dateTimePicker3
+            // custom_end
             // 
-            this.dateTimePicker3.Location = new System.Drawing.Point(75, 49);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(248, 22);
-            this.dateTimePicker3.TabIndex = 2;
+            this.custom_end.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.custom_end.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.custom_end.Location = new System.Drawing.Point(75, 49);
+            this.custom_end.Name = "custom_end";
+            this.custom_end.Size = new System.Drawing.Size(248, 22);
+            this.custom_end.TabIndex = 2;
             // 
-            // dateTimePicker4
+            // custom_start
             // 
-            this.dateTimePicker4.Location = new System.Drawing.Point(75, 21);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(248, 22);
-            this.dateTimePicker4.TabIndex = 1;
+            this.custom_start.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.custom_start.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.custom_start.Location = new System.Drawing.Point(75, 21);
+            this.custom_start.Name = "custom_start";
+            this.custom_start.Size = new System.Drawing.Size(248, 22);
+            this.custom_start.TabIndex = 1;
             // 
-            // button7
+            // download_custom
             // 
-            this.button7.Location = new System.Drawing.Point(248, 77);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 0;
-            this.button7.Text = "下載點單";
-            this.button7.UseVisualStyleBackColor = true;
+            this.download_custom.Location = new System.Drawing.Point(248, 77);
+            this.download_custom.Name = "download_custom";
+            this.download_custom.Size = new System.Drawing.Size(75, 23);
+            this.download_custom.TabIndex = 0;
+            this.download_custom.Text = "下載點單";
+            this.download_custom.UseVisualStyleBackColor = true;
+            this.download_custom.Click += new System.EventHandler(this.download_custom_Click);
             // 
-            // webBrowser1
+            // preview
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(6, 50);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(313, 547);
-            this.webBrowser1.TabIndex = 8;
+            this.preview.Location = new System.Drawing.Point(6, 50);
+            this.preview.MinimumSize = new System.Drawing.Size(20, 20);
+            this.preview.Name = "preview";
+            this.preview.Size = new System.Drawing.Size(313, 547);
+            this.preview.TabIndex = 8;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button8);
-            this.groupBox4.Controls.Add(this.webBrowser1);
+            this.groupBox4.Controls.Add(this.refresh);
+            this.groupBox4.Controls.Add(this.preview);
             this.groupBox4.Location = new System.Drawing.Point(361, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(325, 603);
@@ -301,40 +320,14 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "系統預覽";
             // 
-            // button8
+            // refresh
             // 
-            this.button8.Location = new System.Drawing.Point(6, 21);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(313, 23);
-            this.button8.TabIndex = 11;
-            this.button8.Text = "重新整理";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(6, 21);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(317, 251);
-            this.chart1.TabIndex = 10;
-            this.chart1.Text = "chart1";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.chart1);
-            this.groupBox5.Location = new System.Drawing.Point(12, 331);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(329, 278);
-            this.groupBox5.TabIndex = 11;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "歷史資料";
+            this.refresh.Location = new System.Drawing.Point(6, 21);
+            this.refresh.Name = "refresh";
+            this.refresh.Size = new System.Drawing.Size(313, 23);
+            this.refresh.TabIndex = 11;
+            this.refresh.Text = "重新整理";
+            this.refresh.UseVisualStyleBackColor = true;
             // 
             // button9
             // 
@@ -455,7 +448,7 @@
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(71, 23);
             this.button12.TabIndex = 23;
-            this.button12.Text = "開啟位置";
+            this.button12.Text = "選擇檔案";
             this.button12.UseVisualStyleBackColor = true;
             // 
             // textBox5
@@ -513,29 +506,107 @@
             this.button11.Text = "下載歷史資料";
             this.button11.UseVisualStyleBackColor = true;
             // 
+            // Money
+            // 
+            this.Money.Controls.Add(this.open_money);
+            this.Money.Controls.Add(this.money_file);
+            this.Money.Controls.Add(this.label9);
+            this.Money.Controls.Add(this.label10);
+            this.Money.Controls.Add(this.money_end);
+            this.Money.Controls.Add(this.money_start);
+            this.Money.Controls.Add(this.download_money);
+            this.Money.Location = new System.Drawing.Point(12, 506);
+            this.Money.Name = "Money";
+            this.Money.Size = new System.Drawing.Size(329, 109);
+            this.Money.TabIndex = 8;
+            this.Money.TabStop = false;
+            this.Money.Text = "輸出金額報表";
+            // 
+            // open_money
+            // 
+            this.open_money.Location = new System.Drawing.Point(6, 77);
+            this.open_money.Name = "open_money";
+            this.open_money.Size = new System.Drawing.Size(75, 23);
+            this.open_money.TabIndex = 6;
+            this.open_money.Text = "選擇檔案";
+            this.open_money.UseVisualStyleBackColor = true;
+            this.open_money.Click += new System.EventHandler(this.open_money_Click);
+            // 
+            // money_file
+            // 
+            this.money_file.Location = new System.Drawing.Point(87, 77);
+            this.money_file.Name = "money_file";
+            this.money_file.Size = new System.Drawing.Size(155, 22);
+            this.money_file.TabIndex = 5;
+            this.money_file.Text = "D:\\金額報表.xlsx";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 56);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "終止日期";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(16, 28);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "起始日期";
+            // 
+            // money_end
+            // 
+            this.money_end.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.money_end.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.money_end.Location = new System.Drawing.Point(75, 49);
+            this.money_end.Name = "money_end";
+            this.money_end.Size = new System.Drawing.Size(248, 22);
+            this.money_end.TabIndex = 2;
+            // 
+            // money_start
+            // 
+            this.money_start.CustomFormat = "yyyy/MM/dd-HH:mm:ss";
+            this.money_start.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.money_start.Location = new System.Drawing.Point(75, 21);
+            this.money_start.Name = "money_start";
+            this.money_start.Size = new System.Drawing.Size(248, 22);
+            this.money_start.TabIndex = 1;
+            // 
+            // download_money
+            // 
+            this.download_money.Location = new System.Drawing.Point(248, 77);
+            this.download_money.Name = "download_money";
+            this.download_money.Size = new System.Drawing.Size(75, 23);
+            this.download_money.TabIndex = 0;
+            this.download_money.Text = "下載報表";
+            this.download_money.UseVisualStyleBackColor = true;
+            this.download_money.Click += new System.EventHandler(this.download_money_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1011, 627);
+            this.Controls.Add(this.Money);
             this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.Custom);
+            this.Controls.Add(this.Scale);
+            this.Controls.Add(this.Menu);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.Menu.ResumeLayout(false);
+            this.Menu.PerformLayout();
+            this.Scale.ResumeLayout(false);
+            this.Scale.PerformLayout();
+            this.Custom.ResumeLayout(false);
+            this.Custom.PerformLayout();
             this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.groupBox5.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
@@ -543,37 +614,37 @@
             this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            this.Money.ResumeLayout(false);
+            this.Money.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button open_menu;
+        private System.Windows.Forms.GroupBox Menu;
+        private System.Windows.Forms.Button upload_menu;
+        private System.Windows.Forms.TextBox menu_file;
+        private System.Windows.Forms.GroupBox Scale;
+        private System.Windows.Forms.Button open_scale;
+        private System.Windows.Forms.TextBox scale_file;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.DateTimePicker scale_end;
+        private System.Windows.Forms.DateTimePicker scale_start;
+        private System.Windows.Forms.Button download_scale;
+        private System.Windows.Forms.GroupBox Custom;
+        private System.Windows.Forms.Button open_custom;
+        private System.Windows.Forms.TextBox custom_file;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.DateTimePicker custom_end;
+        private System.Windows.Forms.DateTimePicker custom_start;
+        private System.Windows.Forms.Button download_custom;
+        private System.Windows.Forms.WebBrowser preview;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button refresh;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label7;
@@ -593,7 +664,15 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.ProgressBar progressBar2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button download_menu;
+        private System.Windows.Forms.GroupBox Money;
+        private System.Windows.Forms.Button open_money;
+        private System.Windows.Forms.TextBox money_file;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DateTimePicker money_end;
+        private System.Windows.Forms.DateTimePicker money_start;
+        private System.Windows.Forms.Button download_money;
     }
 }
 

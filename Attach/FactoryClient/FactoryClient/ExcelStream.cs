@@ -56,17 +56,22 @@ namespace FactoryClient
             Sheet.Cells[x, y] = value;
         }
 
+        public void PageBreak(int rows)
+        {
+            Sheet.HPageBreaks.Add(Sheet.Range["A" + rows.ToString()]);
+        }
+
         public List<List<string>> GetRow()
         {
             List<List<string>> ret = new List<List<string>>();
             List<string> row = new List<string>();
-            for(int i = 0; ;i++)
+            for (int i = 1; ; i++)
             {
-                if (((Excel.Range)Sheet.Cells[i, 0]).Text == "") break;
-                for (int j = 0; ; j++)
+                if (((Excel.Range)Sheet.Cells[i, 1]).Text == "") break;
+                for (int j = 1; ; j++)
                 {
                     string value = ((Excel.Range)Sheet.Cells[i, j]).Text;
-                    if (value == "")
+                    if (value == "" && ((Excel.Range)Sheet.Cells[i, j + 1]).Text == "")
                     {
                         ret.Add(new List<string>(row));
                         row = new List<string>();
@@ -75,7 +80,6 @@ namespace FactoryClient
                     row.Add(value);
                 }
             }
-            
             return ret;
         }
     }

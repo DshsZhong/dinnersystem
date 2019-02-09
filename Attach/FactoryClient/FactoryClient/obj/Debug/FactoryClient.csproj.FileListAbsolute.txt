@@ -1,6 +1,5 @@
 D:\dinnersysetm\FactoryClient\FactoryClient\bin\Debug\FactoryClient.exe
 D:\dinnersysetm\FactoryClient\FactoryClient\bin\Debug\FactoryClient.pdb
-D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csprojAssemblyReference.cache
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Form1.resources
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Login.resources
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Properties.Resources.resources
@@ -8,3 +7,7 @@ D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.Gener
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.CoreCompileInputs.cache
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.exe
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.pdb
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Debug\FactoryClient.exe.config
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Debug\Newtonsoft.Json.dll
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.CopyComplete
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csprojAssemblyReference.cache

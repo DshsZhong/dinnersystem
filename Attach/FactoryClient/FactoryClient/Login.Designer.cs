@@ -28,41 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.TextBox();
+            this.password = new System.Windows.Forms.MaskedTextBox();
+            this.login_btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // id
             // 
-            this.textBox1.Location = new System.Drawing.Point(86, 103);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(131, 22);
-            this.textBox1.TabIndex = 0;
+            this.id.ImeMode = System.Windows.Forms.ImeMode.Alpha;
+            this.id.Location = new System.Drawing.Point(85, 67);
+            this.id.Name = "id";
+            this.id.Size = new System.Drawing.Size(131, 22);
+            this.id.TabIndex = 0;
+            this.id.Text = "123";
             // 
-            // maskedTextBox1
+            // password
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(86, 131);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(131, 22);
-            this.maskedTextBox1.TabIndex = 1;
+            this.password.ImeMode = System.Windows.Forms.ImeMode.Alpha;
+            this.password.Location = new System.Drawing.Point(85, 95);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(131, 22);
+            this.password.TabIndex = 1;
+            this.password.Text = "qazwsx123";
             // 
-            // button1
+            // login_btn
             // 
-            this.button1.Location = new System.Drawing.Point(86, 159);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "登入";
-            this.button1.UseVisualStyleBackColor = true;
+            this.login_btn.Location = new System.Drawing.Point(85, 123);
+            this.login_btn.Name = "login_btn";
+            this.login_btn.Size = new System.Drawing.Size(97, 23);
+            this.login_btn.TabIndex = 2;
+            this.login_btn.Text = "登入";
+            this.login_btn.UseVisualStyleBackColor = true;
+            this.login_btn.Click += new System.EventHandler(this.login_btn_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 106);
+            this.label1.Location = new System.Drawing.Point(36, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 3;
@@ -71,7 +76,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 134);
+            this.label2.Location = new System.Drawing.Point(36, 98);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -80,23 +85,24 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(84, 56);
+            this.label3.Font = new System.Drawing.Font("新細明體", 15F);
+            this.label3.Location = new System.Drawing.Point(66, 33);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
+            this.label3.Size = new System.Drawing.Size(129, 20);
             this.label3.TabIndex = 5;
-            this.label3.Text = "廠商管理插件";
+            this.label3.Text = "廠商管理前端";
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(270, 216);
+            this.ClientSize = new System.Drawing.Size(268, 178);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.maskedTextBox1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.login_btn);
+            this.Controls.Add(this.password);
+            this.Controls.Add(this.id);
             this.Name = "Login";
             this.Text = "Login";
             this.ResumeLayout(false);
@@ -106,9 +112,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox id;
+        private System.Windows.Forms.MaskedTextBox password;
+        private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

@@ -16,6 +16,7 @@ $categorize = new tree(
 );
 foreach($data as $key => $value) {
     if($value->is_idle == true) continue;
+    if($value->department->factory->allow_custom) continue;
     $categorize->add($value);
 }
 $categorize->build_info();

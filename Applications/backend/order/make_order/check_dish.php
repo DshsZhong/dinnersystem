@@ -10,7 +10,8 @@ function check_dish($dishes)
     if(count($dishes) == 0) 
         throw new \Exception("No dish data.");
     
-    $ret = array();
+    $ret = [];
+    $count = [];
     $dish_table = unserialize($_SESSION['dish']);
     $fid = null;
     foreach($dishes as $dish_id)
@@ -28,8 +29,15 @@ function check_dish($dishes)
         if(count($dishes) > 1 && !$dish->department->factory->allow_custom)
             throw new \Exception("Not allow custom dish.");
         
+        if(!array_key_exists($dish_id ,$count)) $count[$dish_id] = 0;
+        $count[$dish_id] += 1;
+
         $ret[] = $dish;
     }
+
+    foreach($count as $item)
+        if($item > 5)
+            throw new \Exception("Too much ingredients.");
 
     $sum = 0;
     foreach($dishes as $did)

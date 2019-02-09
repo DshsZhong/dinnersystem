@@ -11,24 +11,44 @@ using Newtonsoft.Json.Linq;
 
 namespace FactoryClient
 {
-    class Request
+    public class Request
     {
         string cookieHeader;
+        public string uname = "";
         const string host = "http://localhost";
         public Request(string id, string pswd)
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&hash=" + create_hash(pswd);
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&hash=" + create_hash(id, pswd);
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Method = "GET";
             WebResponse wr = req.GetResponse();
             cookieHeader = wr.Headers["Set-cookie"];
+            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+            StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
+            string reponse = readStream.ReadToEnd();
+            JObject obj;
+            try { obj = JsonConvert.DeserializeObject<JObject>(reponse); }
+            catch (Exception e) { throw new Exception(reponse); }
+
+            bool has_update = false , has_select = false;
+            foreach (JToken item in obj["valid_oper"])
+            {
+                has_update |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"update_dish\"");
+                has_select |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_facto\"");
+            }
+            uname = obj["name"].ToString();
+            if (!has_update || !has_select) throw new Exception("Access denied");
         }
 
-        string create_hash(string password)
+        string create_hash(string id ,string password)
         {
             SHA512 sha = new SHA512CryptoServiceProvider();
             int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            string local_hashed = BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(json)));
+            JObject json = new JObject();
+            json["id"] = id;
+            json["password"] = password;
+            json["time"] = now.ToString();
+            string local_hashed = BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(json.ToString(Newtonsoft.Json.Formatting.None))));
             local_hashed = local_hashed.Replace("-", "").ToLower();
             return local_hashed;
         }
@@ -42,12 +62,21 @@ namespace FactoryClient
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
             JArray array = JsonConvert.DeserializeObject<JArray>(readStream.ReadToEnd());
-            return array;
+            JArray ret = new JArray();
+            foreach (JToken order in array)
+            {
+                bool alive = false;
+                foreach (JToken payment in order["money"]["payment"])
+                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafet\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
+                        (payment["name"].ToString(Formatting.None) == "\"payment\"" && payment["paid"].ToString(Formatting.None) == "\"true\"");
+                if (alive) ret.Add(order);
+            }
+            return ret;
         }
 
         public JArray Get_Dish()
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=show_dish";
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=show_dish&real_time=true";
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();
@@ -57,14 +86,6 @@ namespace FactoryClient
             return array;
         }
 
-        /* 
-         * id=1
-         * dish_name=asdfasdfere
-         * charge_sum=123
-         * is_vege=PURE 
-         * is_idle=false
-         * daily_limit=1000 
-         */
         public void Update_Dish(List<string> suffix)
         {
             List<Task> waiter = new List<Task>();
@@ -74,12 +95,10 @@ namespace FactoryClient
                 waiter.Add(Task.Run(() =>
                 {
                     HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
-                    req.Method = "GET";
+                    req.Headers.Add("Cookie", cookieHeader);
                     WebResponse wr = req.GetResponse();
-                    cookieHeader = wr.Headers["Set-cookie"];
                 }));
             }
-
             // Make this function synchorized.
             foreach (Task t in waiter) t.Wait();
         }

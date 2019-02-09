@@ -15,5 +15,15 @@ namespace FactoryClient
         {
             InitializeComponent();
         }
+
+        private void login_btn_Click(object sender, EventArgs e)
+        {
+            Request req;
+            try { req = new Request(id.Text, password.Text); }
+            catch (Exception ex) { MessageBox.Show(ex.Message); return; }
+            Form1 form = new Form1(req);
+            form.Show();
+            Hide();
+        }
     }
 }

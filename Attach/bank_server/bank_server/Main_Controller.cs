@@ -105,7 +105,9 @@ namespace bank_server
             string ret = "";
             if (json.operation == "read")
             {
-                int balance = reader.Get_Balance(json.uid.ToString());
+                int balance;
+                if (json.uid.ToString() == "-1") balance = 0;
+                else balance = reader.Get_Balance(json.uid.ToString());
                 row[0] = "讀取";
                 row[1] = json.uid.ToString();
                 row[2] = "-";
@@ -117,8 +119,10 @@ namespace bank_server
             }
             if (json.operation == "write")
             {
+                string result;
                 int before = reader.Get_Balance(json.uid.ToString());
-                string result = (Auth(json.auth.ToString()) && Write(json) ? "success" : "fail");  //Write will not be executed if Auth returns false
+                if (json.uid.ToString() == "-1") result = "fail";
+                else result = (Auth(json.auth.ToString()) && Write(json) ? "success" : "fail");  //Write will not be executed if Auth returns false
                 int after = reader.Get_Balance(json.uid.ToString());
                 row[0] = "寫入";
                 row[1] = json.uid.ToString();

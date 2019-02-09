@@ -49,7 +49,7 @@ function logout()
 
 function show_dish()
 {
-    return unserialize($_SESSION["dish"]);
+    return ($this->input["real_time"] == "true" ? \food\get_dish() : unserialize($_SESSION["dish"]));
 }
 
 function get_remaining()
