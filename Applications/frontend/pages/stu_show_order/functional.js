@@ -13,9 +13,16 @@ function payment() {
     var oid = $(this).parent().parent().attr('id');
     $(this).children("label").text("繳款中...");
     var password = prompt("請輸入你的繳款密碼(身分證字號後四碼)");
+    if(password == null) 
+    {
+        $(this).children("label").text("確認付款");
+        return;
+    }
+
     make_payment(oid, 'self', password, (result) => {
         if(result == "Punish not over") {
             show("嘗試次數過多");
+            $(this).children("label").text("確認付款");
         } else {
             try {
                 var json = $.parseJSON(result);

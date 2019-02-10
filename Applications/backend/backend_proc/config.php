@@ -17,12 +17,12 @@ function config()
         "login" => [
             "time" => "600",
             "tolerance" => "3",
-            "punish" => "600"
+            "punish" => "60"
         ],
         "payment" => [
             "time" => "600",
             "tolerance" => "3",
-            "punish" => "600"
+            "punish" => "60"
         ]
     ];
 }
