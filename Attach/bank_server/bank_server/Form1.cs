@@ -73,10 +73,9 @@ namespace bank_server
         {
             force_delay.Enabled = activate.Enabled = true;
             close.Enabled = db_account.Enabled = db_name.Enabled = false;
-            db_password.Enabled = allow_write.Enabled = false;
-            init_database.Enabled = money_table.Enabled = openMoneyTable.Enabled = false;
+            db_password.Enabled = init_database.Enabled = false;
             Database db = new Database(db_account.Text, db_name.Text, db_password.Text);
-            Writing w = (allow_write.Checked ? new Writing(db) : new Writing(money_table.Text));
+            Writing w = new Writing();
             Reading r = new Reading(db);
             controller = new Main_Controller(protocol_password.Text, Timestamp_Delay.Text, r, w, show_data, log_location.Text);
             Updater.Enabled = true;
@@ -94,16 +93,6 @@ namespace bank_server
             activate.Enabled = true;
             close.Enabled = false;
             controller.Stop();
-        }
-
-        private void allow_write_CheckedChanged(object sender, EventArgs e)
-        {
-            virtual_client.Enabled = !allow_write.Checked;
-        }
-
-        private void openMoneyTable_Click(object sender, EventArgs e)
-        {
-            money_table.Text = open_file();
         }
 
         int running_seconds = 0;

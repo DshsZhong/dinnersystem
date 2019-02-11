@@ -14,12 +14,13 @@ function debit($row ,$req_id)
         "timestamp" => strval(time())
     ]);
     $auth = hash("SHA512" ,$auth);
-
+    
     $fp = fsockopen($ip, $port);
     $msg = [
         "operation" => "write" ,
         "uid" => $bank,
         "charge" => $row->money->charge,
+        "fid" => reset($row->buffet)->dish->department->factory->pos_id,
         "auth" => $auth
     ];
     $msg = json_encode($msg);

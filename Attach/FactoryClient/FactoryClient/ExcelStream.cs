@@ -12,15 +12,17 @@ namespace FactoryClient
     class ExcelStream
     {
         Excel.Worksheet Sheet;
-        Excel.Workbook Book;
         public ExcelStream(string path)
         {
-            Book = initailExcel().Workbooks.Open(path);
-            Sheet = Book.Sheets[1];
+            Sheet = initailExcel().Workbooks.Open(path).Sheets[1];
         }
         ~ExcelStream()
         {
-            Close();
+            Process[] procs = Process.GetProcessesByName("excel");
+            foreach (Process pro in procs)
+            {
+                pro.Kill();//沒有更好的方法,只有殺掉進程
+            }
         }
 
         Excel.Application initailExcel()
@@ -47,16 +49,6 @@ namespace FactoryClient
             }
             _Excel.Visible = false;//設false效能會比較好
             return _Excel;
-        }
-
-        public void Close()
-        {
-            Book.Save();
-            Process[] procs = Process.GetProcessesByName("excel");
-            foreach (Process pro in procs)
-            {
-                pro.Kill();//沒有更好的方法,只有殺掉進程
-            }
         }
 
         public void Write(int x, int y, object value)

@@ -38,7 +38,6 @@ BEGIN
 	`daily_limit` = daily_limit
 	WHERE `dinnersys`.`dish`.`id` = id;
 END$$
-
 DELIMITER ;
 
-CALL update_dish(1 ,'閒置中的餐點' ,87 ,0 ,TRUE ,5487);
+CALL update_dish(1 ,'qwer' ,87 ,1 ,FALSE ,5487);

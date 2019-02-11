@@ -67,7 +67,7 @@ namespace FactoryClient
             {
                 bool alive = false;
                 foreach (JToken payment in order["money"]["payment"])
-                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafeteria\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
+                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafet\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
                         (payment["name"].ToString(Formatting.None) == "\"payment\"" && payment["paid"].ToString(Formatting.None) == "\"true\"");
                 if (alive) ret.Add(order);
             }

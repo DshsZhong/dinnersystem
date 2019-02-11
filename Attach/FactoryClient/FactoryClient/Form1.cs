@@ -11,7 +11,6 @@ using System.Globalization;
 
 namespace FactoryClient
 {
-    public delegate void UpdateProgress(int value);
     public partial class Form1 : Form
     {
         Request req;
@@ -28,11 +27,6 @@ namespace FactoryClient
             scale_end.Value = custom_end.Value = money_end.Value = today.AddDays(1);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
-        }
-
         #region open_file
         string OpenFile()
         {
@@ -45,148 +39,75 @@ namespace FactoryClient
             }
             return path;
         }
-        private void open_menu_Click(object sender, EventArgs e) { menu_file.Text = OpenFile(); }
-        private void open_scale_Click(object sender, EventArgs e) { scale_file.Text = OpenFile(); }
-        private void open_custom_Click(object sender, EventArgs e) { custom_file.Text = OpenFile(); }
+
+        private void open_menu_Click(object sender, EventArgs e)
+        {
+            menu_file.Text = OpenFile();
+        }
+
+        private void open_scale_Click(object sender, EventArgs e)
+        {
+            scale_file.Text = OpenFile();
+        }
+
+        private void open_custom_Click(object sender, EventArgs e)
+        {
+            custom_file.Text = OpenFile();
+        }
+
         private void open_money_Click(object sender, EventArgs e)
         {
             money_file.Text = OpenFile();
-            money = new Money_Report(req, new ExcelStream(money_file.Text));
         }
         #endregion
 
-        private void menu_Click(object sender, EventArgs e)
+        private void download_menu_Click(object sender, EventArgs e)
         {
-            void original()
-            {
-                Menu.Enabled = true;
-                Menu_Progress_Show.Text = "目前進度:0%";
-                Menu_Progress.Value = 0;
-            }
             Menu.Enabled = false;
             Task.Run(() =>
             {
-                try
-                {
-                    ExcelStream excel = new ExcelStream(menu_file.Text);
-                    Update_Menu menu_update = new Update_Menu(req, excel);
-                    UpdateProgress progress = new UpdateProgress((int value) =>
-                    {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            Menu_Progress.Value = value;
-                            Menu_Progress_Show.Text = "目前進度:" + value.ToString() + "%";
-                        }));
-                    });
-                    if (sender.Equals(download_menu)) menu_update.Download(progress);
-                    else menu_update.Upload(progress);
-                    excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show(sender.Equals(download_menu) ? "下載完成" : "上載完成");
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show(ex.Message);
-                    }));
-                }
+                Update_Menu menu_update = new Update_Menu(req, new ExcelStream(menu_file.Text));
+                menu_update.Download();
+                Invoke((MethodInvoker)(() => { Menu.Enabled = true; }));
+            });
+        }
+
+        private void upload_menu_Click(object sender, EventArgs e)
+        {
+            Menu.Enabled = false;
+            Task.Run(() =>
+            {
+                Update_Menu menu_update = new Update_Menu(req, new ExcelStream(menu_file.Text));
+                menu_update.Upload();
+                Invoke((MethodInvoker)(() => { Menu.Enabled = true; } ));
             });
         }
 
         private void download_scale_Click(object sender, EventArgs e)
         {
-            void original()
-            {
-                Scale.Enabled = true;
-                Scale_Progress_Show.Text = "目前進度:0%";
-                Scale_Progress.Value = 0;
-            }
+            Scale_Report scale = new Scale_Report(req, new ExcelStream(scale_file.Text));
             Scale.Enabled = false;
             Task.Run(() =>
             {
-                try
-                {
-                    ExcelStream excel = new ExcelStream(scale_file.Text);
-                    Scale_Report menu_update = new Scale_Report(req, excel);
-                    menu_update.Download(scale_start.Value.ToString("yyyy-MM-dd hh:mm:ss"),
-                        scale_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
-                        new UpdateProgress((int value) =>
-                        {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                Scale_Progress.Value = value;
-                                Scale_Progress_Show.Text = "目前進度:" + value.ToString() + "%";
-                            }));
-                        }));
-                    excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show("下載完成");
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show(ex.Message);
-                    }));
-                }
+                scale.Download(scale_start.Value.ToString("yyyy-MM-dd hh:mm:ss"), scale_end.Value.ToString("yyyy-MM-dd hh:mm:ss"));
+                Invoke((MethodInvoker)(() => { Scale.Enabled = true; }));
             });
         }
 
         private void download_custom_Click(object sender, EventArgs e)
         {
-            void original()
-            {
-                Custom.Enabled = true;
-                Custom_Progress_Show.Text = "目前進度:0%";
-                Custom_Progress.Value = 0;
-            }
+            Custom_Report custom = new Custom_Report(req, new ExcelStream(custom_file.Text));
             Custom.Enabled = false;
             Task.Run(() =>
             {
-                try
-                {
-                    ExcelStream excel = new ExcelStream(scale_file.Text);
-                    Custom_Report custom_update = new Custom_Report(req, excel);
-                    custom_update.Download(custom_start.Value.ToString("yyyy-MM-dd hh:mm:ss"),
-                        custom_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
-                        new UpdateProgress((int value) =>
-                        {
-                            Invoke((MethodInvoker)(() =>
-                            {
-                                Custom_Progress.Value = value;
-                                Custom_Progress_Show.Text = "目前進度:" + value.ToString() + "%";
-                            }));
-                        }));
-                    excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show("下載完成");
-                    }));
-                }
-                catch (Exception ex)
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show(ex.Message);
-                    }));
-                }
+                custom.Download(custom_start.Value.ToString("yyyy-MM-dd hh:mm:ss"), custom_end.Value.ToString("yyyy-MM-dd hh:mm:ss"));
+                Invoke((MethodInvoker)(() => { Custom.Enabled = true; }));
             });
         }
 
-        Money_Report money;
         private void download_money_Click(object sender, EventArgs e)
         {
+            Money_Report money = new Money_Report(req, new ExcelStream(money_file.Text));
             Money.Enabled = false;
             Task.Run(() =>
             {

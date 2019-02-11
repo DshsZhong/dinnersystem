@@ -51,13 +51,8 @@
             this.db_name = new System.Windows.Forms.TextBox();
             this.init_database = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.virtual_client = new System.Windows.Forms.GroupBox();
             this.force_delay = new System.Windows.Forms.TrackBar();
             this.force_delay_label = new System.Windows.Forms.Label();
-            this.money_table = new System.Windows.Forms.TextBox();
-            this.openMoneyTable = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.allow_write = new System.Windows.Forms.CheckBox();
             this.db_password = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.db_account = new System.Windows.Forms.TextBox();
@@ -67,7 +62,6 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.virtual_client.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.force_delay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -285,8 +279,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.virtual_client);
-            this.groupBox3.Controls.Add(this.allow_write);
+            this.groupBox3.Controls.Add(this.force_delay);
+            this.groupBox3.Controls.Add(this.force_delay_label);
             this.groupBox3.Controls.Add(this.db_password);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.db_account);
@@ -301,25 +295,11 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "連結資訊";
             // 
-            // virtual_client
-            // 
-            this.virtual_client.Controls.Add(this.force_delay);
-            this.virtual_client.Controls.Add(this.force_delay_label);
-            this.virtual_client.Controls.Add(this.money_table);
-            this.virtual_client.Controls.Add(this.openMoneyTable);
-            this.virtual_client.Controls.Add(this.label10);
-            this.virtual_client.Location = new System.Drawing.Point(456, 49);
-            this.virtual_client.Name = "virtual_client";
-            this.virtual_client.Size = new System.Drawing.Size(296, 103);
-            this.virtual_client.TabIndex = 11;
-            this.virtual_client.TabStop = false;
-            this.virtual_client.Text = "虛擬客戶端";
-            // 
             // force_delay
             // 
             this.force_delay.Enabled = false;
             this.force_delay.LargeChange = 1;
-            this.force_delay.Location = new System.Drawing.Point(104, 52);
+            this.force_delay.Location = new System.Drawing.Point(527, 62);
             this.force_delay.Maximum = 1000;
             this.force_delay.Name = "force_delay";
             this.force_delay.Size = new System.Drawing.Size(186, 45);
@@ -330,49 +310,11 @@
             // force_delay_label
             // 
             this.force_delay_label.AutoSize = true;
-            this.force_delay_label.Location = new System.Drawing.Point(6, 70);
+            this.force_delay_label.Location = new System.Drawing.Point(429, 80);
             this.force_delay_label.Name = "force_delay_label";
             this.force_delay_label.Size = new System.Drawing.Size(104, 12);
             this.force_delay_label.TabIndex = 20;
             this.force_delay_label.Text = "強制延遲(1000ms): ";
-            // 
-            // money_table
-            // 
-            this.money_table.Location = new System.Drawing.Point(59, 23);
-            this.money_table.Name = "money_table";
-            this.money_table.Size = new System.Drawing.Size(153, 22);
-            this.money_table.TabIndex = 12;
-            this.money_table.Text = "D:\\dinnersysetm\\bank_server\\money_table.xlsx";
-            // 
-            // openMoneyTable
-            // 
-            this.openMoneyTable.Location = new System.Drawing.Point(218, 23);
-            this.openMoneyTable.Name = "openMoneyTable";
-            this.openMoneyTable.Size = new System.Drawing.Size(72, 23);
-            this.openMoneyTable.TabIndex = 18;
-            this.openMoneyTable.Text = "開啟";
-            this.openMoneyTable.UseVisualStyleBackColor = true;
-            this.openMoneyTable.Click += new System.EventHandler(this.openMoneyTable_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 28);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(47, 12);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "金額表: ";
-            // 
-            // allow_write
-            // 
-            this.allow_write.AutoSize = true;
-            this.allow_write.Location = new System.Drawing.Point(560, 21);
-            this.allow_write.Name = "allow_write";
-            this.allow_write.Size = new System.Drawing.Size(108, 16);
-            this.allow_write.TabIndex = 14;
-            this.allow_write.Text = "允許寫入資料庫";
-            this.allow_write.UseVisualStyleBackColor = true;
-            this.allow_write.CheckedChanged += new System.EventHandler(this.allow_write_CheckedChanged);
             // 
             // db_password
             // 
@@ -430,8 +372,6 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.virtual_client.ResumeLayout(false);
-            this.virtual_client.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.force_delay)).EndInit();
             this.ResumeLayout(false);
 
@@ -462,12 +402,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox db_account;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox allow_write;
         private System.Windows.Forms.Button openLog;
-        private System.Windows.Forms.GroupBox virtual_client;
-        private System.Windows.Forms.TextBox money_table;
-        private System.Windows.Forms.Button openMoneyTable;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer Updater;
         private System.Windows.Forms.Label force_delay_label;
         private System.Windows.Forms.TextBox Timestamp_Delay;

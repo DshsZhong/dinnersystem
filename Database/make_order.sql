@@ -12,6 +12,7 @@ proce: BEGIN
 	DECLARE oid INT;
 	DECLARE daily_limit INT;
 	DECLARE orders INT;
+	DECLARE insert_order VARCHAR(1024);
 	
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -21,14 +22,7 @@ proce: BEGIN
 
 	START TRANSACTION;
 
-	SET @cmd = concat("SET @output = (SELECT SUM(D.charge) FROM dish AS D WHERE D.id IN" ,dishes ,");");
-    PREPARE stmt FROM @cmd;
-    EXECUTE stmt;
-	SET dcharge = @output;
-
-    INSERT INTO `dinnersys`.`money_info` (`money_sum`)
-	VALUES (dcharge);
-    
+    INSERT INTO `dinnersys`.`money_info` (`money_sum`) VALUES (-1);		/* temporary set a number */
     SET money_id = (SELECT MAX(id) FROM money_info);
     
 	INSERT INTO `dinnersys`.`payment`
@@ -80,16 +74,27 @@ proce: BEGIN
     );
 	SELECT MAX(O.id) FROM dinnersys.orders AS O INTO @oid;
 
+	SET insert_order = REPLACE(dishes ,')' ,',@oid)');
+	SET insert_order = REPLACE(insert_order ,',' ,',@oid),(');
+	SET insert_order = REPLACE(insert_order ,',(@oid)' ,'');
+	SET @cmd = concat('INSERT INTO `dinnersys`.`buffet` (`dish`,`order`) VALUES ',insert_order ,';');
+    PREPARE stmt FROM @cmd;
+    EXECUTE stmt;
+
+	UPDATE money_info 
+	SET money_sum = 
+	(
+		SELECT SUM(D.charge)
+		FROM dish AS D ,buffet AS B ,orders AS O 
+		WHERE O.id = @oid AND B.dish = D.id AND B.order = O.id
+	)
+	WHERE id = money_id;
 
 	/*-------------------------------------------------------------------------------------------------------*/
 	/* To avoid race conditions ,I used some business logic here.
 	 * Whenever it fails ,the procedure rollbacks everything it has done.
 	 * In php ,we can't ensure everything is serialized ,so we put the codes here.
 	 * In this sql transacation ,everything is serialized. */
-	SET @cmd = concat('INSERT INTO `dinnersys`.`buffet` (`dish`,`order`) SELECT D.id ,@oid FROM dish AS D WHERE D.id IN' ,dishes ,';');
-    PREPARE stmt FROM @cmd;
-    EXECUTE stmt;
-
 	SET @cmd = concat("SET @maxi = (SELECT MAX(count) FROM 
         (
             SELECT IF(D.daily_limit < 0 ,0 ,D.daily_limit - COUNT(O.id)) AS count
@@ -110,12 +115,13 @@ proce: BEGIN
     END IF;
 	
 	/* Must ensure this statement won't scan the older part of dinnersys.
-	 * It would cause the user can unlimited order if it scans the older part of database. */
+	 * It would cause the user can unlimitly order if it scans the older part of database. */
 	SELECT COUNT(O.id)
 	FROM orders AS O ,logistics_info AS LO ,money_info AS MI ,payment AS P
 	WHERE O.logistics_id = LO.id AND O.user_id = usr_id
 	AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(esti_recv) ,'-00:00:00') AND CONCAT(DATE(esti_recv) ,'-23:59:59')
 	AND O.money_id = MI.id AND P.money_info = MI.id AND P.paid = FALSE AND P.tag = "payment"
+	AND O.disabled = FALSE
 	INTO orders;
 
 	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;

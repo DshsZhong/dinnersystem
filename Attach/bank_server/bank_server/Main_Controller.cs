@@ -84,10 +84,11 @@ namespace bank_server
         bool Write(dynamic json)
         {
             string uid = json.uid.ToString();
+            string fid = json.fid.ToString();
             int charge = Int32.Parse(json.charge.ToString());
             int money = reader.Get_Balance(uid);
             if (money < charge) return false;                              // The check before write in.
-            writer.Write(uid, charge);                                     // Write in.
+            writer.Write(uid, fid ,charge);                                // Write in.
             return alive = (reader.Get_Balance(uid) == (money - charge));  // The check after write in.
         }
 
