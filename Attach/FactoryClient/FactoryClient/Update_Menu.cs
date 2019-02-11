@@ -18,14 +18,17 @@ namespace FactoryClient
             this.excel = excel;
         }
 
-        public void Download()
+        public void Download(UpdateProgress invoker)
         {
-            JArray data = req.Get_Dish();
-            int counter = 2;
+            JArray data = req.Get_Dish() ,real = new JArray();
             foreach (JToken item in data)
-            {
-                if (item["department"]["factory"]["name"].ToString() != req.uname) continue;
+                if (item["department"]["factory"]["name"].ToString() == req.uname)
+                    real.Add(item);
 
+            int sum = real.Count;
+            int counter = 2;
+            foreach (JToken item in real)
+            {
                 int id = Int32.Parse(item["dish_id"].ToString());
                 string dname = item["dish_name"].ToString();
                 string charge = item["dish_cost"].ToString();
@@ -45,7 +48,9 @@ namespace FactoryClient
                 excel.Write(counter, 7, department);
                 excel.Write(counter, 8, factory);
                 excel.Write(counter, 9, DateTime.Now.ToString("yyyy/MM/dd-HH:mm:ss"));
+
                 counter += 1;
+                invoker((int)Math.Ceiling(((double)(counter - 2)) / sum * 100));
             }
         }
 
@@ -57,10 +62,13 @@ namespace FactoryClient
          * is_idle=false
          * daily_limit=1000 
          */
-        public void Upload()
+        public void Upload(UpdateProgress invoker)
         {
             List<string> suffix = new List<string>();
             List<List<string>> data = excel.GetRow();
+            int sum = data.Count;
+            int count = 1;
+
             foreach (List<string> row in data)
             {
                 string id = row[0];
@@ -72,6 +80,9 @@ namespace FactoryClient
                 string idle = (row[4] == "是" ? "true" : "false");
                 string limit = row[5];
                 suffix.Add("&id=" + id + "&dish_name=" + dname + "&charge_sum=" + charge + "&is_vege=" + vege + "&is_idle=" + idle + "&daily_limit=" + limit);
+
+                count += 1;
+                invoker((int)Math.Ceiling((double)count / sum * 100));
             }
             req.Update_Dish(suffix);
         }

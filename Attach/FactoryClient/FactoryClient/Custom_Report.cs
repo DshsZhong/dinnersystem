@@ -17,7 +17,7 @@ namespace FactoryClient
             this.excel = excel;
         }
 
-        public void Download(string l, string r)
+        public void Download(string l, string r ,UpdateProgress invoker)
         {
             JArray data = req.Get_Order(l.Replace("-", "/").Replace(" ", "-"), r.Replace("-", "/").Replace(" ", "-"));
             JArray dish_respond = req.Get_Dish();
@@ -48,7 +48,9 @@ namespace FactoryClient
                     if (dish["is_idle"].ToString(Newtonsoft.Json.Formatting.None) == "\"1\"") continue;
                     excel.Write(counter, did_to_cordinate[dish["dish_id"].ToObject<int>()], sum[dish["dish_id"].ToObject<int>()]);
                 }
+
                 counter += 1;
+                invoker((int)Math.Ceiling((double)(counter - 2) / data.Count * 100));
             }
         }
     }

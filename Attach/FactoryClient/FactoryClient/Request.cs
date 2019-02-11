@@ -15,7 +15,7 @@ namespace FactoryClient
     {
         string cookieHeader;
         public string uname = "";
-        const string host = "http://localhost";
+        const string host = "http://dinnersystem.ddns.net";
         public Request(string id, string pswd)
         {
             string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&hash=" + create_hash(id, pswd);
@@ -67,7 +67,7 @@ namespace FactoryClient
             {
                 bool alive = false;
                 foreach (JToken payment in order["money"]["payment"])
-                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafet\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
+                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafeteria\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
                         (payment["name"].ToString(Formatting.None) == "\"payment\"" && payment["paid"].ToString(Formatting.None) == "\"true\"");
                 if (alive) ret.Add(order);
             }
