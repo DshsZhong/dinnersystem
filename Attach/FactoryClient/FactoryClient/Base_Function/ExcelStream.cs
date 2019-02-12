@@ -12,17 +12,15 @@ namespace FactoryClient
     class ExcelStream
     {
         Excel.Worksheet Sheet;
+        Excel.Workbook Book;
         public ExcelStream(string path)
         {
-            Sheet = initailExcel().Workbooks.Open(path).Sheets[1];
+            Book = initailExcel().Workbooks.Open(path);
+            Sheet = Book.Sheets[1];
         }
         ~ExcelStream()
         {
-            Process[] procs = Process.GetProcessesByName("excel");
-            foreach (Process pro in procs)
-            {
-                pro.Kill();//沒有更好的方法,只有殺掉進程
-            }
+            Close();
         }
 
         Excel.Application initailExcel()
@@ -51,6 +49,16 @@ namespace FactoryClient
             return _Excel;
         }
 
+        public void Close()
+        {
+            Book.Save();
+            Process[] procs = Process.GetProcessesByName("excel");
+            foreach (Process pro in procs)
+            {
+                pro.Kill();//沒有更好的方法,只有殺掉進程
+            }
+        }
+
         public void Write(int x, int y, object value)
         {
             Sheet.Cells[x, y] = value;
@@ -58,6 +66,7 @@ namespace FactoryClient
 
         public void PageBreak(int rows)
         {
+            if (rows == 1) return;
             Sheet.HPageBreaks.Add(Sheet.Range["A" + rows.ToString()]);
         }
 

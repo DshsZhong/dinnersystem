@@ -17,7 +17,7 @@ namespace FactoryClient
             this.excel = excel;
         }
 
-        public void Download(string l, string r)
+        public void Download(string l, string r ,UpdateProgress invoker)
         {
             JArray data = req.Get_Order(l.Replace("-", "/").Replace(" ", "-"), r.Replace("-", "/").Replace(" ", "-"));
             Dictionary<int, string> dish = new Dictionary<int, string>();
@@ -34,8 +34,8 @@ namespace FactoryClient
             }
             Dictionary<string, int[]> processed = preprocess(data);
 
-            int row, col, i, j;
-            row = col = i = j = 1;
+            int row, col, i, j ,counter;
+            counter = row = col = i = j = 1;
             foreach (KeyValuePair<string, int[]> tag in processed)
             {
                 row = i;
@@ -66,6 +66,9 @@ namespace FactoryClient
                     col = 1;
                     j = 1;
                 }
+
+                invoker((int)Math.Ceiling((double)counter / processed.Keys.Count * 100));
+                counter += 1;
             }
         }
 

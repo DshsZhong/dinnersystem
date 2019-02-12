@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -67,7 +67,7 @@ namespace FactoryClient
             {
                 bool alive = false;
                 foreach (JToken payment in order["money"]["payment"])
-                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafet\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
+                    alive |= (payment["name"].ToString(Formatting.None) == "\"cafeteria\"" && payment["paid"].ToString(Formatting.None) == "\"true\"") ||
                         (payment["name"].ToString(Formatting.None) == "\"payment\"" && payment["paid"].ToString(Formatting.None) == "\"true\"");
                 if (alive) ret.Add(order);
             }
@@ -86,21 +86,38 @@ namespace FactoryClient
             return array;
         }
 
-        public void Update_Dish(List<string> suffix)
+        public void Update_Dish(List<string> suffix ,UpdateProgress invoker)
         {
-            List<Task> waiter = new List<Task>();
+            int count = 0;
             foreach(string tmp in suffix)
             {
                 string url = host + "/dinnersys_beta/backend/backend.php?cmd=update_dish" + tmp;
-                waiter.Add(Task.Run(() =>
+                Task.Run(() =>
                 {
                     HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
                     req.Headers.Add("Cookie", cookieHeader);
                     WebResponse wr = req.GetResponse();
-                }));
+                    count += 1;
+                    invoker((int)Math.Ceiling((double)count / suffix.Count * 100));
+                });
             }
-            // Make this function synchorized.
-            foreach (Task t in waiter) t.Wait();
+            while (count != suffix.Count) Thread.Sleep(100);
+            return;
+        }
+
+        public List<int> Get_Version()
+        {
+            string url = host + "/dinnersys_beta/frontend/u_move_u_dead/version.txt";
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.Headers.Add("Cookie", cookieHeader);
+            WebResponse wr = req.GetResponse();
+            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+            StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
+            JObject array = JsonConvert.DeserializeObject<JObject>(readStream.ReadToEnd());
+            List<int> version = new List<int>();
+            foreach (JToken v in array["factory"])
+                version.Add(v.ToObject<int>());
+            return version;
         }
     }
 }
