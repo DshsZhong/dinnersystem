@@ -1,0 +1,14 @@
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Release\FactoryClient.exe.config
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Release\FactoryClient.exe
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Release\FactoryClient.pdb
+D:\dinnersysetm\FactoryClient\FactoryClient\bin\Release\Newtonsoft.Json.dll
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\Interop.IWshRuntimeLibrary.dll
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.ResolveComReference.cache
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.Form1.resources
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.Login.resources
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.Properties.Resources.resources
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.GenerateResource.cache
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.CoreCompileInputs.cache
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.CopyComplete
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.exe
+D:\dinnersysetm\FactoryClient\FactoryClient\obj\Release\FactoryClient.pdb

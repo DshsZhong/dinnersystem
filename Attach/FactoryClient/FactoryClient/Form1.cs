@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.Reflection;
 
 namespace FactoryClient
 {
@@ -15,11 +16,31 @@ namespace FactoryClient
     public partial class Form1 : Form
     {
         Request req;
+        Update_Program updater;
         public Form1(Request req)
         {
             InitializeComponent();
+            this.FormClosing += Form_Closing;
+
             this.req = req;
             user.Text = "現在廠商為: " + req.uname;
+            updater = new Update_Program(req);
+            if (updater.Updatable)
+            {
+                MessageBox.Show("請更新前端");
+                foreach (Control control in Controls)
+                {
+                    if (control == Other) continue;
+                    PropertyInfo prop = control.GetType().GetProperty("Enabled");
+                    if (prop != null) prop.SetValue(control, false);
+                }
+            }
+            else update.Enabled = false;
+        }
+
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -31,11 +52,6 @@ namespace FactoryClient
             scale_file.Text = AppDomain.CurrentDomain.BaseDirectory + "規模化報表.xlsx";
             custom_file.Text = AppDomain.CurrentDomain.BaseDirectory + "精緻化報表.xlsx";
             money_file.Text = AppDomain.CurrentDomain.BaseDirectory + "金額報表.xlsx";
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         #region open_file
@@ -242,17 +258,16 @@ namespace FactoryClient
             update.Enabled = false;
             Task.Run(() =>
             {
-                Update_Program updater = new Update_Program(req, (int value) =>
-                {
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        Update_Progress_Show.Text = "目前進度:" + value.ToString() + "%";
-                        Update_Progress.Value = value;
-                    }));
-                });
                 if (updater.Updatable)
                 {
-                    updater.Update();
+                    updater.Update((int value) =>
+                    {
+                        Invoke((MethodInvoker)(() =>
+                        {
+                            Update_Progress_Show.Text = "目前進度:" + value.ToString() + "%";
+                            Update_Progress.Value = value;
+                        }));
+                    });
                     Invoke((MethodInvoker)(() => original()));
                     MessageBox.Show("成功更新，重新啟動前端");
                     updater.Finish();
