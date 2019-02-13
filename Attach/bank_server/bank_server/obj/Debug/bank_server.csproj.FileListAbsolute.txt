@@ -12,3 +12,17 @@ D:\dinnersysetm\bank_server\bank_server\bin\Debug\Newtonsoft.Json.pdb
 D:\dinnersysetm\bank_server\bank_server\bin\Debug\Newtonsoft.Json.xml
 D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csproj.CopyComplete
 D:\dinnersysetm\bank_server\bank_server\obj\Debug\bank_server.csprojAssemblyReference.cache
+D:\bank_server\bank_server\bin\Debug\bank_server.exe.config
+D:\bank_server\bank_server\bin\Debug\bank_server.exe
+D:\bank_server\bank_server\bin\Debug\bank_server.pdb
+D:\bank_server\bank_server\bin\Debug\Newtonsoft.Json.dll
+D:\bank_server\bank_server\bin\Debug\Newtonsoft.Json.pdb
+D:\bank_server\bank_server\bin\Debug\Newtonsoft.Json.xml
+D:\bank_server\bank_server\obj\Debug\bank_server.csprojAssemblyReference.cache
+D:\bank_server\bank_server\obj\Debug\bank_server.Form1.resources
+D:\bank_server\bank_server\obj\Debug\bank_server.Properties.Resources.resources
+D:\bank_server\bank_server\obj\Debug\bank_server.csproj.GenerateResource.cache
+D:\bank_server\bank_server\obj\Debug\bank_server.csproj.CoreCompileInputs.cache
+D:\bank_server\bank_server\obj\Debug\bank_server.csproj.CopyComplete
+D:\bank_server\bank_server\obj\Debug\bank_server.exe
+D:\bank_server\bank_server\obj\Debug\bank_server.pdb

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Media;
+using System.Diagnostics;
 
 namespace bank_server
 {
@@ -18,8 +19,8 @@ namespace bank_server
         Main_Controller controller;
         public Form1()
         {
-            CheckForIllegalCrossThreadCalls = true;
             InitializeComponent();
+            this.FormClosing += Form1_FormClosing;
             DataTable table = new DataTable();
             table.Columns.Add(new DataColumn("行為"));
             table.Columns.Add(new DataColumn("POS帳號"));
@@ -27,6 +28,11 @@ namespace bank_server
             table.Columns.Add(new DataColumn("時間"));
             table.Columns.Add(new DataColumn("回傳值"));
             show_data.DataSource = table;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Process.GetCurrentProcess().Kill();
         }
 
         string open_file()
