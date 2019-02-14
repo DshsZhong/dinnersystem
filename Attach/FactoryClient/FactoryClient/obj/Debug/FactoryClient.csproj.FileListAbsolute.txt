@@ -41,3 +41,4 @@ D:\FactoryClient\FactoryClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
 D:\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReference.cache
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReference.cache
+D:\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Analysis.resources

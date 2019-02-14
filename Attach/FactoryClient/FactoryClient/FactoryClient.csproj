@@ -80,6 +80,13 @@
     <Compile Include="Analysis.Designer.cs">
       <DependentUpon>Analysis.cs</DependentUpon>
     </Compile>
+    <Compile Include="Analysis_Function\Classify.cs" />
+    <Compile Include="Analysis_Function\Export_Model.cs" />
+    <Compile Include="Analysis_Function\Logistic.cs" />
+    <Compile Include="Analysis_Function\Markov.cs" />
+    <Compile Include="Analysis_Function\Model.cs" />
+    <Compile Include="Analysis_Function\Ternary.cs" />
+    <Compile Include="Analysis_Function\Thread_Pool.cs" />
     <Compile Include="Normal_Function\Custom_Report.cs" />
     <Compile Include="Base_Function\ExcelStream.cs" />
     <Compile Include="Form1.cs">
@@ -155,8 +162,6 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Analysis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

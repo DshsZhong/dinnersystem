@@ -244,7 +244,12 @@ namespace FactoryClient
             });
         }
 
-        private void analysiser_Click(object sender, EventArgs e) { MessageBox.Show("敬請期待新功能"); }
+        private void analysiser_Click(object sender, EventArgs e)
+        {
+            Analysis form = new Analysis(req);
+            form.Show();
+            Hide();
+        }
 
         private void update_Click(object sender, EventArgs e)
         {
