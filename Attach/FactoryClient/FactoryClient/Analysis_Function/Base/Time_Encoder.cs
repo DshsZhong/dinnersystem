@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FactoryClient.Analysis_Function
 {
-    class Logistic
+    class Time_Encoder
     {
+
     }
 }

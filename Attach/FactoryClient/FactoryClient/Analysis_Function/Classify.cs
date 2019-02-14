@@ -19,7 +19,7 @@ namespace FactoryClient.Analysis_Function
             grade = new List<Tuple<string, int>>(),
             week = new List<Tuple<string, int>>(),
             month = new List<Tuple<string, int>>();
-        
+
         bool Done_Build = false;
 
         public Classify(JArray data)
@@ -84,7 +84,7 @@ namespace FactoryClient.Analysis_Function
             });
         }
 
-        public List<Tuple<string, int>> Get_Classify(Style style)
+        public IEnumerable<Tuple<string, int>> Get_Classify(Style style, string user_tag = null)
         {
             while (!Done_Build) Thread.Sleep(100);
             switch (style)
@@ -94,7 +94,10 @@ namespace FactoryClient.Analysis_Function
                 case Style.week:
                     return week;
                 case Style.user_class:
-                    return user_class;
+                    return from item in user_class
+                           where (user_tag == "其他" ? item.Item1 : item.Item1.Substring(0, 1)) == user_tag
+                           orderby item.Item1
+                           select item;
                 case Style.month:
                     return month;
                 default:

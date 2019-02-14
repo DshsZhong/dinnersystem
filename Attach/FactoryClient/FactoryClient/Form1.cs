@@ -247,8 +247,8 @@ namespace FactoryClient
         private void analysiser_Click(object sender, EventArgs e)
         {
             Analysis form = new Analysis(req);
-            form.Show();
-            Hide();
+            form.ShowDialog();
+            Show();
         }
 
         private void update_Click(object sender, EventArgs e)
