@@ -44,7 +44,7 @@ namespace FactoryClient.Analysis_Function
             logstic_data = new BitArray(list.ToArray());
         }
 
-        public Tuple<bool[] ,bool>[] get_logistic(int offset = 7) 
+        public Tuple<bool[] ,bool>[] get_logistic(int offset) 
         {
             Tuple<bool[], bool>[] ret = new Tuple<bool[], bool>[logstic_data.Length - offset];
             for(int i = 0;i != ret.Length;i++)

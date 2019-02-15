@@ -15,7 +15,7 @@ namespace FactoryClient.Analysis_Function
 
         public Markov(Matrix<float> data)
         {
-            data = Matrix.Build.Dense(size, size);
+            this.data = data;
             Vector<float> sum = this.data.RowSums();
             for (int i = 0; i != this.data.RowCount; i++)
                 for (int j = 0; j != this.data.ColumnCount; j++)
