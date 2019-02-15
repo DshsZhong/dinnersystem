@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,27 @@ namespace FactoryClient.Analysis_Function
 {
     class Dish_Encoder
     {
+        Dictionary<string, int> id = new Dictionary<string, int>();
+        Dictionary<int, string> name = new Dictionary<int, string>();
 
+        public Dish_Encoder(JArray orders)
+        {
+            foreach (JToken tmp in orders)
+                foreach (JToken item in tmp["dish"])
+                {
+                    string dname = concat_name(item["dish_name"].ToString() ,item["dish_cost"].ToString());
+                    int new_id = id.Count + 1; // The id start from 1
+                    if (!id.ContainsKey(dname))
+                    {
+                        id[dname] = new_id;
+                        name[new_id] = dname;
+                    }
+                }
+        }
+
+        public string get_name(int did) { return name[did]; }
+        public int get_id(string dname) { return id[dname]; }
+        public int get_size() { return id.Keys.Count; }
+        public string concat_name(string dname, string charge) { return dname + "(" + charge + "$.)"; }
     }
 }

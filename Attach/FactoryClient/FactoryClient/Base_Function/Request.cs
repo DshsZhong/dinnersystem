@@ -53,9 +53,10 @@ namespace FactoryClient
             return local_hashed;
         }
 
-        public JArray Get_Order(string lower_bound ,string upper_bound)
+        public JArray Get_Order(string lower_bound ,string upper_bound ,bool history = false)
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=select_facto&esti_start=" + lower_bound + "&esti_end=" + upper_bound;
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=select_facto" + 
+                "&esti_start=" + lower_bound + "&esti_end=" + upper_bound + (history ? "&history=true" : "");
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();
