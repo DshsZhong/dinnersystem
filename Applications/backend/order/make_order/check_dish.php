@@ -19,6 +19,7 @@ function check_dish($dishes)
         $dish_id = check_valid::white_list($dish_id ,check_valid::$only_number);
         $dish = $dish_table[$dish_id];
         if($dish == null) throw new \Exception("Invalid dish id.");
+        if($dish->is_idle) throw new \Exception("The dish is in idle.");
 
         if($fid == null) 
             $fid = $dish->department->factory->id;

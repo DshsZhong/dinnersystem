@@ -7,9 +7,8 @@ use function \food\get_dish_string;
 
 function make_order($target_id ,$dishes ,$esti_recv ,$type)
 {
-    $supreme = ($type == "everyone");
     $dishes = check_dish($dishes);
-    check_time($dishes ,$esti_recv ,$supreme);  
+    check_time($dishes ,$esti_recv);  
     $uid = get_user_id($target_id ,$type);
     $self_id = unserialize($_SESSION['me'])->id;
 

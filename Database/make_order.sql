@@ -32,7 +32,7 @@ proce: BEGIN
 	(
 		FALSE, money_id, FALSE,
 		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-23:59:59'), NULL, 'payment'
+		CONCAT(DATE(esti_recv) ,'-10:30:00'), NULL, 'payment'
     );
     
     INSERT INTO `dinnersys`.`logistics_info` (`esti_recv_datetime`)

@@ -28,9 +28,7 @@ class operation
             'show_dish' => 'show_dish',
             'update_dish' => 'update_dish',
             'select_other' => 'show_order',
-            'make_everyone_order' => 'make_order',
-            'delete_everyone' => 'delete_order',
-            'payment_everyone' => 'set_payment'
+            'delete_everyone' => 'delete_order'
         ],
         'factory' => [
             'change_password' => 'change_password',
@@ -42,9 +40,7 @@ class operation
             'change_password' => 'change_password',
             'update_dish' => 'update_dish',
             'select_other' => 'show_order' ,
-            'make_everyone_order' => 'make_order',
             'delete_everyone' => 'delete_order',
-            'payment_everyone' => 'set_payment'
         ]
     ];
 

@@ -3,7 +3,7 @@ namespace order\money_info;
 
 use \other\check_valid;
 
-function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target ,$check = true)
+function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
 {
     $ord_id = check_valid::white_list($ord_id ,check_valid::$only_number);
     $result = \order\select_order\select_order(['oid' => $ord_id]);
@@ -11,8 +11,7 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target ,$check = tru
     $row = reset($result);
     if($row === null) 
         throw new \Exception("Can't find order.");
-    if($check)
-        payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
+    payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
     
     $money = intval(\bank\get_money());
     if($money < $row->money->charge)

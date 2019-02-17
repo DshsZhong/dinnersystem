@@ -12,7 +12,7 @@ function del_order() {
 function payment() {
     var oid = $(this).parent().parent().attr('id');
     $(this).children("label").text("繳款中...");
-    var password = prompt("請輸入你的繳款密碼(身分證字號後四碼)");
+    var password = prompt("請輸入你的驗證碼(預設身分證字號後四碼)");
     if(password == null) 
     {
         $(this).children("label").text("確認付款");
