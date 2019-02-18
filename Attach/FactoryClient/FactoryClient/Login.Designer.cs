@@ -44,7 +44,6 @@
             this.id.Name = "id";
             this.id.Size = new System.Drawing.Size(173, 22);
             this.id.TabIndex = 0;
-            this.id.Text = "033";
             // 
             // password
             // 
@@ -54,7 +53,6 @@
             this.password.Name = "password";
             this.password.Size = new System.Drawing.Size(173, 22);
             this.password.TabIndex = 1;
-            this.password.Text = "qazwsx033";
             // 
             // login_btn
             // 

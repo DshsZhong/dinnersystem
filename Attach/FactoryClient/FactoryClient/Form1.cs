@@ -130,9 +130,9 @@ namespace FactoryClient
                 try
                 {
                     ExcelStream excel = new ExcelStream(scale_file.Text);
-                    Scale_Report menu_update = new Scale_Report(req, excel);
-                    menu_update.Download(scale_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
-                        scale_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                    Scale_Report scale = new Scale_Report(req, excel);
+                    scale.Download(scale_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                        scale_end.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         new UpdateProgress((int value) =>
                         {
                             Invoke((MethodInvoker)(() =>
@@ -175,7 +175,7 @@ namespace FactoryClient
                     ExcelStream excel = new ExcelStream(custom_file.Text);
                     Custom_Report custom_update = new Custom_Report(req, excel);
                     custom_update.Download(custom_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
-                        custom_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                        custom_end.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         new UpdateProgress((int value) =>
                         {
                             Invoke((MethodInvoker)(() =>
