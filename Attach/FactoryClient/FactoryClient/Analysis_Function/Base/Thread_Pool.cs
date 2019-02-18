@@ -13,14 +13,21 @@ namespace FactoryClient.Analysis_Function
     {
         Queue<Function> queue;
         bool dispose = false;
+
+        public bool Done = false;
         public Thread_Pool(int threads)
         {
             queue = new Queue<Function>();
-            while (threads-- != 0) Task.Run(() => Run());
+            while (threads-- != 0)
+                new Thread(new ThreadStart(Run)).Start();
         } 
         ~Thread_Pool() { dispose = true; }
 
-        public void Entask(Function task) { queue.Enqueue(task); }
+        public void Entask(Function task)
+        {
+            queue.Enqueue(task);
+            Done = false;
+        }
         public void Stop() { dispose = true; }
         public int TaskLeft() { return queue.Count; }
 
@@ -28,9 +35,14 @@ namespace FactoryClient.Analysis_Function
         {
             while (!dispose)
             {
-                while (queue.Count == 0) Thread.Sleep(100);
-                Function f = queue.Dequeue();
+                Function f;
+                lock (queue)
+                {
+                    while (queue.Count == 0) Thread.Sleep(100);
+                    f = queue.Dequeue();
+                }
                 f();
+                if (queue.Count == 0) Done = true;
             }
         }
 

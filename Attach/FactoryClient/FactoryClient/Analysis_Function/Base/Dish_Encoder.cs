@@ -18,7 +18,7 @@ namespace FactoryClient.Analysis_Function
                 foreach (JToken item in tmp["dish"])
                 {
                     string dname = concat_name(item["dish_name"].ToString() ,item["dish_cost"].ToString());
-                    int new_id = id.Count + 1; // The id start from 1
+                    int new_id = id.Count;
                     if (!id.ContainsKey(dname))
                     {
                         id[dname] = new_id;

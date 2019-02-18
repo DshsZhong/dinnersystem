@@ -28,11 +28,12 @@ namespace FactoryClient.Analysis_Function
                 Y[rows] = (item.Item2 ? 1 : 0);
                 rows += 1;
             }
+
+            W = CreateVector.Dense<float>(X.ColumnCount);
         }
 
         public void Train(int gradients, int ternarys)
         {
-            W = CreateVector.Dense<float>(X.ColumnCount);
             while (gradients-- != 0)
             {
                 Vector<float> slope = FPrime(W);
@@ -60,7 +61,12 @@ namespace FactoryClient.Analysis_Function
                 sum += (float)(Y[i] * Math.Log(sigmoid(X.Row(i) * W)) + (1 - Y[i]) * Math.Log(1 - sigmoid(X.Row(i) * W)));
             return sum;
         }
-        public float Query(Vector<float> data) { return sigmoid(data * W); }
+
+        public float Query(Vector<float> data)
+        {
+            Vector<float> tmp = CreateVector.Dense<float>(data.Count + 1, (int i) => (i == data.Count ? 1 : data[i]));
+            return sigmoid(tmp * W);
+        }
 
         float length(Vector<float> f)
         {

@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.main_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Build = new System.Windows.Forms.Button();
             this.Cost_Sum = new System.Windows.Forms.Label();
             this.People_Sum = new System.Windows.Forms.Label();
@@ -46,9 +47,10 @@
             this.Pool_Size = new System.Windows.Forms.TrackBar();
             this.Pool_Show = new System.Windows.Forms.Label();
             this.Predict_Model = new System.Windows.Forms.GroupBox();
-            this.Trust_Standard = new System.Windows.Forms.TextBox();
+            this.show_model = new System.Windows.Forms.Button();
+            this.Confidence_Interval = new System.Windows.Forms.TrackBar();
+            this.Confidence_Standard = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.Residual_Interval = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.Long_Time = new System.Windows.Forms.Button();
             this.Show_Datetime = new System.Windows.Forms.DateTimePicker();
@@ -89,11 +91,13 @@
             this.Classify_Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label19 = new System.Windows.Forms.Label();
             this.Classification = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.Updater = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.main_chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ternary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gradient)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pool_Size)).BeginInit();
             this.Predict_Model.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Confidence_Interval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Running_Chart)).BeginInit();
             this.Running_Status.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,23 +109,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.Classify_Chart)).BeginInit();
             this.SuspendLayout();
             // 
-            // chart1
+            // main_chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(8, 123);
-            this.chart1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(985, 512);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            chartArea10.Name = "ChartArea1";
+            this.main_chart.ChartAreas.Add(chartArea10);
+            legend10.Name = "Legend1";
+            this.main_chart.Legends.Add(legend10);
+            this.main_chart.Location = new System.Drawing.Point(8, 123);
+            this.main_chart.Margin = new System.Windows.Forms.Padding(4);
+            this.main_chart.Name = "main_chart";
+            this.main_chart.Size = new System.Drawing.Size(985, 512);
+            this.main_chart.TabIndex = 0;
+            this.main_chart.Text = "chart1";
             // 
             // Build
             // 
             this.Build.Location = new System.Drawing.Point(97, 28);
-            this.Build.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Build.Margin = new System.Windows.Forms.Padding(4);
             this.Build.Name = "Build";
             this.Build.Size = new System.Drawing.Size(287, 31);
             this.Build.TabIndex = 4;
@@ -152,7 +156,7 @@
             // Ternary
             // 
             this.Ternary.Location = new System.Drawing.Point(164, 151);
-            this.Ternary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Ternary.Margin = new System.Windows.Forms.Padding(4);
             this.Ternary.Maximum = 50;
             this.Ternary.Minimum = 10;
             this.Ternary.Name = "Ternary";
@@ -183,7 +187,7 @@
             // Gradient
             // 
             this.Gradient.Location = new System.Drawing.Point(164, 225);
-            this.Gradient.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Gradient.Margin = new System.Windows.Forms.Padding(4);
             this.Gradient.Maximum = 50;
             this.Gradient.Minimum = 10;
             this.Gradient.Name = "Gradient";
@@ -194,13 +198,13 @@
             // Pool_Size
             // 
             this.Pool_Size.Location = new System.Drawing.Point(164, 83);
-            this.Pool_Size.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Pool_Size.Maximum = 500;
-            this.Pool_Size.Minimum = 200;
+            this.Pool_Size.Margin = new System.Windows.Forms.Padding(4);
+            this.Pool_Size.Maximum = 300;
+            this.Pool_Size.Minimum = 10;
             this.Pool_Size.Name = "Pool_Size";
             this.Pool_Size.Size = new System.Drawing.Size(291, 56);
             this.Pool_Size.TabIndex = 13;
-            this.Pool_Size.Value = 200;
+            this.Pool_Size.Value = 20;
             // 
             // Pool_Show
             // 
@@ -214,33 +218,51 @@
             // 
             // Predict_Model
             // 
-            this.Predict_Model.Controls.Add(this.Trust_Standard);
+            this.Predict_Model.Controls.Add(this.show_model);
+            this.Predict_Model.Controls.Add(this.Confidence_Interval);
+            this.Predict_Model.Controls.Add(this.Confidence_Standard);
             this.Predict_Model.Controls.Add(this.label13);
-            this.Predict_Model.Controls.Add(this.Residual_Interval);
             this.Predict_Model.Controls.Add(this.label12);
             this.Predict_Model.Controls.Add(this.Long_Time);
             this.Predict_Model.Controls.Add(this.Show_Datetime);
             this.Predict_Model.Controls.Add(this.label8);
             this.Predict_Model.Controls.Add(this.label7);
             this.Predict_Model.Controls.Add(this.Dish_Name);
-            this.Predict_Model.Controls.Add(this.chart1);
+            this.Predict_Model.Controls.Add(this.main_chart);
             this.Predict_Model.Enabled = false;
             this.Predict_Model.Location = new System.Drawing.Point(16, 345);
-            this.Predict_Model.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Predict_Model.Margin = new System.Windows.Forms.Padding(4);
             this.Predict_Model.Name = "Predict_Model";
-            this.Predict_Model.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Predict_Model.Padding = new System.Windows.Forms.Padding(4);
             this.Predict_Model.Size = new System.Drawing.Size(1001, 643);
             this.Predict_Model.TabIndex = 14;
             this.Predict_Model.TabStop = false;
             this.Predict_Model.Text = "預測模型";
             // 
-            // Trust_Standard
+            // show_model
             // 
-            this.Trust_Standard.Location = new System.Drawing.Point(727, 65);
-            this.Trust_Standard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Trust_Standard.Name = "Trust_Standard";
-            this.Trust_Standard.Size = new System.Drawing.Size(265, 22);
-            this.Trust_Standard.TabIndex = 19;
+            this.show_model.Location = new System.Drawing.Point(368, 59);
+            this.show_model.Name = "show_model";
+            this.show_model.Size = new System.Drawing.Size(124, 31);
+            this.show_model.TabIndex = 14;
+            this.show_model.Text = "顯示資料";
+            this.show_model.UseVisualStyleBackColor = true;
+            this.show_model.Click += new System.EventHandler(this.show_model_Click);
+            // 
+            // Confidence_Interval
+            // 
+            this.Confidence_Interval.Location = new System.Drawing.Point(95, 54);
+            this.Confidence_Interval.Name = "Confidence_Interval";
+            this.Confidence_Interval.Size = new System.Drawing.Size(265, 56);
+            this.Confidence_Interval.TabIndex = 20;
+            // 
+            // Confidence_Standard
+            // 
+            this.Confidence_Standard.Location = new System.Drawing.Point(727, 65);
+            this.Confidence_Standard.Margin = new System.Windows.Forms.Padding(4);
+            this.Confidence_Standard.Name = "Confidence_Standard";
+            this.Confidence_Standard.Size = new System.Drawing.Size(265, 22);
+            this.Confidence_Standard.TabIndex = 19;
             // 
             // label13
             // 
@@ -251,14 +273,6 @@
             this.label13.Size = new System.Drawing.Size(68, 17);
             this.label13.TabIndex = 18;
             this.label13.Text = "信心水平:";
-            // 
-            // Residual_Interval
-            // 
-            this.Residual_Interval.Location = new System.Drawing.Point(95, 69);
-            this.Residual_Interval.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Residual_Interval.Name = "Residual_Interval";
-            this.Residual_Interval.Size = new System.Drawing.Size(265, 22);
-            this.Residual_Interval.TabIndex = 17;
             // 
             // label12
             // 
@@ -273,7 +287,7 @@
             // Long_Time
             // 
             this.Long_Time.Location = new System.Drawing.Point(368, 21);
-            this.Long_Time.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Long_Time.Margin = new System.Windows.Forms.Padding(4);
             this.Long_Time.Name = "Long_Time";
             this.Long_Time.Size = new System.Drawing.Size(124, 31);
             this.Long_Time.TabIndex = 5;
@@ -283,7 +297,7 @@
             // Show_Datetime
             // 
             this.Show_Datetime.Location = new System.Drawing.Point(95, 25);
-            this.Show_Datetime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Show_Datetime.Margin = new System.Windows.Forms.Padding(4);
             this.Show_Datetime.Name = "Show_Datetime";
             this.Show_Datetime.Size = new System.Drawing.Size(265, 22);
             this.Show_Datetime.TabIndex = 15;
@@ -312,19 +326,19 @@
             // 
             this.Dish_Name.FormattingEnabled = true;
             this.Dish_Name.Location = new System.Drawing.Point(727, 28);
-            this.Dish_Name.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Dish_Name.Margin = new System.Windows.Forms.Padding(4);
             this.Dish_Name.Name = "Dish_Name";
             this.Dish_Name.Size = new System.Drawing.Size(265, 24);
             this.Dish_Name.TabIndex = 1;
             // 
             // Running_Chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.Running_Chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.Running_Chart.Legends.Add(legend2);
+            chartArea11.Name = "ChartArea1";
+            this.Running_Chart.ChartAreas.Add(chartArea11);
+            legend11.Name = "Legend1";
+            this.Running_Chart.Legends.Add(legend11);
             this.Running_Chart.Location = new System.Drawing.Point(8, 60);
-            this.Running_Chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Running_Chart.Name = "Running_Chart";
             this.Running_Chart.Size = new System.Drawing.Size(345, 255);
             this.Running_Chart.TabIndex = 15;
@@ -337,9 +351,9 @@
             this.Running_Status.Controls.Add(this.Running_Chart);
             this.Running_Status.Enabled = false;
             this.Running_Status.Location = new System.Drawing.Point(1125, 13);
-            this.Running_Status.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Status.Margin = new System.Windows.Forms.Padding(4);
             this.Running_Status.Name = "Running_Status";
-            this.Running_Status.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Status.Padding = new System.Windows.Forms.Padding(4);
             this.Running_Status.Size = new System.Drawing.Size(363, 324);
             this.Running_Status.TabIndex = 16;
             this.Running_Status.TabStop = false;
@@ -374,9 +388,9 @@
             this.groupBox3.Controls.Add(this.Download);
             this.groupBox3.Controls.Add(this.Start_Date);
             this.groupBox3.Location = new System.Drawing.Point(1025, 345);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(463, 187);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
@@ -415,7 +429,7 @@
             // End_Date
             // 
             this.End_Date.Location = new System.Drawing.Point(97, 123);
-            this.End_Date.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.End_Date.Margin = new System.Windows.Forms.Padding(4);
             this.End_Date.Name = "End_Date";
             this.End_Date.Size = new System.Drawing.Size(356, 22);
             this.End_Date.TabIndex = 21;
@@ -423,7 +437,7 @@
             // Download
             // 
             this.Download.Location = new System.Drawing.Point(8, 32);
-            this.Download.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Download.Margin = new System.Windows.Forms.Padding(4);
             this.Download.Name = "Download";
             this.Download.Size = new System.Drawing.Size(100, 31);
             this.Download.TabIndex = 19;
@@ -434,7 +448,7 @@
             // Start_Date
             // 
             this.Start_Date.Location = new System.Drawing.Point(97, 85);
-            this.Start_Date.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Start_Date.Margin = new System.Windows.Forms.Padding(4);
             this.Start_Date.Name = "Start_Date";
             this.Start_Date.Size = new System.Drawing.Size(356, 22);
             this.Start_Date.TabIndex = 20;
@@ -450,9 +464,9 @@
             this.Making_Model.Controls.Add(this.Gradient_Show);
             this.Making_Model.Enabled = false;
             this.Making_Model.Location = new System.Drawing.Point(1025, 540);
-            this.Making_Model.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Making_Model.Margin = new System.Windows.Forms.Padding(4);
             this.Making_Model.Name = "Making_Model";
-            this.Making_Model.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Making_Model.Padding = new System.Windows.Forms.Padding(4);
             this.Making_Model.Size = new System.Drawing.Size(463, 299);
             this.Making_Model.TabIndex = 22;
             this.Making_Model.TabStop = false;
@@ -466,9 +480,9 @@
             this.Model_Status.Controls.Add(this.People_Sum);
             this.Model_Status.Enabled = false;
             this.Model_Status.Location = new System.Drawing.Point(16, 16);
-            this.Model_Status.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Model_Status.Margin = new System.Windows.Forms.Padding(4);
             this.Model_Status.Name = "Model_Status";
-            this.Model_Status.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Model_Status.Padding = new System.Windows.Forms.Padding(4);
             this.Model_Status.Size = new System.Drawing.Size(191, 321);
             this.Model_Status.TabIndex = 23;
             this.Model_Status.TabStop = false;
@@ -506,9 +520,9 @@
             this.Export.Controls.Add(this.label14);
             this.Export.Enabled = false;
             this.Export.Location = new System.Drawing.Point(215, 17);
-            this.Export.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export.Margin = new System.Windows.Forms.Padding(4);
             this.Export.Name = "Export";
-            this.Export.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export.Padding = new System.Windows.Forms.Padding(4);
             this.Export.Size = new System.Drawing.Size(299, 320);
             this.Export.TabIndex = 24;
             this.Export.TabStop = false;
@@ -517,7 +531,7 @@
             // Export_Excel
             // 
             this.Export_Excel.Location = new System.Drawing.Point(12, 37);
-            this.Export_Excel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Export_Excel.Name = "Export_Excel";
             this.Export_Excel.Size = new System.Drawing.Size(279, 31);
             this.Export_Excel.TabIndex = 22;
@@ -527,7 +541,7 @@
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(111, 277);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(179, 22);
             this.textBox5.TabIndex = 21;
@@ -545,7 +559,7 @@
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(111, 240);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(179, 22);
             this.textBox4.TabIndex = 21;
@@ -563,7 +577,7 @@
             // Open_Excel
             // 
             this.Open_Excel.Location = new System.Drawing.Point(12, 76);
-            this.Open_Excel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Open_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Open_Excel.Name = "Open_Excel";
             this.Open_Excel.Size = new System.Drawing.Size(279, 31);
             this.Open_Excel.TabIndex = 2;
@@ -573,7 +587,7 @@
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(111, 203);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(179, 22);
             this.textBox3.TabIndex = 1;
@@ -593,9 +607,9 @@
             this.Other.Controls.Add(this.Back);
             this.Other.Controls.Add(this.User);
             this.Other.Location = new System.Drawing.Point(1025, 847);
-            this.Other.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Other.Margin = new System.Windows.Forms.Padding(4);
             this.Other.Name = "Other";
-            this.Other.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Other.Padding = new System.Windows.Forms.Padding(4);
             this.Other.Size = new System.Drawing.Size(463, 141);
             this.Other.TabIndex = 20;
             this.Other.TabStop = false;
@@ -604,7 +618,7 @@
             // Back
             // 
             this.Back.Location = new System.Drawing.Point(8, 85);
-            this.Back.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Back.Margin = new System.Windows.Forms.Padding(4);
             this.Back.Name = "Back";
             this.Back.Size = new System.Drawing.Size(447, 31);
             this.Back.TabIndex = 1;
@@ -632,9 +646,9 @@
             this.Classify.Controls.Add(this.Classification);
             this.Classify.Enabled = false;
             this.Classify.Location = new System.Drawing.Point(524, 17);
-            this.Classify.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify.Margin = new System.Windows.Forms.Padding(4);
             this.Classify.Name = "Classify";
-            this.Classify.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify.Padding = new System.Windows.Forms.Padding(4);
             this.Classify.Size = new System.Drawing.Size(593, 320);
             this.Classify.TabIndex = 25;
             this.Classify.TabStop = false;
@@ -674,17 +688,17 @@
             // 
             // Classify_Chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.Classify_Chart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.Classify_Chart.Legends.Add(legend3);
+            chartArea12.Name = "ChartArea1";
+            this.Classify_Chart.ChartAreas.Add(chartArea12);
+            legend12.Name = "Legend1";
+            this.Classify_Chart.Legends.Add(legend12);
             this.Classify_Chart.Location = new System.Drawing.Point(8, 56);
-            this.Classify_Chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Classify_Chart.Name = "Classify_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Classify_Chart.Series.Add(series1);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.Classify_Chart.Series.Add(series4);
             this.Classify_Chart.Size = new System.Drawing.Size(577, 256);
             this.Classify_Chart.TabIndex = 18;
             this.Classify_Chart.Text = "chart3";
@@ -708,11 +722,17 @@
             "每周",
             "每月"});
             this.Classification.Location = new System.Drawing.Point(135, 20);
-            this.Classification.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classification.Margin = new System.Windows.Forms.Padding(4);
             this.Classification.Name = "Classification";
             this.Classification.Size = new System.Drawing.Size(141, 24);
             this.Classification.TabIndex = 0;
             this.Classification.SelectedIndexChanged += new System.EventHandler(this.Classification_SelectedIndexChanged);
+            // 
+            // Updater
+            // 
+            this.Updater.Enabled = true;
+            this.Updater.Interval = 1000;
+            this.Updater.Tick += new System.EventHandler(this.Updater_Tick);
             // 
             // Analysis
             // 
@@ -727,15 +747,16 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.Running_Status);
             this.Controls.Add(this.Predict_Model);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Analysis";
             this.Text = "Analysis";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.main_chart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ternary)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gradient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pool_Size)).EndInit();
             this.Predict_Model.ResumeLayout(false);
             this.Predict_Model.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Confidence_Interval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Running_Chart)).EndInit();
             this.Running_Status.ResumeLayout(false);
             this.Running_Status.PerformLayout();
@@ -758,7 +779,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart main_chart;
         private System.Windows.Forms.Button Build;
         private System.Windows.Forms.Label Cost_Sum;
         private System.Windows.Forms.Label People_Sum;
@@ -784,9 +805,8 @@
         private System.Windows.Forms.DateTimePicker Start_Date;
         private System.Windows.Forms.GroupBox Making_Model;
         private System.Windows.Forms.GroupBox Model_Status;
-        private System.Windows.Forms.TextBox Trust_Standard;
+        private System.Windows.Forms.TextBox Confidence_Standard;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox Residual_Interval;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label Download_Progress_Text;
         private System.Windows.Forms.Label label21;
@@ -812,5 +832,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox Semi_Classify;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TrackBar Confidence_Interval;
+        private System.Windows.Forms.Button show_model;
+        private System.Windows.Forms.Timer Updater;
     }
 }

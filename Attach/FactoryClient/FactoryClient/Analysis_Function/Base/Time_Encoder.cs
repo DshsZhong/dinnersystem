@@ -25,7 +25,7 @@ namespace FactoryClient.Analysis_Function
             {
                 DateTime dt = DateTime.ParseExact(item["recv_date"].ToString(), "yyyy-MM-dd hh:mm:ss", null);
                 tmp[dt] = true;
-                if (!markov_data.ContainsKey(dt)) markov_data[dt].Add(item);
+                if (markov_data.ContainsKey(dt)) markov_data[dt].Add(item);
                 else markov_data[dt] = new JArray(item);
                 min = (min < dt ? min : dt);
                 max = (max > dt ? max : dt);
@@ -35,18 +35,19 @@ namespace FactoryClient.Analysis_Function
             int idle_days = 0;
             for (DateTime i = min; i <= max; i = i.AddDays(1))
             {
-                if (tmp[i]) idle_days = 0;
+                if (tmp.ContainsKey(i)) idle_days = 0;
                 else idle_days += 1;
 
                 if (idle_days >= max_days) continue;
-                list.Add(tmp[i]);
+                list.Add(tmp.ContainsKey(i));
             }
             logstic_data = new BitArray(list.ToArray());
         }
 
         public Tuple<bool[] ,bool>[] get_logistic(int offset) 
         {
-            Tuple<bool[], bool>[] ret = new Tuple<bool[], bool>[logstic_data.Length - offset];
+            int len = logstic_data.Length - offset;
+            Tuple<bool[], bool>[] ret = new Tuple<bool[], bool>[len > 0 ? len : 0];
             for(int i = 0;i != ret.Length;i++)
             {
                 bool[] tmp = new bool[offset];

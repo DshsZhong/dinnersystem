@@ -11,15 +11,13 @@ namespace FactoryClient.Analysis_Function
 {
     class Group_Model
     {
-        Dictionary<int, string> people_coder;
-        Person_Model[] people;
+        public Dictionary<int, string> people_coder;
+        public Person_Model[] people;
+        public Thread_Pool thread;
+        public int current_days = -1;
 
-        Thread_Pool thread;
         Dish_Encoder dish_encoder;
-
         Dictionary<string, float[]> dish_predict;
-
-        int current_days;
 
         public Group_Model(JArray data , int threads)
         {
@@ -41,6 +39,7 @@ namespace FactoryClient.Analysis_Function
                 id += 1;
             }
 
+            dish_predict = new Dictionary<string, float[]>();
             dish_encoder = new Dish_Encoder(data);
             for (int i = 0; i != dish_encoder.get_size(); i++)
                 dish_predict[dish_encoder.get_name(i)] = new float[people.Length + 1];
@@ -52,7 +51,7 @@ namespace FactoryClient.Analysis_Function
         {
             foreach (Person_Model p in people)
                 thread.Entask(() => p.Train(gradients, ternarys));
-            while (thread.TaskLeft() != 0) Thread.Sleep(100);
+            while (!thread.Done) Thread.Sleep(100);
             Build(1);
         }
 
@@ -82,7 +81,7 @@ namespace FactoryClient.Analysis_Function
                         }
                     }
                 });
-            while (thread.TaskLeft() != 0) Thread.Sleep(100);
+            while (!thread.Done) Thread.Sleep(100);
             current_days = days;
         }
 

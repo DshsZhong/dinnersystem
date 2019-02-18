@@ -17,6 +17,7 @@ namespace FactoryClient
         Request req;
         JArray data;
         Classify classify;
+        Model model;
         public Analysis(Request req)
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace FactoryClient
                 DateTime start = Start_Date.Value, end = End_Date.Value;
                 Invoke((MethodInvoker)(() => Download_Progress_Text.Text = "目前進度: 下載中"));
                 data = req.Get_Order(start.ToString("yyyy-MM-dd hh:mm:ss").Replace("-", "/").Replace(" ", "-"),
-                    end.ToString("yyyy-MM-dd hh:mm:ss").Replace("-", "/").Replace(" ", "-"));
+                    end.ToString("yyyy-MM-dd hh:mm:ss").Replace("-", "/").Replace(" ", "-") ,true);
                 Invoke((MethodInvoker)(() => MessageBox.Show("完成下載")));
                 Invoke((MethodInvoker)(() =>
                 {
@@ -102,7 +103,28 @@ namespace FactoryClient
 
         private void Build_Click(object sender, EventArgs e)
         {
+            int psize = Pool_Size.Value ,gvalue = Gradient.Value ,tvalue = Ternary.Value;
+            Task.Run(() =>
+            {
+                model = new Model(data, psize);
+                model.Build((int progress, float value, string task) =>
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        Running_Progress.Text = progress.ToString() + value.ToString() + task;
+                    }));
+                }, gvalue, tvalue);
+            });
+        }
 
+        private void show_model_Click(object sender, EventArgs e)
+        {
+            model.Show(main_chart, DateTime.Now.AddDays(1).AddHours(1), "", 3);
+        }
+
+        private void Updater_Tick(object sender, EventArgs e)
+        {
+            if(model != null) show_model.Enabled = model.Finished;
         }
     }
 }

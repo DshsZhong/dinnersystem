@@ -91,6 +91,7 @@
     <Compile Include="Analysis_Function\Group_Model.cs" />
     <Compile Include="Analysis_Function\Base\Logistic.cs" />
     <Compile Include="Analysis_Function\Base\Markov.cs" />
+    <Compile Include="Analysis_Function\Model.cs" />
     <Compile Include="Analysis_Function\Person_Model.cs" />
     <Compile Include="Analysis_Function\Base\Thread_Pool.cs" />
     <Compile Include="Analysis_Function\Base\Time_Encoder.cs" />
