@@ -42,3 +42,8 @@ D:\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReferenc
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
 D:\dinnersysetm\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReference.cache
 D:\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Analysis.resources
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\MathNet.Numerics.dll
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\MathNet.Numerics.xml
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReference.cache
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Analysis.resources

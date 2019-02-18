@@ -45,9 +45,10 @@ namespace FactoryClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DateTime today = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00.1");
-            scale_start.Value = custom_start.Value = money_start.Value = today;
-            scale_end.Value = custom_end.Value = money_end.Value = today.AddDays(1);
+            DateTime start = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 08:00:00");
+            DateTime end = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd") + " 16:00:00");
+            scale_start.Value = custom_start.Value = money_start.Value = start;
+            scale_end.Value = custom_end.Value = money_end.Value = end;
             menu_file.Text = AppDomain.CurrentDomain.BaseDirectory + "菜單.xlsx";
             scale_file.Text = AppDomain.CurrentDomain.BaseDirectory + "規模化報表.xlsx";
             custom_file.Text = AppDomain.CurrentDomain.BaseDirectory + "精緻化報表.xlsx";
@@ -130,7 +131,7 @@ namespace FactoryClient
                 {
                     ExcelStream excel = new ExcelStream(scale_file.Text);
                     Scale_Report menu_update = new Scale_Report(req, excel);
-                    menu_update.Download(scale_start.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                    menu_update.Download(scale_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         scale_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
                         new UpdateProgress((int value) =>
                         {
@@ -173,7 +174,7 @@ namespace FactoryClient
                 {
                     ExcelStream excel = new ExcelStream(custom_file.Text);
                     Custom_Report custom_update = new Custom_Report(req, excel);
-                    custom_update.Download(custom_start.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                    custom_update.Download(custom_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         custom_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
                         new UpdateProgress((int value) =>
                         {
@@ -216,8 +217,8 @@ namespace FactoryClient
                 {
                     ExcelStream excel = new ExcelStream(money_file.Text);
                     Money_Report money_update = new Money_Report(req, excel);
-                    money_update.Download(money_start.Value.ToString("yyyy-MM-dd hh:mm:ss"),
-                        money_end.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                    money_update.Download(money_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
+                        money_end.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         new UpdateProgress((int value) =>
                         {
                             Invoke((MethodInvoker)(() =>
