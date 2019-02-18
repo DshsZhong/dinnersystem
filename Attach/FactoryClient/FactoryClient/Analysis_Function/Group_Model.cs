@@ -16,10 +16,10 @@ namespace FactoryClient.Analysis_Function
         public Thread_Pool thread;
         public int current_days = -1;
 
-        Dish_Encoder dish_encoder;
-        Dictionary<string, float[]> dish_predict;
+        public Dish_Encoder dish_encoder;
+        float[][] dish_predict;
 
-        public Group_Model(JArray data , int threads)
+        public Group_Model(JArray data, int threads)
         {
             Dictionary<string, JArray> sorted = new Dictionary<string, JArray>();
             foreach (JToken token in data)
@@ -39,59 +39,68 @@ namespace FactoryClient.Analysis_Function
                 id += 1;
             }
 
-            dish_predict = new Dictionary<string, float[]>();
             dish_encoder = new Dish_Encoder(data);
-            for (int i = 0; i != dish_encoder.get_size(); i++)
-                dish_predict[dish_encoder.get_name(i)] = new float[people.Length + 1];
+            dish_predict = new float[dish_encoder.get_size()][];
+            for (int i = 0; i != dish_encoder.get_size(); i++) dish_predict[i] = new float[people.Length + 1];
 
             thread = new Thread_Pool(threads);
         }
 
         public void Train(int gradients, int ternarys)
         {
-            foreach (Person_Model p in people)
-                thread.Entask(() => p.Train(gradients, ternarys));
-            while (!thread.Done) Thread.Sleep(100);
-            Build(1);
-        }
-
-        void Build(int days)
-        {
+            int flag = 0;
             foreach (Person_Model p in people)
                 thread.Entask(() =>
                 {
-                    Vector<float> result = p.Query(days);
+                    p.Train(gradients, ternarys);
+                    flag += 1;
+                });
+            while (flag != people.Length) Thread.Sleep(100);
+
+            flag = 0;
+            thread.Entask(() =>
+            {
+                foreach (Person_Model p in people)
+                {
+                    Vector<float> result = p.Query();
                     for (int i = 0; i != result.Count; i++)
                     {
                         float odd = result[i];
                         string dname = p.dish.get_name(i);
+                        int global_did = dish_encoder.get_id(dname);
 
-                        lock (dish_predict)  // try to release the lock asap.
+
+                        float[] origin = dish_predict[global_did];
+                        float[] updated = new float[origin.Length];
+                        if (origin[0] == 0)
                         {
-                            float[] origin = dish_predict[dname];
-                            float[] updated = new float[origin.Length];
-                            if (origin[0] == 0)
-                            {
-                                updated[0] = 1 - odd;
-                                updated[1] = odd;
-                            }
-                            else for (int j = 0; j <= people.Length; j++)
-                                    updated[j] = (j == 0 ? origin[0] * (1 - odd) : origin[j] * (1 - odd) + origin[j - 1] * odd);
-                            dish_predict[dname] = updated;
+                            updated[0] = 1 - odd;
+                            updated[1] = odd;
                         }
+                        else for (int j = 0; j <= people.Length; j++)
+                                updated[j] = (j == 0 ? origin[0] * (1 - odd) : origin[j] * (1 - odd) + origin[j - 1] * odd);
+                        dish_predict[global_did] = updated;
                     }
-                });
-            while (!thread.Done) Thread.Sleep(100);
+                    flag = 1;
+                }
+            });
+            while (flag != 1) Thread.Sleep(100);
+
+            current_days = 1;
+        }
+
+        public void Future(int days)
+        {
             current_days = days;
         }
 
         public float[] Query(string dname, int days = 1)
         {
-            if(days == current_days) return dish_predict[dname];
+            if(days == current_days) return dish_predict[dish_encoder.get_id(dname)];
             else
             {
-                Build(days);
-                return dish_predict[dname];
+                Future(days);
+                return dish_predict[dish_encoder.get_id(dname)];
             }
         }
     }

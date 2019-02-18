@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FactoryClient.Analysis_Function
 {
@@ -13,7 +14,7 @@ namespace FactoryClient.Analysis_Function
     class Model
     {
         Group_Model model;
-        public bool Finished = false;
+        public bool Finished_Build = false;
 
         public Model(JArray data, int pool)
         {
@@ -33,10 +34,21 @@ namespace FactoryClient.Analysis_Function
                         all_trained &= p.Trained;
                     cost_sum += p.order.Cost();
                 }
-                invoker(counter, cost_sum, (all_trained ? "建立長期模型" : "訓練模型"));
+                invoker(counter, cost_sum, (all_trained ? "建立馬可夫鍊" : "建立數量模型"));
                 Thread.Sleep(1000);
             }
-            Finished = true;
+            invoker(0 ,0 ,"完成訓練");
+            Finished_Build = true;
+        }
+
+        public void UpdateForm(ComboBox dish)
+        {
+            dish.Invoke((MethodInvoker)(() =>
+            {
+                dish.Items.Clear();
+                for (int i = 0; i != model.dish_encoder.get_size(); i++)
+                    dish.Items.Add(model.dish_encoder.get_name(i));
+            }));
         }
 
         public float Show(Chart show, DateTime dt, string dname ,int interval)

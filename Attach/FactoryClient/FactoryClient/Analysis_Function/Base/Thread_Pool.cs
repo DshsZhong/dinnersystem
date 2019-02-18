@@ -14,7 +14,6 @@ namespace FactoryClient.Analysis_Function
         Queue<Function> queue;
         bool dispose = false;
 
-        public bool Done = false;
         public Thread_Pool(int threads)
         {
             queue = new Queue<Function>();
@@ -26,7 +25,6 @@ namespace FactoryClient.Analysis_Function
         public void Entask(Function task)
         {
             queue.Enqueue(task);
-            Done = false;
         }
         public void Stop() { dispose = true; }
         public int TaskLeft() { return queue.Count; }
@@ -42,7 +40,6 @@ namespace FactoryClient.Analysis_Function
                     f = queue.Dequeue();
                 }
                 f();
-                if (queue.Count == 0) Done = true;
             }
         }
 

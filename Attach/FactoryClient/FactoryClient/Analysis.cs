@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FactoryClient.Analysis_Function;
@@ -114,17 +115,15 @@ namespace FactoryClient
                         Running_Progress.Text = progress.ToString() + value.ToString() + task;
                     }));
                 }, gvalue, tvalue);
+                while (!model.Finished_Build) Thread.Sleep(100);
+                model.UpdateForm(Dish_Name);
+                Invoke((MethodInvoker)(() => Predict_Model.Enabled = true));
             });
         }
 
         private void show_model_Click(object sender, EventArgs e)
         {
-            model.Show(main_chart, DateTime.Now.AddDays(1).AddHours(1), "", 3);
-        }
-
-        private void Updater_Tick(object sender, EventArgs e)
-        {
-            if(model != null) show_model.Enabled = model.Finished;
+            model.Show(main_chart, DateTime.Now.AddDays(1).AddHours(1), Dish_Name.GetItemText(Dish_Name.SelectedItem), 3);
         }
     }
 }
