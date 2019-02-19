@@ -23,7 +23,7 @@ namespace FactoryClient.Analysis_Function
             DateTime min = DateTime.MaxValue, max = DateTime.MinValue;
             foreach (JToken item in orders)
             {
-                DateTime dt = DateTime.ParseExact(item["recv_date"].ToString(), "yyyy-MM-dd hh:mm:ss", null);
+                DateTime dt = DateTime.ParseExact(item["recv_date"].ToString(), "yyyy-MM-dd HH:mm:ss", null);
                 tmp[dt] = true;
                 if (markov_data.ContainsKey(dt)) markov_data[dt].Add(item);
                 else markov_data[dt] = new JArray(item);

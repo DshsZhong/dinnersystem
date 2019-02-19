@@ -23,6 +23,7 @@ namespace FactoryClient
         {
             InitializeComponent();
             this.req = req;
+            data = Base_Function.Preload.Load("D:\\data.json");
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -32,7 +33,10 @@ namespace FactoryClient
 
         private void Download_Click(object sender, EventArgs e)
         {
-            Task.Run(() =>
+            Download_Progress_Text.Text = "目前進度: 下載完成";
+            Making_Model.Enabled = Classify.Enabled = true;
+            classify = new Classify(data);
+            /*Task.Run(() =>
             {
                 DateTime start = Start_Date.Value, end = End_Date.Value;
                 Invoke((MethodInvoker)(() => Download_Progress_Text.Text = "目前進度: 下載中"));
@@ -45,7 +49,7 @@ namespace FactoryClient
                     Making_Model.Enabled = Classify.Enabled = true;
                 }));
                 classify = new Classify(data);
-            });
+            });*/
         }
 
         private void Classification_SelectedIndexChanged(object sender, EventArgs e)
@@ -108,7 +112,7 @@ namespace FactoryClient
             Task.Run(() =>
             {
                 model = new Model(data, psize);
-                model.Build((int progress, float value, string task) =>
+                model.Build((int progress, double value, string task) =>
                 {
                     Invoke((MethodInvoker)(() =>
                     {

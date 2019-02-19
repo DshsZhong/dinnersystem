@@ -95,6 +95,7 @@
     <Compile Include="Analysis_Function\Person_Model.cs" />
     <Compile Include="Analysis_Function\Base\Thread_Pool.cs" />
     <Compile Include="Analysis_Function\Base\Time_Encoder.cs" />
+    <Compile Include="Base_Function\Preload.cs" />
     <Compile Include="Normal_Function\Custom_Report.cs" />
     <Compile Include="Base_Function\ExcelStream.cs" />
     <Compile Include="Form1.cs">

@@ -49,7 +49,7 @@ namespace FactoryClient.Analysis_Function
 
                 foreach (JToken item in data)
                 {
-                    DateTime dt = DateTime.ParseExact(item["recv_date"].ToString(), "yyyy-MM-dd hh:mm:ss", null);
+                    DateTime dt = DateTime.ParseExact(item["recv_date"].ToString(), "yyyy-MM-dd HH:mm:ss", null);
 
                     if (user_class.ContainsKey(item["user"]["class"]["class_no"].ToString()))
                         user_class[item["user"]["class"]["class_no"].ToString()] += 1;

@@ -14,7 +14,7 @@ namespace FactoryClient.Analysis_Function
         const int days = 7;
 
         JArray data;
-        Vector<float> last;
+        Vector<double> last;
 
         public Dish_Encoder dish;
         Time_Encoder time;
@@ -38,7 +38,7 @@ namespace FactoryClient.Analysis_Function
                 Not_Enough = true;
                 return;
             }
-            last = CreateVector.Dense<float>(days, (int i) => (i == days - 1 ? result.Last().Item2 : result.Last().Item1[i + 1]) ? 1 : -1);
+            last = CreateVector.Dense<double>(days, (int i) => (i == days - 1 ? result.Last().Item2 : result.Last().Item1[i + 1]) ? 1 : -1);
             order = new Logistic(result);
         }
 
@@ -47,7 +47,7 @@ namespace FactoryClient.Analysis_Function
             if (Not_Enough) return;
 
             order.Train(gradients, ternarys);
-            Matrix<float> count = CreateMatrix.Dense<float>(dish.get_size() ,dish.get_size());
+            Matrix<double> count = CreateMatrix.Dense<double>(dish.get_size() ,dish.get_size());
 
             SortedDictionary<DateTime, JArray> markov = time.get_markov();
             JArray previous = markov.First().Value;
@@ -69,14 +69,14 @@ namespace FactoryClient.Analysis_Function
             if (Not_Enough) return;
             if (!Trained) throw new Exception("Must train before calling this function.");
 
-            Matrix<float> count = CreateMatrix.Dense<float>((1 << days), (1 << days));
+            Matrix<double> count = CreateMatrix.Dense<double>((1 << days), (1 << days));
             for (int i = 0; i != (1 << days); i++)
             {
                 int has_order = (i >> 1) | (1 << (days - 1));
                 int hasnt_order = (i >> 1);
-                Vector<float> tmp = CreateVector.Dense<float>(days,
+                Vector<double> tmp = CreateVector.Dense<double>(days,
                     (int j) => ((i >> j) & 1) == 1 ? 1 : -1);
-                float odd = order.Query(tmp);
+                double odd = order.Query(tmp);
                 count[i, has_order] = odd;
                 count[i, hasnt_order] = 1 - odd;
             }
@@ -84,9 +84,9 @@ namespace FactoryClient.Analysis_Function
             Allow_Future = true;
         }
 
-        public Vector<float> Query(int days = 1)
+        public Vector<double> Query(int days = 1)
         {
-            if (Not_Enough) return CreateVector.Dense<float>(dish.get_size());
+            if (Not_Enough) return CreateVector.Dense<double>(dish.get_size());
 
             if (!Trained) throw new Exception("Must train before query.");
             if (!Allow_Future && days > 1) throw new Exception("Must train before query.");
@@ -96,7 +96,7 @@ namespace FactoryClient.Analysis_Function
             else
                 return ratio.Stable() *
                     future.Future(last, days).DotProduct(
-                        CreateVector.Dense<float>(days,
+                        CreateVector.Dense<double>(days,
                         (int i) => (i > (1 << (days - 1)) ? 1 : 0))
                     );
         }

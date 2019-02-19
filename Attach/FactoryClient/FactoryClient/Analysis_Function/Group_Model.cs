@@ -17,7 +17,7 @@ namespace FactoryClient.Analysis_Function
         public int current_days = -1;
 
         public Dish_Encoder dish_encoder;
-        float[][] dish_predict;
+        double[][] dish_predict;
 
         public Group_Model(JArray data, int threads)
         {
@@ -40,8 +40,7 @@ namespace FactoryClient.Analysis_Function
             }
 
             dish_encoder = new Dish_Encoder(data);
-            dish_predict = new float[dish_encoder.get_size()][];
-            for (int i = 0; i != dish_encoder.get_size(); i++) dish_predict[i] = new float[people.Length + 1];
+            dish_predict = new double[dish_encoder.get_size()][];
 
             thread = new Thread_Pool(threads);
         }
@@ -62,17 +61,17 @@ namespace FactoryClient.Analysis_Function
             {
                 foreach (Person_Model p in people)
                 {
-                    Vector<float> result = p.Query();
+                    Vector<double> result = p.Query();
                     for (int i = 0; i != result.Count; i++)
                     {
-                        float odd = result[i];
+                        double odd = result[i];
                         string dname = p.dish.get_name(i);
                         int global_did = dish_encoder.get_id(dname);
 
 
-                        float[] origin = dish_predict[global_did];
-                        float[] updated = new float[origin.Length];
-                        if (origin[0] == 0)
+                        double[] origin = dish_predict[global_did];
+                        double[] updated = new double[people.Length + 1];
+                        if (origin == null)
                         {
                             updated[0] = 1 - odd;
                             updated[1] = odd;
@@ -94,9 +93,12 @@ namespace FactoryClient.Analysis_Function
             current_days = days;
         }
 
-        public float[] Query(string dname, int days = 1)
+        public double[] Query(string dname, int days = 1)
         {
-            if(days == current_days) return dish_predict[dish_encoder.get_id(dname)];
+            if(days == current_days)
+            {
+                return dish_predict[dish_encoder.get_id(dname)];
+            }
             else
             {
                 Future(days);

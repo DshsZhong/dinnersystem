@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FactoryClient.Analysis_Function
 {
-    delegate void UpdateChart(int progress, float value, string task);
+    delegate void UpdateChart(int progress, double value, string task);
     class Model
     {
         Group_Model model;
@@ -26,7 +26,7 @@ namespace FactoryClient.Analysis_Function
             Task.Run(() => model.Train(gradient, ternary));
             for (int counter = 0; model.current_days == -1; counter++)
             {
-                float cost_sum = 0;
+                double cost_sum = 0;
                 bool all_trained = true;
                 foreach (Person_Model p in model.people)
                 {
@@ -51,19 +51,19 @@ namespace FactoryClient.Analysis_Function
             }));
         }
 
-        public float Show(Chart show, DateTime dt, string dname ,int interval)
+        public double Show(Chart show, DateTime dt, string dname ,int interval)
         {
-            float[] result = model.Query(dname , dt.Subtract(DateTime.Now).Days);
+            double[] result = model.Query(dname , dt.Subtract(DateTime.Now).Days);
             string tag = "模型預測 " + dname + ": ";
             show.Series.Add(tag);
             int max = 0;
-            for (int i = 0; i != result.Length; i++)
+            for (int i = 0; i != 50; i++)
             {
                 if (result[max] < result[i]) max = i;
                 show.Series[tag].Points.AddXY(i, result[i]);
             }
 
-            float sum = 0;
+            double sum = 0;
             for(int i = max - interval;i != max + interval;i++)
             {
                 if (!(0 <= i && i < result.Length)) continue;
