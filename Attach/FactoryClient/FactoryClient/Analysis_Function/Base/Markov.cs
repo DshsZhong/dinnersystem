@@ -62,20 +62,16 @@ namespace FactoryClient.Analysis_Function
                     return 0;
                 });
 
-            Matrix<double> ans = CreateMatrix.Dense<double>(M.ColumnCount, M.RowCount);
-            int moves = days;
+            Matrix<double> ans = M;
+            int moves = days - 1;   // already have one on ans.
             while (moves != 0)
             {
-                if (moves % 2 == 1) ans += M;
+                if (moves % 2 == 1) ans *= M;
                 M *= M;
                 moves >>= 1;
             }
-
-            string s = ans.ToMatrixString();
-            MessageBox.Show(s);
-
-            Matrix<double> average = CreateMatrix.Dense<double>(data.ColumnCount, data.RowCount,
-                (int i, int j) => { return M[i + data.ColumnCount, j]; });
+            Matrix<double> average = CreateMatrix.Dense(data.ColumnCount, data.RowCount,
+                (int i, int j) => { return ans[i, j + data.RowCount] / days; });
             Vector<double> V = CreateVector.Dense<double>(data.ColumnCount, 1 / data.ColumnCount);
             return V * average;
         }

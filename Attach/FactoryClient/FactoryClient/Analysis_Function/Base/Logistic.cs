@@ -58,9 +58,12 @@ namespace FactoryClient.Analysis_Function
 
         public double Cost()
         {
-            double sum = 0;
+            double sum = 0 ,value;
             for (int i = 0; i != X.RowCount; i++)
-                sum += (Y[i] * Math.Log(sigmoid(X.Row(i) * W)) + (1 - Y[i]) * Math.Log(1 - sigmoid(X.Row(i) * W)));
+            {
+                value = sigmoid(X.Row(i) * W);
+                sum += (Y[i] * Math.Log(value) + (1 - Y[i]) * Math.Log(1 - value));
+            }
             return sum;
         }
 
@@ -78,6 +81,10 @@ namespace FactoryClient.Analysis_Function
         }
         double sigmoid(double x)
         {
+            if (x > 30)
+                return 1 - 1e-5;
+            if (x < -30)
+                return 1e-5;
             return (1 / (1 + Math.Exp(-x)));
         }
         Vector<double> F(Vector<double> x) { return CreateVector.Dense(x.Count, (int i) => { return sigmoid(x[i]); }); }

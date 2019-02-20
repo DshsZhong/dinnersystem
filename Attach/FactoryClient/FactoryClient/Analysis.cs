@@ -19,6 +19,8 @@ namespace FactoryClient
         JArray data;
         Classify classify;
         Model model;
+
+        const int Running_Previous = 5;
         public Analysis(Request req)
         {
             InitializeComponent();
@@ -112,11 +114,27 @@ namespace FactoryClient
             Task.Run(() =>
             {
                 model = new Model(data, psize);
-                model.Build((int progress, double value, string task) =>
+                List<double> recorder = new List<double>();
+                model.Build((int time, double value, string task) =>
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        Running_Progress.Text = progress.ToString() + value.ToString() + task;
+                        double max = double.MinValue;
+                        Running_Task.Text = "執行任務:" + task;
+                        recorder.Add(value);
+                        Running_Chart.Series.Clear();
+                        Running_Chart.Series.Add("損失函數值");
+                        for (int i = 1; i <= Running_Previous; i++)
+                        {
+                            int index = i + recorder.Count - Running_Previous;
+                            if (!(recorder.Count > index && index >= 0)) continue;
+                            double data = -recorder[index];
+                            Running_Chart.Series["損失函數值"].Points.AddXY(i, data);
+                            max = (max > data ? max : data);
+                        }
+                        Running_Chart.ChartAreas[0].AxisY.Minimum = 0;
+                        Running_Chart.ChartAreas[0].AxisY.Maximum = max;
+                        Running_Chart.ChartAreas[0].AxisY.Interval = max / 2;
                     }));
                 }, gvalue, tvalue);
                 while (!model.Finished_Build) Thread.Sleep(100);
@@ -125,9 +143,25 @@ namespace FactoryClient
             });
         }
 
-        private void show_model_Click(object sender, EventArgs e)
+        private void Update(object sender, EventArgs e)
         {
-            model.Show(main_chart, DateTime.Now.AddDays(1).AddHours(1), Dish_Name.GetItemText(Dish_Name.SelectedItem), 3);
+            Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "(份)";
+            Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
+            double odd = model.Show(main_chart, 
+                DateTime.Now.AddDays(1).AddHours(1), 
+                Dish_Name.GetItemText(Dish_Name.SelectedItem), 
+                Confidence_Interval.Value,
+                Show_Interval.Value) * 100;
+            Confidence_Level.Text = "信心水平: " + odd.ToString("##.##") + "%";
         }
+
+        private void Pool_Size_Scroll(object sender, EventArgs e)
+        { Pool_Show.Text = "執行池大小:(" + Pool_Size.Value + ")"; }
+
+        private void Ternary_Scroll(object sender, EventArgs e)
+        { Ternary_Show.Text = "三分搜迭代量:(" + Ternary.Value + ")"; }
+
+        private void Gradient_Scroll(object sender, EventArgs e)
+        { Gradient_Show.Text = "梯度上升迭代數:(" + Gradient.Value + ")"; }
     }
 }

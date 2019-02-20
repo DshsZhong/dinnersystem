@@ -3,7 +3,7 @@ using System;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,26 +48,35 @@ namespace FactoryClient.Analysis_Function
                 dish.Items.Clear();
                 for (int i = 0; i != model.dish_encoder.get_size(); i++)
                     dish.Items.Add(model.dish_encoder.get_name(i));
+                dish.SelectedIndex = 1;
             }));
         }
 
-        public double Show(Chart show, DateTime dt, string dname ,int interval)
+        public double Show(Chart show, DateTime dt, string dname ,int confidence_interval ,int show_interval)
         {
             double[] result = model.Query(dname , dt.Subtract(DateTime.Now).Days);
-            string tag = "模型預測 " + dname + ": ";
+            string tag = dname;
+
+            show.Series.Clear();
             show.Series.Add(tag);
+            show.ChartAreas[0].AxisX.IsMarginVisible = false;
             int max = 0;
-            for (int i = 0; i != 50; i++)
-            {
+            for (int i = 0; i != result.Length; i++)
                 if (result[max] < result[i]) max = i;
-                show.Series[tag].Points.AddXY(i, result[i]);
-            }
 
             double sum = 0;
-            for(int i = max - interval;i != max + interval;i++)
+            for(int i = max - show_interval; i <= max + show_interval; i++)
             {
                 if (!(0 <= i && i < result.Length)) continue;
-                sum += result[i];
+                
+                int pid = show.Series[tag].Points.AddXY(i, result[i]);
+                int length = max - i;
+                if ((length > 0 ? length : -length) <= confidence_interval)
+                {
+                    sum += result[i];
+                    show.Series[tag].Points[pid].Color = Color.Red;
+                }
+                else show.Series[tag].Points[pid].Color = Color.Blue;
             }
 
             return sum;
