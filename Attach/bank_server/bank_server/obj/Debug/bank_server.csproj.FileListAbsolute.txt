@@ -26,3 +26,17 @@ D:\bank_server\bank_server\obj\Debug\bank_server.csproj.CoreCompileInputs.cache
 D:\bank_server\bank_server\obj\Debug\bank_server.csproj.CopyComplete
 D:\bank_server\bank_server\obj\Debug\bank_server.exe
 D:\bank_server\bank_server\obj\Debug\bank_server.pdb
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\bank_server.exe.config
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\bank_server.exe
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\bank_server.pdb
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\Newtonsoft.Json.dll
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\Newtonsoft.Json.pdb
+D:\github\dinnersystem\Attach\bank_server\bank_server\bin\Debug\Newtonsoft.Json.xml
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.csprojAssemblyReference.cache
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.Form1.resources
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.Properties.Resources.resources
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.csproj.GenerateResource.cache
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.csproj.CoreCompileInputs.cache
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.csproj.CopyComplete
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.exe
+D:\github\dinnersystem\Attach\bank_server\bank_server\obj\Debug\bank_server.pdb

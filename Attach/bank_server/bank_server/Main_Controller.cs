@@ -127,7 +127,7 @@ namespace bank_server
                 int after = reader.Get_Balance(json.uid.ToString());
                 row[0] = "寫入";
                 row[1] = json.uid.ToString();
-                row[2] = json.charge.ToString();
+                row[2] = json.fid.ToString() + json.charge.ToString();
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 row[4] = result;
                 ret = result;
