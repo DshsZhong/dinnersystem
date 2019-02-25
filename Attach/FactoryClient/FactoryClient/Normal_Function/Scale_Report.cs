@@ -48,7 +48,7 @@ namespace FactoryClient
                     {
                         if (parent[item.Key] != depart.Key) continue;
                         excel.Write(i, j, item.Value);
-                        excel.Write(i, j + 1, (tag.Value[item.Key] == 0 ? "" : tag.Value[item.Key].ToString()));
+                        excel.Write(i, j + 1, tag.Value[item.Key]);
                         i += 1;
                     }
                     i += 1;

@@ -94,10 +94,10 @@ namespace FactoryClient.Analysis_Function
                 case Style.week:
                     return week;
                 case Style.user_class:
-                    return from item in user_class
+                    return (from item in user_class
                            where (user_tag == "其他" ? item.Item1 : item.Item1.Substring(0, 1)) == user_tag
                            orderby item.Item1
-                           select item;
+                           select item) ?? new List<Tuple<string, int>>() as IEnumerable<Tuple<string, int>>;
                 case Style.month:
                     return month;
                 default:

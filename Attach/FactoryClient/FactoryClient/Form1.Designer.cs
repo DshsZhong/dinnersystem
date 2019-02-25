@@ -466,7 +466,7 @@
             this.groupBox6.Controls.Add(this.analysiser);
             this.groupBox6.Location = new System.Drawing.Point(347, 12);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(308, 412);
+            this.groupBox6.Size = new System.Drawing.Size(308, 393);
             this.groupBox6.TabIndex = 13;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "分析器";

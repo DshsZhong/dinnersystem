@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FactoryClient.Analysis_Function;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace FactoryClient
 {
@@ -28,33 +30,23 @@ namespace FactoryClient
             this.req = req;
             data = Base_Function.Preload.Load("D:\\data.json");
             export_location.Text = AppDomain.CurrentDomain.BaseDirectory + "輸出模型.xlsx";
-            Show_Datetime.Value = DateTime.Now.AddDays(1);
-            Start_Date.Value = End_Date.Value = DateTime.Now;
+            Load_Location.Text = Save_Location.Text = AppDomain.CurrentDomain.BaseDirectory + "data.json";
+            load_start.Value = load_end.Value = End_Date.Value = Start_Date.Value = DateTime.Now;
         }
 
-        private void Back_Click(object sender, EventArgs e)  { Close();  }
-
-        private void Download_Click(object sender, EventArgs e)
+        string OpenFile()
         {
-            Download_Progress_Text.Text = "目前進度: 下載完成";
-            Making_Model.Enabled = Classify.Enabled = true;
-            classify = new Classify(data);
-            Show_Datetime.Value = End_Date.Value.AddDays(1);
-            /*Task.Run(() =>
+            string path = "";
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                DateTime start = Start_Date.Value, end = End_Date.Value;
-                Invoke((MethodInvoker)(() => Download_Progress_Text.Text = "目前進度: 下載中"));
-                data = req.Get_Order(start.ToString("yyyy-MM-dd hh:mm:ss").Replace("-", "/").Replace(" ", "-"),
-                    end.ToString("yyyy-MM-dd hh:mm:ss").Replace("-", "/").Replace(" ", "-") ,true);
-                Invoke((MethodInvoker)(() => MessageBox.Show("完成下載")));
-                Invoke((MethodInvoker)(() =>
-                {
-                    Download_Progress_Text.Text = "目前進度: 下載完成";
-                    Making_Model.Enabled = Classify.Enabled = true;
-                }));
-                classify = new Classify(data);
-            });*/
+                openFileDialog.InitialDirectory = "D:\\";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    path = openFileDialog.FileName;
+            }
+            return path;
         }
+
+        private void Back_Click(object sender, EventArgs e) { Close(); }
 
         #region Classification
         private void Classification_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,7 +87,7 @@ namespace FactoryClient
                     data = classify.Get_Classify(Analysis_Function.Classify.Style.user_class, "1");
                     break;
                 case "高二":
-                    data = classify.Get_Classify(Analysis_Function.Classify.Style.user_class ,"2");
+                    data = classify.Get_Classify(Analysis_Function.Classify.Style.user_class, "2");
                     break;
                 case "高三":
                     data = classify.Get_Classify(Analysis_Function.Classify.Style.user_class, "3");
@@ -134,7 +126,7 @@ namespace FactoryClient
                     {
                         Running_Chart.Series["損失函數值"].Points.AddXY(time, -value);
                         Running_Task.Text = "執行任務: " + task;
-                        Cost_Sum.Text = "損失函數和: " + -value;
+                        Cost_Sum.Text = "損失函數和: " + Math.Round(-value, 3);
                         Train_Time.Text = "訓練時間: " + time + "(秒)";
                         People_Sum.Text = "參與人數: " + model.Get_Model().people.Count() + " (個)";
                         Order_Sum.Text = "點單量: " + data.Count + " (份)";
@@ -159,30 +151,17 @@ namespace FactoryClient
         private void Update(object sender, EventArgs e)
         {
             Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "(份)";
-            export_confidence.Text = Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
-            double odd = model.Show(DateTime.Now.AddDays(1).AddHours(1), 
-                Dish_Name.GetItemText(Dish_Name.SelectedItem), 
+            Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
+            double odd = model.Show(DateTime.Now.AddDays(1).AddHours(1),
+                Dish_Name.GetItemText(Dish_Name.SelectedItem),
                 Confidence_Interval.Value,
                 Show_Interval.Value,
                 main_chart).Item3 * 100;
             Confidence_Level.Text = "信心水平: " + odd.ToString("##.##") + "%";
         }
 
-        private void Open_Excel_Click(object sender, EventArgs e)
-        {
-            string OpenFile()
-            {
-                string path = "";
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.InitialDirectory = "D:\\";
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                        path = openFileDialog.FileName;
-                }
-                return path;
-            }
-            export_location.Text = OpenFile();
-        }
+        #region Export
+        private void Open_Excel_Click(object sender, EventArgs e) { export_location.Text = OpenFile(); }
 
         private void Export_Excel_Click(object sender, EventArgs e)
         {
@@ -198,5 +177,56 @@ namespace FactoryClient
             MessageBox.Show("輸出完成");
             Update(0);
         }
+        #endregion
+
+        #region Load
+        private void Download_Click(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                DateTime start = Start_Date.Value, end = End_Date.Value;
+                data = req.Get_Order((start.ToString("yyyy-MM-dd") + " 00:00:00").Replace("-", "/").Replace(" ", "-"),
+                    (end.ToString("yyyy-MM-dd") + " 23:59:59").Replace("-", "/").Replace(" ", "-"), true);
+                Invoke((MethodInvoker)(() =>
+                {
+                    MessageBox.Show("完成下載");
+                    Show_Datetime.Value = end.AddDays(1);
+                    Making_Model.Enabled = Classify.Enabled = true;
+                }));
+                classify = new Classify(data);
+            });
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            StreamWriter sw = new StreamWriter(Save_Location.Text);
+            sw.Write(data.ToString());
+            sw.Flush();
+            sw.Dispose();
+            MessageBox.Show("儲存完成");
+        }
+
+        private void Open_Save_Click(object sender, EventArgs e) { Save_Location.Text = OpenFile(); }
+
+        private void Load_Click(object sender, EventArgs e)
+        {
+            data = JsonConvert.DeserializeObject<JArray>(new StreamReader(Save_Location.Text).ReadToEnd());
+            Making_Model.Enabled = Classify.Enabled = true;
+            DateTime start = DateTime.MaxValue, end = DateTime.MinValue;
+            foreach(JToken token in data)
+            {
+                DateTime dt = DateTime.Parse(token["recv_date"].ToString());
+                start = start > dt ? dt : start;
+                end = end > dt ? end : dt;
+            }
+            load_start.Value = start;
+            load_end.Value = end;
+            Show_Datetime.Value = end.AddDays(1);
+            classify = new Classify(data);
+            MessageBox.Show("載入完成");
+        }
+
+        private void Open_Load_Click(object sender, EventArgs e) { Load_Location.Text = OpenFile(); }
+        #endregion
     }
 }
