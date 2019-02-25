@@ -55,7 +55,7 @@ namespace bank_server
 
         public void Start()
         {
-            alive = false;
+            alive = true;
             internet.Start_Listen();
         }
 
