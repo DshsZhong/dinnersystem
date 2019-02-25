@@ -90,6 +90,7 @@ namespace FactoryClient.Analysis_Function
 
         public void Future(int days)
         {
+            //Temporary using doing this.
             current_days = days;
         }
 

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FactoryClient.Analysis_Function;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FactoryClient
 {
@@ -20,24 +21,25 @@ namespace FactoryClient
         Classify classify;
         Model model;
 
-        const int Running_Previous = 5;
+        const int Running_Previous = 100;
         public Analysis(Request req)
         {
             InitializeComponent();
             this.req = req;
             data = Base_Function.Preload.Load("D:\\data.json");
+            export_location.Text = AppDomain.CurrentDomain.BaseDirectory + "輸出模型.xlsx";
+            Show_Datetime.Value = DateTime.Now.AddDays(1);
+            Start_Date.Value = End_Date.Value = DateTime.Now;
         }
 
-        private void Back_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void Back_Click(object sender, EventArgs e)  { Close();  }
 
         private void Download_Click(object sender, EventArgs e)
         {
             Download_Progress_Text.Text = "目前進度: 下載完成";
             Making_Model.Enabled = Classify.Enabled = true;
             classify = new Classify(data);
+            Show_Datetime.Value = End_Date.Value.AddDays(1);
             /*Task.Run(() =>
             {
                 DateTime start = Start_Date.Value, end = End_Date.Value;
@@ -54,6 +56,7 @@ namespace FactoryClient
             });*/
         }
 
+        #region Classification
         private void Classification_SelectedIndexChanged(object sender, EventArgs e)
         {
             IEnumerable<Tuple<string, int>> data = new List<Tuple<string, int>>();
@@ -107,10 +110,20 @@ namespace FactoryClient
             foreach (Tuple<string, int> item in data)
                 Classify_Chart.Series[Classification.Text].Points.AddXY(item.Item1, item.Item2);
         }
+        #endregion
 
+        #region Build
         private void Build_Click(object sender, EventArgs e)
         {
-            int psize = Pool_Size.Value ,gvalue = Gradient.Value ,tvalue = Ternary.Value;
+            Model_Status.Enabled = Running_Status.Enabled = true;
+            int psize = Pool_Size.Value, gvalue = Gradient.Value, tvalue = Ternary.Value;
+            Running_Chart.Series.Clear();
+            Running_Chart.Series.Add("損失函數值");
+            Running_Chart.ChartAreas[0].AxisX.IsMarginVisible = false;
+            Running_Chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            Running_Chart.Series["損失函數值"].ChartType = SeriesChartType.Line;
+            Running_Chart.Series["損失函數值"].MarkerStyle = MarkerStyle.Circle;
+            Running_Chart.Legends[0].Docking = Docking.Bottom;
             Task.Run(() =>
             {
                 model = new Model(data, psize);
@@ -119,40 +132,18 @@ namespace FactoryClient
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        double max = double.MinValue;
-                        Running_Task.Text = "執行任務:" + task;
-                        recorder.Add(value);
-                        Running_Chart.Series.Clear();
-                        Running_Chart.Series.Add("損失函數值");
-                        for (int i = 1; i <= Running_Previous; i++)
-                        {
-                            int index = i + recorder.Count - Running_Previous;
-                            if (!(recorder.Count > index && index >= 0)) continue;
-                            double data = -recorder[index];
-                            Running_Chart.Series["損失函數值"].Points.AddXY(i, data);
-                            max = (max > data ? max : data);
-                        }
-                        Running_Chart.ChartAreas[0].AxisY.Minimum = 0;
-                        Running_Chart.ChartAreas[0].AxisY.Maximum = max;
-                        Running_Chart.ChartAreas[0].AxisY.Interval = max / 2;
+                        Running_Chart.Series["損失函數值"].Points.AddXY(time, -value);
+                        Running_Task.Text = "執行任務: " + task;
+                        Cost_Sum.Text = "損失函數和: " + -value;
+                        Train_Time.Text = "訓練時間: " + time + "(秒)";
+                        People_Sum.Text = "參與人數: " + model.Get_Model().people.Count() + " (個)";
+                        Order_Sum.Text = "點單量: " + data.Count + " (份)";
                     }));
                 }, gvalue, tvalue);
                 while (!model.Finished_Build) Thread.Sleep(100);
                 model.UpdateForm(Dish_Name);
-                Invoke((MethodInvoker)(() => Predict_Model.Enabled = true));
+                Invoke((MethodInvoker)(() => Export.Enabled = Predict_Model.Enabled = true));
             });
-        }
-
-        private void Update(object sender, EventArgs e)
-        {
-            Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "(份)";
-            Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
-            double odd = model.Show(main_chart, 
-                DateTime.Now.AddDays(1).AddHours(1), 
-                Dish_Name.GetItemText(Dish_Name.SelectedItem), 
-                Confidence_Interval.Value,
-                Show_Interval.Value) * 100;
-            Confidence_Level.Text = "信心水平: " + odd.ToString("##.##") + "%";
         }
 
         private void Pool_Size_Scroll(object sender, EventArgs e)
@@ -162,6 +153,50 @@ namespace FactoryClient
         { Ternary_Show.Text = "三分搜迭代量:(" + Ternary.Value + ")"; }
 
         private void Gradient_Scroll(object sender, EventArgs e)
-        { Gradient_Show.Text = "梯度上升迭代數:(" + Gradient.Value + ")"; }
+        { Gradient_Show.Text = "梯度迭代量:(" + Gradient.Value + ")"; }
+        #endregion
+
+        private void Update(object sender, EventArgs e)
+        {
+            Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "(份)";
+            export_confidence.Text = Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
+            double odd = model.Show(DateTime.Now.AddDays(1).AddHours(1), 
+                Dish_Name.GetItemText(Dish_Name.SelectedItem), 
+                Confidence_Interval.Value,
+                Show_Interval.Value,
+                main_chart).Item3 * 100;
+            Confidence_Level.Text = "信心水平: " + odd.ToString("##.##") + "%";
+        }
+
+        private void Open_Excel_Click(object sender, EventArgs e)
+        {
+            string OpenFile()
+            {
+                string path = "";
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.InitialDirectory = "D:\\";
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        path = openFileDialog.FileName;
+                }
+                return path;
+            }
+            export_location.Text = OpenFile();
+        }
+
+        private void Export_Excel_Click(object sender, EventArgs e)
+        {
+            void Update(int value)
+            {
+                export_progress.Value = value;
+                progress_text.Text = "輸出進度: " + value + "%";
+            }
+            Export.Enabled = false;
+            Export_Model export = new Export_Model(new ExcelStream(export_location.Text), model);
+            export.Write(Show_Datetime.Value, Confidence_Interval.Value, Update);
+            Export.Enabled = true;
+            MessageBox.Show("輸出完成");
+            Update(0);
+        }
     }
 }

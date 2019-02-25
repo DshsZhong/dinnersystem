@@ -46,4 +46,5 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClien
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.CopyComplete
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.exe
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.pdb
-D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csprojAssemblyReference.cache
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\Microsoft.VisualStudio.TestTools.UITest.Extension.dll
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\Microsoft.VisualStudio.OLE.Interop.dll

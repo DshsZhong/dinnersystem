@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea34 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend34 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea35 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend35 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea36 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend36 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.main_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Build = new System.Windows.Forms.Button();
             this.Cost_Sum = new System.Windows.Forms.Label();
@@ -51,7 +51,6 @@
             this.Show_Interval = new System.Windows.Forms.TrackBar();
             this.Confidence_Level = new System.Windows.Forms.Label();
             this.Show_Interval_Label = new System.Windows.Forms.Label();
-            this.Long_Time = new System.Windows.Forms.Button();
             this.Show_Datetime = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -59,7 +58,7 @@
             this.Running_Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Running_Status = new System.Windows.Forms.GroupBox();
             this.Running_Task = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupbox = new System.Windows.Forms.GroupBox();
             this.Download_Progress_Text = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -68,20 +67,15 @@
             this.Start_Date = new System.Windows.Forms.DateTimePicker();
             this.Making_Model = new System.Windows.Forms.GroupBox();
             this.Model_Status = new System.Windows.Forms.GroupBox();
-            this.Model_Trustable = new System.Windows.Forms.Label();
             this.Order_Sum = new System.Windows.Forms.Label();
             this.Export = new System.Windows.Forms.GroupBox();
             this.Export_Excel = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.export_confidence = new System.Windows.Forms.Label();
             this.Open_Excel = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.export_location = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.Other = new System.Windows.Forms.GroupBox();
             this.Back = new System.Windows.Forms.Button();
-            this.User = new System.Windows.Forms.Label();
             this.Classify = new System.Windows.Forms.GroupBox();
             this.Semi_Classify = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -89,6 +83,9 @@
             this.Classify_Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label19 = new System.Windows.Forms.Label();
             this.Classification = new System.Windows.Forms.ComboBox();
+            this.Train_Time = new System.Windows.Forms.Label();
+            this.export_progress = new System.Windows.Forms.ProgressBar();
+            this.progress_text = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.main_chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ternary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gradient)).BeginInit();
@@ -98,7 +95,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Show_Interval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Running_Chart)).BeginInit();
             this.Running_Status.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.groupbox.SuspendLayout();
             this.Making_Model.SuspendLayout();
             this.Model_Status.SuspendLayout();
             this.Export.SuspendLayout();
@@ -109,14 +106,14 @@
             // 
             // main_chart
             // 
-            chartArea34.Name = "ChartArea1";
-            this.main_chart.ChartAreas.Add(chartArea34);
-            legend34.Name = "Legend1";
-            this.main_chart.Legends.Add(legend34);
+            chartArea10.Name = "ChartArea1";
+            this.main_chart.ChartAreas.Add(chartArea10);
+            legend10.Name = "Legend1";
+            this.main_chart.Legends.Add(legend10);
             this.main_chart.Location = new System.Drawing.Point(8, 136);
             this.main_chart.Margin = new System.Windows.Forms.Padding(4);
             this.main_chart.Name = "main_chart";
-            this.main_chart.Size = new System.Drawing.Size(985, 499);
+            this.main_chart.Size = new System.Drawing.Size(985, 434);
             this.main_chart.TabIndex = 0;
             this.main_chart.Text = "chart1";
             // 
@@ -144,21 +141,21 @@
             // People_Sum
             // 
             this.People_Sum.AutoSize = true;
-            this.People_Sum.Location = new System.Drawing.Point(8, 119);
+            this.People_Sum.Location = new System.Drawing.Point(8, 105);
             this.People_Sum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.People_Sum.Name = "People_Sum";
-            this.People_Sum.Size = new System.Drawing.Size(110, 17);
+            this.People_Sum.Size = new System.Drawing.Size(72, 17);
             this.People_Sum.TabIndex = 7;
-            this.People_Sum.Text = "參與模型總人數:";
+            this.People_Sum.Text = "參與人數: ";
             // 
             // Ternary
             // 
-            this.Ternary.Location = new System.Drawing.Point(164, 151);
+            this.Ternary.Location = new System.Drawing.Point(175, 151);
             this.Ternary.Margin = new System.Windows.Forms.Padding(4);
             this.Ternary.Maximum = 50;
             this.Ternary.Minimum = 10;
             this.Ternary.Name = "Ternary";
-            this.Ternary.Size = new System.Drawing.Size(291, 56);
+            this.Ternary.Size = new System.Drawing.Size(280, 56);
             this.Ternary.TabIndex = 8;
             this.Ternary.Value = 10;
             this.Ternary.Scroll += new System.EventHandler(this.Ternary_Scroll);
@@ -179,30 +176,29 @@
             this.Gradient_Show.Location = new System.Drawing.Point(17, 225);
             this.Gradient_Show.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Gradient_Show.Name = "Gradient_Show";
-            this.Gradient_Show.Size = new System.Drawing.Size(136, 17);
+            this.Gradient_Show.Size = new System.Drawing.Size(108, 17);
             this.Gradient_Show.TabIndex = 10;
-            this.Gradient_Show.Text = "梯度上升迭代量:(10)";
+            this.Gradient_Show.Text = "梯度迭代量:(10)";
             // 
             // Gradient
             // 
-            this.Gradient.Location = new System.Drawing.Point(164, 225);
+            this.Gradient.Location = new System.Drawing.Point(175, 225);
             this.Gradient.Margin = new System.Windows.Forms.Padding(4);
-            this.Gradient.Maximum = 50;
+            this.Gradient.Maximum = 500;
             this.Gradient.Minimum = 10;
             this.Gradient.Name = "Gradient";
-            this.Gradient.Size = new System.Drawing.Size(291, 56);
+            this.Gradient.Size = new System.Drawing.Size(280, 56);
             this.Gradient.TabIndex = 11;
             this.Gradient.Value = 10;
             this.Gradient.Scroll += new System.EventHandler(this.Gradient_Scroll);
             // 
             // Pool_Size
             // 
-            this.Pool_Size.Location = new System.Drawing.Point(164, 83);
+            this.Pool_Size.Location = new System.Drawing.Point(175, 83);
             this.Pool_Size.Margin = new System.Windows.Forms.Padding(4);
-            this.Pool_Size.Maximum = 50;
             this.Pool_Size.Minimum = 1;
             this.Pool_Size.Name = "Pool_Size";
-            this.Pool_Size.Size = new System.Drawing.Size(291, 56);
+            this.Pool_Size.Size = new System.Drawing.Size(280, 56);
             this.Pool_Size.TabIndex = 13;
             this.Pool_Size.Value = 1;
             this.Pool_Size.Scroll += new System.EventHandler(this.Pool_Size_Scroll);
@@ -224,7 +220,6 @@
             this.Predict_Model.Controls.Add(this.Show_Interval);
             this.Predict_Model.Controls.Add(this.Confidence_Level);
             this.Predict_Model.Controls.Add(this.Show_Interval_Label);
-            this.Predict_Model.Controls.Add(this.Long_Time);
             this.Predict_Model.Controls.Add(this.Show_Datetime);
             this.Predict_Model.Controls.Add(this.label8);
             this.Predict_Model.Controls.Add(this.label7);
@@ -235,7 +230,7 @@
             this.Predict_Model.Margin = new System.Windows.Forms.Padding(4);
             this.Predict_Model.Name = "Predict_Model";
             this.Predict_Model.Padding = new System.Windows.Forms.Padding(4);
-            this.Predict_Model.Size = new System.Drawing.Size(1001, 643);
+            this.Predict_Model.Size = new System.Drawing.Size(1001, 582);
             this.Predict_Model.TabIndex = 14;
             this.Predict_Model.TabStop = false;
             this.Predict_Model.Text = "預測模型";
@@ -266,6 +261,7 @@
             this.Show_Interval.Name = "Show_Interval";
             this.Show_Interval.Size = new System.Drawing.Size(240, 56);
             this.Show_Interval.TabIndex = 20;
+            this.Show_Interval.Value = 15;
             this.Show_Interval.Scroll += new System.EventHandler(this.Update);
             // 
             // Confidence_Level
@@ -288,19 +284,12 @@
             this.Show_Interval_Label.TabIndex = 0;
             this.Show_Interval_Label.Text = "顯示區間:";
             // 
-            // Long_Time
-            // 
-            this.Long_Time.Location = new System.Drawing.Point(368, 21);
-            this.Long_Time.Margin = new System.Windows.Forms.Padding(4);
-            this.Long_Time.Name = "Long_Time";
-            this.Long_Time.Size = new System.Drawing.Size(124, 31);
-            this.Long_Time.TabIndex = 5;
-            this.Long_Time.Text = "估測長期狀態";
-            this.Long_Time.UseVisualStyleBackColor = true;
-            // 
             // Show_Datetime
             // 
-            this.Show_Datetime.Location = new System.Drawing.Point(95, 25);
+            this.Show_Datetime.CustomFormat = "yyyy-MM-dd";
+            this.Show_Datetime.Enabled = false;
+            this.Show_Datetime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.Show_Datetime.Location = new System.Drawing.Point(147, 32);
             this.Show_Datetime.Margin = new System.Windows.Forms.Padding(4);
             this.Show_Datetime.Name = "Show_Datetime";
             this.Show_Datetime.Size = new System.Drawing.Size(265, 22);
@@ -312,9 +301,9 @@
             this.label8.Location = new System.Drawing.Point(12, 32);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 17);
+            this.label8.Size = new System.Drawing.Size(72, 17);
             this.label8.TabIndex = 16;
-            this.label8.Text = "日期: ";
+            this.label8.Text = "預測日期: ";
             // 
             // label7
             // 
@@ -338,11 +327,11 @@
             // 
             // Running_Chart
             // 
-            chartArea35.Name = "ChartArea1";
-            this.Running_Chart.ChartAreas.Add(chartArea35);
-            legend35.Name = "Legend1";
-            this.Running_Chart.Legends.Add(legend35);
-            this.Running_Chart.Location = new System.Drawing.Point(8, 60);
+            chartArea11.Name = "ChartArea1";
+            this.Running_Chart.ChartAreas.Add(chartArea11);
+            legend11.Name = "Legend1";
+            this.Running_Chart.Legends.Add(legend11);
+            this.Running_Chart.Location = new System.Drawing.Point(10, 61);
             this.Running_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Running_Chart.Name = "Running_Chart";
             this.Running_Chart.Size = new System.Drawing.Size(345, 255);
@@ -373,22 +362,22 @@
             this.Running_Task.TabIndex = 16;
             this.Running_Task.Text = "執行任務:";
             // 
-            // groupBox3
+            // groupbox
             // 
-            this.groupBox3.Controls.Add(this.Download_Progress_Text);
-            this.groupBox3.Controls.Add(this.label21);
-            this.groupBox3.Controls.Add(this.label20);
-            this.groupBox3.Controls.Add(this.End_Date);
-            this.groupBox3.Controls.Add(this.Download);
-            this.groupBox3.Controls.Add(this.Start_Date);
-            this.groupBox3.Location = new System.Drawing.Point(1025, 345);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(463, 187);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "下載資料";
+            this.groupbox.Controls.Add(this.Download_Progress_Text);
+            this.groupbox.Controls.Add(this.label21);
+            this.groupbox.Controls.Add(this.label20);
+            this.groupbox.Controls.Add(this.End_Date);
+            this.groupbox.Controls.Add(this.Download);
+            this.groupbox.Controls.Add(this.Start_Date);
+            this.groupbox.Location = new System.Drawing.Point(1025, 345);
+            this.groupbox.Margin = new System.Windows.Forms.Padding(4);
+            this.groupbox.Name = "groupbox";
+            this.groupbox.Padding = new System.Windows.Forms.Padding(4);
+            this.groupbox.Size = new System.Drawing.Size(463, 187);
+            this.groupbox.TabIndex = 18;
+            this.groupbox.TabStop = false;
+            this.groupbox.Text = "下載資料";
             // 
             // Download_Progress_Text
             // 
@@ -422,6 +411,8 @@
             // 
             // End_Date
             // 
+            this.End_Date.CustomFormat = "yyyy-MM-dd";
+            this.End_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.End_Date.Location = new System.Drawing.Point(97, 132);
             this.End_Date.Margin = new System.Windows.Forms.Padding(4);
             this.End_Date.Name = "End_Date";
@@ -441,6 +432,8 @@
             // 
             // Start_Date
             // 
+            this.Start_Date.CustomFormat = "yyyy-MM-dd";
+            this.Start_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.Start_Date.Location = new System.Drawing.Point(97, 95);
             this.Start_Date.Margin = new System.Windows.Forms.Padding(4);
             this.Start_Date.Name = "Start_Date";
@@ -468,7 +461,7 @@
             // 
             // Model_Status
             // 
-            this.Model_Status.Controls.Add(this.Model_Trustable);
+            this.Model_Status.Controls.Add(this.Train_Time);
             this.Model_Status.Controls.Add(this.Order_Sum);
             this.Model_Status.Controls.Add(this.Cost_Sum);
             this.Model_Status.Controls.Add(this.People_Sum);
@@ -477,47 +470,36 @@
             this.Model_Status.Margin = new System.Windows.Forms.Padding(4);
             this.Model_Status.Name = "Model_Status";
             this.Model_Status.Padding = new System.Windows.Forms.Padding(4);
-            this.Model_Status.Size = new System.Drawing.Size(191, 321);
+            this.Model_Status.Size = new System.Drawing.Size(269, 321);
             this.Model_Status.TabIndex = 23;
             this.Model_Status.TabStop = false;
             this.Model_Status.Text = "模型狀態";
             // 
-            // Model_Trustable
-            // 
-            this.Model_Trustable.AutoSize = true;
-            this.Model_Trustable.Location = new System.Drawing.Point(8, 283);
-            this.Model_Trustable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Model_Trustable.Name = "Model_Trustable";
-            this.Model_Trustable.Size = new System.Drawing.Size(114, 17);
-            this.Model_Trustable.TabIndex = 22;
-            this.Model_Trustable.Text = "模型可信度指標: ";
-            // 
             // Order_Sum
             // 
             this.Order_Sum.AutoSize = true;
-            this.Order_Sum.Location = new System.Drawing.Point(8, 149);
+            this.Order_Sum.Location = new System.Drawing.Point(8, 135);
             this.Order_Sum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Order_Sum.Name = "Order_Sum";
-            this.Order_Sum.Size = new System.Drawing.Size(82, 17);
+            this.Order_Sum.Size = new System.Drawing.Size(54, 17);
             this.Order_Sum.TabIndex = 8;
-            this.Order_Sum.Text = "累計點單數:";
+            this.Order_Sum.Text = "點單量:";
             // 
             // Export
             // 
+            this.Export.Controls.Add(this.progress_text);
+            this.Export.Controls.Add(this.export_progress);
             this.Export.Controls.Add(this.Export_Excel);
-            this.Export.Controls.Add(this.textBox5);
-            this.Export.Controls.Add(this.label16);
-            this.Export.Controls.Add(this.textBox4);
-            this.Export.Controls.Add(this.label15);
+            this.Export.Controls.Add(this.export_confidence);
             this.Export.Controls.Add(this.Open_Excel);
-            this.Export.Controls.Add(this.textBox3);
+            this.Export.Controls.Add(this.export_location);
             this.Export.Controls.Add(this.label14);
             this.Export.Enabled = false;
-            this.Export.Location = new System.Drawing.Point(215, 17);
+            this.Export.Location = new System.Drawing.Point(293, 17);
             this.Export.Margin = new System.Windows.Forms.Padding(4);
             this.Export.Name = "Export";
             this.Export.Padding = new System.Windows.Forms.Padding(4);
-            this.Export.Size = new System.Drawing.Size(299, 320);
+            this.Export.Size = new System.Drawing.Size(223, 320);
             this.Export.TabIndex = 24;
             this.Export.TabStop = false;
             this.Export.Text = "輸出模型資料";
@@ -527,64 +509,40 @@
             this.Export_Excel.Location = new System.Drawing.Point(12, 37);
             this.Export_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Export_Excel.Name = "Export_Excel";
-            this.Export_Excel.Size = new System.Drawing.Size(279, 31);
+            this.Export_Excel.Size = new System.Drawing.Size(201, 31);
             this.Export_Excel.TabIndex = 22;
             this.Export_Excel.Text = "輸出報表";
             this.Export_Excel.UseVisualStyleBackColor = true;
+            this.Export_Excel.Click += new System.EventHandler(this.Export_Excel_Click);
             // 
-            // textBox5
+            // export_confidence
             // 
-            this.textBox5.Location = new System.Drawing.Point(111, 277);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(179, 22);
-            this.textBox5.TabIndex = 21;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(9, 281);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(68, 17);
-            this.label16.TabIndex = 20;
-            this.label16.Text = "信心水平:";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(111, 240);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(179, 22);
-            this.textBox4.TabIndex = 21;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(9, 244);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(68, 17);
-            this.label15.TabIndex = 20;
-            this.label15.Text = "誤差區間:";
+            this.export_confidence.AutoSize = true;
+            this.export_confidence.Location = new System.Drawing.Point(9, 244);
+            this.export_confidence.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.export_confidence.Name = "export_confidence";
+            this.export_confidence.Size = new System.Drawing.Size(68, 17);
+            this.export_confidence.TabIndex = 20;
+            this.export_confidence.Text = "信賴區間:";
             // 
             // Open_Excel
             // 
-            this.Open_Excel.Location = new System.Drawing.Point(12, 76);
+            this.Open_Excel.Location = new System.Drawing.Point(12, 164);
             this.Open_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Open_Excel.Name = "Open_Excel";
-            this.Open_Excel.Size = new System.Drawing.Size(279, 31);
+            this.Open_Excel.Size = new System.Drawing.Size(201, 31);
             this.Open_Excel.TabIndex = 2;
             this.Open_Excel.Text = "開啟檔案";
             this.Open_Excel.UseVisualStyleBackColor = true;
+            this.Open_Excel.Click += new System.EventHandler(this.Open_Excel_Click);
             // 
-            // textBox3
+            // export_location
             // 
-            this.textBox3.Location = new System.Drawing.Point(111, 203);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(179, 22);
-            this.textBox3.TabIndex = 1;
+            this.export_location.Location = new System.Drawing.Point(111, 203);
+            this.export_location.Margin = new System.Windows.Forms.Padding(4);
+            this.export_location.Name = "export_location";
+            this.export_location.Size = new System.Drawing.Size(102, 22);
+            this.export_location.TabIndex = 1;
             // 
             // label14
             // 
@@ -599,19 +557,18 @@
             // Other
             // 
             this.Other.Controls.Add(this.Back);
-            this.Other.Controls.Add(this.User);
             this.Other.Location = new System.Drawing.Point(1025, 847);
             this.Other.Margin = new System.Windows.Forms.Padding(4);
             this.Other.Name = "Other";
             this.Other.Padding = new System.Windows.Forms.Padding(4);
-            this.Other.Size = new System.Drawing.Size(463, 141);
+            this.Other.Size = new System.Drawing.Size(463, 80);
             this.Other.TabIndex = 20;
             this.Other.TabStop = false;
             this.Other.Text = "其他";
             // 
             // Back
             // 
-            this.Back.Location = new System.Drawing.Point(8, 85);
+            this.Back.Location = new System.Drawing.Point(6, 37);
             this.Back.Margin = new System.Windows.Forms.Padding(4);
             this.Back.Name = "Back";
             this.Back.Size = new System.Drawing.Size(447, 31);
@@ -619,16 +576,6 @@
             this.Back.Text = "回到上一頁";
             this.Back.UseVisualStyleBackColor = true;
             this.Back.Click += new System.EventHandler(this.Back_Click);
-            // 
-            // User
-            // 
-            this.User.AutoSize = true;
-            this.User.Location = new System.Drawing.Point(17, 41);
-            this.User.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.User.Name = "User";
-            this.User.Size = new System.Drawing.Size(86, 17);
-            this.User.TabIndex = 0;
-            this.User.Text = "現在使用者: ";
             // 
             // Classify
             // 
@@ -682,17 +629,17 @@
             // 
             // Classify_Chart
             // 
-            chartArea36.Name = "ChartArea1";
-            this.Classify_Chart.ChartAreas.Add(chartArea36);
-            legend36.Name = "Legend1";
-            this.Classify_Chart.Legends.Add(legend36);
+            chartArea12.Name = "ChartArea1";
+            this.Classify_Chart.ChartAreas.Add(chartArea12);
+            legend12.Name = "Legend1";
+            this.Classify_Chart.Legends.Add(legend12);
             this.Classify_Chart.Location = new System.Drawing.Point(8, 56);
             this.Classify_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Classify_Chart.Name = "Classify_Chart";
-            series12.ChartArea = "ChartArea1";
-            series12.Legend = "Legend1";
-            series12.Name = "Series1";
-            this.Classify_Chart.Series.Add(series12);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.Classify_Chart.Series.Add(series4);
             this.Classify_Chart.Size = new System.Drawing.Size(577, 256);
             this.Classify_Chart.TabIndex = 18;
             this.Classify_Chart.Text = "chart3";
@@ -722,17 +669,44 @@
             this.Classification.TabIndex = 0;
             this.Classification.SelectedIndexChanged += new System.EventHandler(this.Classification_SelectedIndexChanged);
             // 
+            // Train_Time
+            // 
+            this.Train_Time.AutoSize = true;
+            this.Train_Time.Location = new System.Drawing.Point(8, 241);
+            this.Train_Time.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Train_Time.Name = "Train_Time";
+            this.Train_Time.Size = new System.Drawing.Size(72, 17);
+            this.Train_Time.TabIndex = 10;
+            this.Train_Time.Text = "訓練時間: ";
+            // 
+            // export_progress
+            // 
+            this.export_progress.Location = new System.Drawing.Point(12, 75);
+            this.export_progress.Name = "export_progress";
+            this.export_progress.Size = new System.Drawing.Size(200, 23);
+            this.export_progress.TabIndex = 23;
+            // 
+            // progress_text
+            // 
+            this.progress_text.AutoSize = true;
+            this.progress_text.Location = new System.Drawing.Point(9, 104);
+            this.progress_text.Name = "progress_text";
+            this.progress_text.Size = new System.Drawing.Size(92, 17);
+            this.progress_text.TabIndex = 24;
+            this.progress_text.Text = "輸出進度: 0%";
+            // 
             // Analysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1500, 1015);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1500, 943);
             this.Controls.Add(this.Classify);
             this.Controls.Add(this.Other);
             this.Controls.Add(this.Export);
             this.Controls.Add(this.Model_Status);
             this.Controls.Add(this.Making_Model);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupbox);
             this.Controls.Add(this.Running_Status);
             this.Controls.Add(this.Predict_Model);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -749,8 +723,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Running_Chart)).EndInit();
             this.Running_Status.ResumeLayout(false);
             this.Running_Status.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.groupbox.ResumeLayout(false);
+            this.groupbox.PerformLayout();
             this.Making_Model.ResumeLayout(false);
             this.Making_Model.PerformLayout();
             this.Model_Status.ResumeLayout(false);
@@ -758,7 +732,6 @@
             this.Export.ResumeLayout(false);
             this.Export.PerformLayout();
             this.Other.ResumeLayout(false);
-            this.Other.PerformLayout();
             this.Classify.ResumeLayout(false);
             this.Classify.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Classify_Chart)).EndInit();
@@ -779,7 +752,6 @@
         private System.Windows.Forms.TrackBar Pool_Size;
         private System.Windows.Forms.Label Pool_Show;
         private System.Windows.Forms.GroupBox Predict_Model;
-        private System.Windows.Forms.Button Long_Time;
         private System.Windows.Forms.DateTimePicker Show_Datetime;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -787,7 +759,7 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart Running_Chart;
         private System.Windows.Forms.GroupBox Running_Status;
         private System.Windows.Forms.Label Running_Task;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupbox;
         private System.Windows.Forms.DateTimePicker End_Date;
         private System.Windows.Forms.Button Download;
         private System.Windows.Forms.DateTimePicker Start_Date;
@@ -798,20 +770,15 @@
         private System.Windows.Forms.Label Download_Progress_Text;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label Model_Trustable;
         private System.Windows.Forms.Label Order_Sum;
         private System.Windows.Forms.GroupBox Export;
         private System.Windows.Forms.Button Export_Excel;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label export_confidence;
         private System.Windows.Forms.Button Open_Excel;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox export_location;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox Other;
         private System.Windows.Forms.Button Back;
-        private System.Windows.Forms.Label User;
         private System.Windows.Forms.GroupBox Classify;
         private System.Windows.Forms.DataVisualization.Charting.Chart Classify_Chart;
         private System.Windows.Forms.Label label19;
@@ -822,5 +789,8 @@
         private System.Windows.Forms.TrackBar Show_Interval;
         private System.Windows.Forms.TrackBar Confidence_Interval;
         private System.Windows.Forms.Label Confidence_Interval_Label;
+        private System.Windows.Forms.Label Train_Time;
+        private System.Windows.Forms.Label progress_text;
+        private System.Windows.Forms.ProgressBar export_progress;
     }
 }
