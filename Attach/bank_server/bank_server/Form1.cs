@@ -90,7 +90,7 @@ namespace bank_server
         private void activate_Click(object sender, EventArgs e)
         {
             close.Enabled = true;
-            error_notified = activate.Enabled = false;
+            notified = activate.Enabled = false;
             controller.Start();
         }
 
@@ -102,7 +102,8 @@ namespace bank_server
         }
 
         int running_seconds = 0;
-        bool error_notified = false;
+        bool notified = false;
+        SoundPlayer player;
         private void Updater_Tick(object sender, EventArgs e)
         {
             running_seconds += 1;
@@ -114,17 +115,23 @@ namespace bank_server
             running_due.Text = "啟動時間: " + show;
             writes.Text = "累計繳款次數: " + controller.Writes.ToString();
             reads.Text = "累計讀取次數: " + controller.Reads.ToString();
-            if(!controller.Alive && close.Enabled)
+
+            if (!controller.Alive && !notified)
+            {
+                player  = new SoundPlayer();
+                player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\music.wav";
+                player.PlayLooping();
+                notified = true;
+            }
+            if (!controller.Alive && close.Enabled)
             {
                 activate.Enabled = true;
                 close.Enabled = false;
                 controller.Stop();
                 MessageBox.Show("繳款時發生問題，緊急關閉系統");
-                error_notified = true;
-
+                player.Stop();
+                player = null;
             }
-            if(!controller.Alive && !error_notified)
-                SystemSounds.Beep.Play();
         }
 
         private void force_delay_Scroll(object sender, EventArgs e)

@@ -15,7 +15,7 @@ namespace FactoryClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Analysis(null));
+            Application.Run(new Login());
         }
     }
 }
