@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
 
 namespace FactoryClient
 {
@@ -75,7 +76,12 @@ namespace FactoryClient
                 string vege = (row[3] == "葷" ? "MEAT" : "PURE");
                 string idle = (row[4] == "是" ? "true" : "false");
                 string limit = row[5];
-                suffix.Add("&id=" + id + "&dish_name=" + dname + "&charge_sum=" + charge + "&is_vege=" + vege + "&is_idle=" + idle + "&daily_limit=" + limit);
+                suffix.Add("&id=" + WebUtility.UrlEncode(id) + 
+                    "&dish_name=" + WebUtility.UrlEncode(dname) + 
+                    "&charge_sum=" + WebUtility.UrlEncode(charge) + 
+                    "&is_vege=" + WebUtility.UrlEncode(vege) + 
+                    "&is_idle=" + WebUtility.UrlEncode(idle) + 
+                    "&daily_limit=" + WebUtility.UrlEncode(limit));
             }
             req.Update_Dish(suffix , invoker);
         }

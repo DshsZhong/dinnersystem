@@ -15,7 +15,7 @@ namespace FactoryClient
     {
         string cookieHeader;
         public string uname = "";
-        const string host = "http://dinnersystem.ddns.net";
+        const string host = "https://dinnersystem.ddns.net";
         public Request(string id, string pswd)
         {
             string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&hash=" + create_hash(id, pswd);
@@ -92,7 +92,7 @@ namespace FactoryClient
             int count = 0;
             foreach (string tmp in suffix)
             {
-                string url = host + "/dinnersys_beta/backend/backend.php?cmd=update_dish" + WebUtility.UrlEncode(tmp);
+                string url = host + "/dinnersys_beta/backend/backend.php?cmd=update_dish" + tmp;
                 HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
                 req.Headers.Add("Cookie", cookieHeader);
                 WebResponse wr = req.GetResponse();
