@@ -24,7 +24,6 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
         $after = intval(\bank\get_money());
         if($money != $after + $row->money->charge)
             throw new \Exception("Failed to debit.");
-        
     
         $sql_command = "UPDATE `dinnersys`.`payment` AS P
             SET `paid` = ?,
@@ -38,10 +37,12 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
         $statement->bind_param('ii',$target ,$ord_id);
         $statement->execute();    
     } catch (\Exception $e) { 
-        throw $e; 
-    } finally {
+        echo "qwerqerqewr";
         \order\delock($row->id);
+        throw $e; 
     }
+
+    \order\delock($row->id);
     return $row;
 }
 

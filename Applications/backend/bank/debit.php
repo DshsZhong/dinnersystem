@@ -25,6 +25,7 @@ function debit($row ,$req_id)
     ];
     $msg = json_encode($msg);
     fwrite($fp, $msg . "\n");
+    stream_set_timeout($fp, 3);
 
     $data = "";
     while (!feof($fp)) {

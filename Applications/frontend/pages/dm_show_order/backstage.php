@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../../collapsable/tree.php");
 date_default_timezone_set('Asia/Taipei');
 $time = date("Y/m/d");
 $param = ['cmd' => 'select_class' ,
-    'payment' => 'true' ,
+    "dirty" => "true" ,
     'esti_start' => $time . '-00:00:00' ,
     'esti_end' => $time . '-23:59:59'];
 
@@ -23,9 +23,11 @@ $categorize = new tree(
     ] ,0
 );
 if($data == null) die();
-foreach($data as $key => $value) {
-    $categorize->add($value);
-}
+
+foreach($data as $key => $value) 
+    if($value->money->payment["payment"]->paid)
+        $categorize->add($value);
+    
 $categorize->build_info();
 echo $categorize->get_collapsable();
 

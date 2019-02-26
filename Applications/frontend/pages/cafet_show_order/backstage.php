@@ -9,7 +9,8 @@ date_default_timezone_set('Asia/Taipei');
 $time = date("Y/m/d");
 $obj = new \backend_proc\backend_main(['cmd' => 'select_other' ,
     'esti_start' => $time . '-00:00:00' ,
-    'esti_end' => $time . '-23:59:59']);
+    'esti_end' => $time . '-23:59:59' ,
+    'dirty' => "true"]);
 $data = $obj->run();
 
 

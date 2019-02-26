@@ -11,14 +11,15 @@ function order(value) {
 
 function load() {
     var today = moment().format("YYYY/MM/DD");
-    var url = "../../../backend/backend.php?cmd=select_class&payment=true&history=true&esti_start=" + today + "-00:00:00&esti_end=" + today + "-23:59:59";
+    var url = "../../../backend/backend.php?cmd=select_class&dirty=true&history=true&esti_start=" + today + "-00:00:00&esti_end=" + today + "-23:59:59";
 
     $("#loading").css("display" ,"block");
     $.get(url, function (data) {
         var json = $.parseJSON(data);
         for (var key in json) {
             var value = json[key];
-            $("#data_person").append(order(value));
+            if(value["money"]["payment"][0]["paid"] == "true")
+                $("#data_person").append(order(value));
         }
     }).done(function(){
         $("#loading").css("display" ,"none");

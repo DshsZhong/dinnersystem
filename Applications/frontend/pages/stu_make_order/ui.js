@@ -12,6 +12,9 @@ $(document).ready(function(){
 function update_money() {
     var money = "../../../backend/backend.php?cmd=get_money";
     $.get(money, (data) => {
-        $("#money").text(data + "$.");
+        if(data === parseInt(data, 10))
+            $("#money").text(data + "$.");
+        else
+            $("#money").text("- $.");
     });
 }
