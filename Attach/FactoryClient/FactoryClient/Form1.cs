@@ -285,5 +285,7 @@ namespace FactoryClient
                 }
             });
         }
+
+        private void logout_Click(object sender, EventArgs e)   { Close(); }
     }
 }

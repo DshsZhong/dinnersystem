@@ -23,7 +23,6 @@ namespace FactoryClient
             catch (Exception ex) { MessageBox.Show(ex.Message); return; }
             Form1 form = new Form1(req);
             form.Show();
-            Hide();
         }
     }
 }

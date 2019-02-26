@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
 
 namespace FactoryClient
 {
@@ -21,7 +20,7 @@ namespace FactoryClient
 
         public void Download(UpdateProgress invoker)
         {
-            JArray data = req.Get_Dish(), real = new JArray();
+            JArray data = req.Get_Dish() ,real = new JArray();
             foreach (JToken item in data)
                 if (item["department"]["factory"]["name"].ToString() == req.uname)
                     real.Add(item);
@@ -76,14 +75,9 @@ namespace FactoryClient
                 string vege = (row[3] == "葷" ? "MEAT" : "PURE");
                 string idle = (row[4] == "是" ? "true" : "false");
                 string limit = row[5];
-                suffix.Add("&id=" + WebUtility.UrlEncode(id)  + 
-                    "&dish_name=" + WebUtility.UrlEncode(dname) + 
-                    "&charge_sum=" + WebUtility.UrlEncode(charge) + 
-                    "&is_vege=" + WebUtility.UrlEncode(vege) + 
-                    "&is_idle=" + WebUtility.UrlEncode(idle) + 
-                    "&daily_limit=" + WebUtility.UrlEncode(limit));
+                suffix.Add("&id=" + id + "&dish_name=" + dname + "&charge_sum=" + charge + "&is_vege=" + vege + "&is_idle=" + idle + "&daily_limit=" + limit);
             }
-            req.Update_Dish(suffix, invoker);
+            req.Update_Dish(suffix , invoker);
         }
     }
 }

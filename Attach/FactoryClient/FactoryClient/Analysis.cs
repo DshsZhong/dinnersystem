@@ -28,7 +28,6 @@ namespace FactoryClient
         {
             InitializeComponent();
             this.req = req;
-            data = Base_Function.Preload.Load("D:\\data.json");
             export_location.Text = AppDomain.CurrentDomain.BaseDirectory + "輸出模型.xlsx";
             Load_Location.Text = Save_Location.Text = AppDomain.CurrentDomain.BaseDirectory + "data.json";
             load_start.Value = load_end.Value = End_Date.Value = Start_Date.Value = DateTime.Now;
@@ -192,6 +191,7 @@ namespace FactoryClient
                     MessageBox.Show("完成下載");
                     Show_Datetime.Value = end.AddDays(1);
                     Making_Model.Enabled = Classify.Enabled = true;
+                    Download.Enabled = Load_Frame.Enabled = false;
                 }));
                 classify = new Classify(data);
             });
@@ -210,7 +210,7 @@ namespace FactoryClient
 
         private void Load_Click(object sender, EventArgs e)
         {
-            data = JsonConvert.DeserializeObject<JArray>(new StreamReader(Save_Location.Text).ReadToEnd());
+            data = JsonConvert.DeserializeObject<JArray>(new StreamReader(Load_Location.Text).ReadToEnd());
             Making_Model.Enabled = Classify.Enabled = true;
             DateTime start = DateTime.MaxValue, end = DateTime.MinValue;
             foreach(JToken token in data)
@@ -223,6 +223,7 @@ namespace FactoryClient
             load_end.Value = end;
             Show_Datetime.Value = end.AddDays(1);
             classify = new Classify(data);
+            Download_Frame.Enabled = Load_Frame.Enabled = false;
             MessageBox.Show("載入完成");
         }
 
