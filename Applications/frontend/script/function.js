@@ -4,14 +4,15 @@ var time = "-12:00:00";
 
 function login(uid, pswd, callback, done) {
     var json;
+    var time = Math.floor(Date.now() / 1000);
     var hashed = JSON.stringify({
         "id": uid,
         "password": pswd,
-        "time": Math.floor(Date.now() / 1000).toString()
+        "time": time.toString()
     });
     hashed = sha512(hashed);
 
-    $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&hash=" + hashed + "&device_id=website", function (data) {
+    $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&hash=" + hashed + "&device_id=website&time=" + time, function (data) {
         json = data;
     }).done(function () {
         callback(json);

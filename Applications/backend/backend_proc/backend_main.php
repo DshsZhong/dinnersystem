@@ -64,6 +64,7 @@ class backend_main
         require_once (__DIR__ . '/../order/select_order/select_order.php');
         require_once (__DIR__ . '/../order/select_order/get_factory_id.php');
 
+        require_once (__DIR__ . '/../order/lock.php');
         require_once (__DIR__ . '/../order/order.php');
 
 

@@ -8,7 +8,6 @@ require_once(__DIR__ . "/../../collapsable/tree.php");
 date_default_timezone_set('Asia/Taipei');
 $time = date("Y/m/d");
 $obj = new \backend_proc\backend_main(['cmd' => 'select_other' ,
-    'payment' => 'true' ,
     'esti_start' => $time . '-00:00:00' ,
     'esti_end' => $time . '-23:59:59']);
 $data = $obj->run();
@@ -24,9 +23,10 @@ $categorize = new tree(
 );
 
 $tmp = [];
-foreach($data as $key => $value) {
-    $categorize->add($value);
-}
+foreach($data as $key => $value) 
+    if($value->money->payment["payment"]->paid)
+        $categorize->add($value);
+
 
 $categorize->build_info("sort_class");
 

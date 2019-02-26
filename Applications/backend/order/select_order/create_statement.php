@@ -29,7 +29,7 @@ function create_statement($param)
         $sql .= $row[1];
         $type .= $row[2];
     }
-    $sql .= " ORDER BY O.id";
+    $sql .= " ORDER BY O.id ";
 
     $mysqli = $_SESSION['sql_server'];
     

@@ -6,14 +6,14 @@ function make_order(value) {
     return '<div id="' + value['id'] + '"><div class="info"><div class="index index_adjust"><label>付款狀態:</label>' +
         '<img src="../../images/' + (has_paid ? 'paid' : 'unpaid') + '.png"></img></div>' +
         (has_paid || expired ? '' : '<div class="value payment clickable"><label> 確認繳款 </label></div>') +
-        (has_paid ? '' : '<div class="value value_adjust clickable"><img src="../../images/cross_symbol.png"></img></div>') +
+        (has_paid ? '' : '<div id="delete_' + value["id"] + '" class="value value_adjust clickable"><img src="../../images/cross_symbol.png"></img></div>') +
         '</div><div class="info"><div class="index dish_name ' + (highlight ? " red-highlight " : "") + '"><label>' +
         dname + '(' + value['money']['charge'] + '$.)' + '</label></div></div><hr /></div>';
 }
 
 function load() {
     var today = moment().format("YYYY/MM/DD");
-    var url = "../../../backend/backend.php?cmd=select_self&history=true&esti_start=" + today + "-00:00:00&esti_end=" + today + "-23:59:59";
+    var url = "../../../backend/backend.php?cmd=select_self&history=true&dirty=true&esti_start=" + today + "-00:00:00&esti_end=" + today + "-23:59:59";
 
     $("#loading").css("display", "block");
     $.get(url, function (data) {

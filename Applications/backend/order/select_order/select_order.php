@@ -13,9 +13,10 @@ function select_order($param)
     $param['person'] = check_valid::bool_null_check($param['person'] ?? NULL);
     $param['class'] = check_valid::bool_null_check($param['class'] ?? NULL);
     $param['oid'] = check_valid::white_list_null($param['oid'] ?? NULL ,check_valid::$only_number);
+    $dirty = ($param["dirty"] == "true");
 
     $statement = create_statement($param); 
-    $result = get_orders($statement);
+    $result = get_orders($statement ,$dirty);
     $result = extend_payment($result);
     $result = extend_buffet($result ,($param["history"] ?? NULL == "true")); 
 

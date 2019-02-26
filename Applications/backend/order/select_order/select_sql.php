@@ -6,7 +6,7 @@ function normal_sql() {
         O.id ,
         LO.esti_recv_datetime ,
         O.user_id ,O.order_maker ,
-        MI.id ,MI.money_sum
+        MI.id ,MI.money_sum ,O.locked
 
         FROM orders AS O
         INNER JOIN users AS U 				ON O.user_id = U.id

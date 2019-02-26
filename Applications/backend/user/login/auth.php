@@ -27,7 +27,7 @@ function fetch($login_id)
     return ["id" => $id ,"password" => $password];
 }
 
-function auth($login_id ,$hashed)
+function auth($login_id ,$time ,$hashed)
 {
     $data = fetch($login_id);
     $pswd = $data["password"];
@@ -35,12 +35,21 @@ function auth($login_id ,$hashed)
     $valid = false;
     $tolerance = config()["login"]["time"];
     $now = time();
-    for($shift = 0;$shift <= $tolerance;$shift += 1)
+
+    if($time == null)
     {
-        if(get_hash($login_id ,$pswd ,$now + $shift) === $hashed)
-            $valid = true;
-        if(get_hash($login_id ,$pswd ,$now - $shift) === $hashed)
-            $valid = true;
+        for($shift = 0;$shift <= $tolerance;$shift += 1)
+        {
+            if(get_hash($login_id ,$pswd ,$now + $shift) === $hashed)
+                $valid = true;
+            if(get_hash($login_id ,$pswd ,$now - $shift) === $hashed)
+                $valid = true;
+        }
+    } else {
+        $diff = $now - $time;
+        if(($diff > 0 ? $diff : -$diff) >= intval($tolerance)) 
+            throw new \Exception("Invalid time");
+        $valid = (get_hash($login_id ,$pswd ,$time) === $hashed);
     }
 
     $msg = [];

@@ -4,7 +4,7 @@ function config()
 {
     return [
         "bank" => [
-            "ip" => "192.168.0.2",
+            "ip" => "192.168.56.1",
             "port" => 8787,
             "password" => "Fei Yu GGYY"
         ],
@@ -15,12 +15,12 @@ function config()
             "name" => "dinnersys"
         ],
         "login" => [
-            "time" => "600",
+            "time" => "30",
             "tolerance" => "3",
             "punish" => "60"
         ],
         "payment" => [
-            "time" => "600",
+            "time" => "30",
             "tolerance" => "3",
             "punish" => "60"
         ]

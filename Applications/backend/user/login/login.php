@@ -32,13 +32,14 @@ function get_data($uid ,$class)
     return $account;
 }
 
-function login($login_id, $hash ,$device_id ,$req_id)
+function login($login_id, $time ,$hash ,$device_id ,$req_id)
 {
     $login_id = check_valid::white_list($login_id ,check_valid::$white_list_pattern);
     $device_id = urldecode($device_id);
     $device_id = check_valid::regex_check($device_id ,check_valid::$device_regex);
+    $time = ($time == null ? null : intval(check_valid::white_list($time ,check_valid::$only_number)));
     
-    $result = auth($login_id ,$hash);
+    $result = auth($login_id ,$time ,$hash);
     # die(json_encode($result));
     $uid = $result["uid"];
     \punish\check($uid ,"login");

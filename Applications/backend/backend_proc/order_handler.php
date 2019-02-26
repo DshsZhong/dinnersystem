@@ -15,7 +15,7 @@ function __construct($input)
     if($input["cmd"] != "login")
         session_write_close();
 
-    if($_SESSION['me'] == null)
+    if(!array_key_exists('me' ,$_SESSION))
         $_SESSION['me'] = serialize(\user\user::get_guest());
     $this->input = $input;
 }
@@ -38,7 +38,7 @@ function process_order()
 
 function login()
 {
-    return \user\login\login($this->input['id'] ,$this->input['hash'] ,$this->input['device_id'] ,$this->req_id);
+    return \user\login\login($this->input['id'] ,$this->input['time'] ,$this->input['hash'] ,$this->input['device_id'] ,$this->req_id);
 }
 
 function logout() 

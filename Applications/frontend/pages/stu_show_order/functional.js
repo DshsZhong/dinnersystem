@@ -19,6 +19,8 @@ function payment() {
         return;
     }
 
+    $(this).removeClass("clickable");
+    var button = $("#delete_" + oid).detach();
     make_payment(oid, 'self', password, (result) => {
         if(result == "Punish not over") {
             show("嘗試次數過多");
@@ -29,9 +31,12 @@ function payment() {
                 var id = json['id'];
                 $("#" + id).find(".clickable").remove();
                 $("#" + id).find("img").attr("src" ,"../../images/paid.png");
+                show("繳款成功");
             } catch (err) {
                 show("繳款失敗");
                 $(this).children("label").text("確認付款");
+                $("#" + oid).prepend(button);
+                $(this).addClass("clickable");
             }
         }
     });
