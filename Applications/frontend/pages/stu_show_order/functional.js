@@ -30,6 +30,7 @@ function payment() {
                 var json = $.parseJSON(result);
                 var id = json['id'];
                 $("#" + id).find(".clickable").remove();
+                $("#" + id).find(".payment").remove();
                 $("#" + id).find("img").attr("src" ,"../../images/paid.png");
                 show("繳款成功");
             } catch (err) {
