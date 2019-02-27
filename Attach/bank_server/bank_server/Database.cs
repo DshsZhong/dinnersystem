@@ -26,12 +26,24 @@ namespace bank_server
 
         public int ReadBalance(string uid)
         {
-            SqlCommand cmd = new SqlCommand("SELECT Account FROM Personnel WHERE CardNo = @uid" ,conn);
+            SqlCommand cmd = new SqlCommand("SELECT Account FROM Personnel WHERE IDno = @uid" ,conn);
             cmd.Parameters.AddWithValue("@uid", uid);
             SqlDataReader reader = cmd.ExecuteReader();
             int ret = -1;
             while (reader.Read())
                 ret = (int)Math.Floor(float.Parse(reader.GetValue(0).ToString()));
+            reader.Close();
+            return ret;
+        }
+
+        public string Get_Card(string uid)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT CardNo FROM Personnel WHERE IDno = @uid", conn);
+            cmd.Parameters.AddWithValue("@uid", uid);
+            SqlDataReader reader = cmd.ExecuteReader();
+            string ret = "";
+            while (reader.Read())
+                ret = reader.GetValue(0).ToString();
             reader.Close();
             return ret;
         }

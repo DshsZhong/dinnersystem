@@ -88,7 +88,8 @@ namespace bank_server
             int charge = Int32.Parse(json.charge.ToString());
             int money = reader.Get_Balance(uid);
             if (money < charge) return false;                              // The check before write in.
-            writer.Write(uid, fid ,charge);                                // Write in.
+            string cardno = reader.Get_Cardno(uid);
+            writer.Write(cardno, fid, charge);                             // Write in.
             return alive = (reader.Get_Balance(uid) == (money - charge));  // The check after write in.
         }
 

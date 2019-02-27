@@ -39,5 +39,7 @@ namespace bank_server
         {
             return db.ReadBalance(uid);
         }
+
+        public string Get_Cardno(string uid) { return db.Get_Card(uid); }
     }
 }
