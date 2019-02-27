@@ -45,7 +45,7 @@ namespace FactoryClient
                 object obj = Marshal.GetActiveObject("Excel.Application");//引用已在執行的Excel
                 _Excel = obj as Excel.Application;
             }
-            _Excel.Visible = true;//設false效能會比較好
+            _Excel.Visible = false;//設false效能會比較好
             return _Excel;
         }
 
