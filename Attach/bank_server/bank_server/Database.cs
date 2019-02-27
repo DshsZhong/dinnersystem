@@ -26,7 +26,7 @@ namespace bank_server
 
         public int ReadBalance(string uid)
         {
-            SqlCommand cmd = new SqlCommand("SELECT Account FROM Personnel WHERE IDno = @uid" ,conn);
+            SqlCommand cmd = new SqlCommand("SELECT Account FROM Personnel WHERE CardNo = @uid" ,conn);
             cmd.Parameters.AddWithValue("@uid", uid);
             SqlDataReader reader = cmd.ExecuteReader();
             int ret = -1;
