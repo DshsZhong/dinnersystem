@@ -1,7 +1,6 @@
 /*---------------------------------------------------------------------------------------------------------------*/
 /*-----------please ensure this procedure run in serializable transaction mode----------------------*/
 DROP PROCEDURE IF EXISTS make_order;
-SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 DELIMITER $$
 
 CREATE PROCEDURE make_order(usr_id INT ,maker_id INT ,dishes varchar(1024) ,esti_recv DATETIME)
@@ -102,7 +101,7 @@ proce: BEGIN
             WHERE O.logistics_id = LO.id AND B.order = O.id AND D.id = B.dish
 			AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(?) ,'-00:00:00') AND CONCAT(DATE(?) ,'-23:59:59')
 			AND D.id IN", dishes,
-			"GROUP BY D.id
+			"GROUP BY D.id FOR UPDATE
         ) AS tmp);");
     PREPARE stmt FROM @cmd;
 	SET @esti_recv = esti_recv;
@@ -122,7 +121,7 @@ proce: BEGIN
 	AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(esti_recv) ,'-00:00:00') AND CONCAT(DATE(esti_recv) ,'-23:59:59')
 	AND O.money_id = MI.id AND P.money_info = MI.id AND P.paid = FALSE AND P.tag = "payment"
 	AND O.disabled = FALSE
-	INTO orders;
+	INTO orders FOR UPDATE;
 
 	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;
 	IF orders > daily_limit AND daily_limit > 0 THEN
