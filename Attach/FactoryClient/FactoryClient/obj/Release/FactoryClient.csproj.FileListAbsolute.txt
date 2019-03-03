@@ -33,3 +33,9 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryCli
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.exe
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.pdb
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\zh-Hant\Microsoft.VisualStudio.TestTools.UITest.Extension.resources.dll
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\icon.ico
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\精緻化報表.xlsx
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\菜單.xlsx
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\規模化報表.xlsx
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\輸出模型.xlsx
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\金額報表.xlsx

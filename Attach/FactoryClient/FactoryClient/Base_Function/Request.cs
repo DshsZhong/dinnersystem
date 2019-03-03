@@ -97,6 +97,7 @@ namespace FactoryClient
                 req.Headers.Add("Cookie", cookieHeader);
                 WebResponse wr = req.GetResponse();
                 count += 1;
+                wr.Close();
                 invoker((int)Math.Ceiling((double)count / suffix.Count * 100));
             }
         }
