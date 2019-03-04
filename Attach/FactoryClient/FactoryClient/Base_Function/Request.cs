@@ -30,14 +30,15 @@ namespace FactoryClient
             try { obj = JsonConvert.DeserializeObject<JObject>(reponse); }
             catch (Exception e) { throw new Exception(reponse); }
 
-            bool has_update = false , has_select = false;
+            bool able = false;
             foreach (JToken item in obj["valid_oper"])
             {
-                has_update |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"update_dish\"");
-                has_select |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_facto\"");
+                able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"update_dish\"");
+                able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_facto\"");
+                able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_cafet\"");
             }
             uname = obj["name"].ToString();
-            if (!has_update || !has_select) throw new Exception("Access denied");
+            if (!able) throw new Exception("Access denied");
         }
 
         string create_hash(string id ,string password)
@@ -53,10 +54,10 @@ namespace FactoryClient
             return local_hashed;
         }
 
-        public JArray Get_Order(string lower_bound ,string upper_bound ,bool history = false)
+        public JArray Get_Order(string lower_bound ,string upper_bound ,bool model = false)
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=select_facto" + 
-                "&esti_start=" + lower_bound + "&esti_end=" + upper_bound + (history ? "&history=true" : "");
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=select_" + (model ? "other" : "facto") + 
+                "&esti_start=" + lower_bound + "&esti_end=" + upper_bound + (model ? "&history=true" : "");
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();

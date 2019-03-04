@@ -17,7 +17,7 @@ namespace FactoryClient.Analysis_Function
             foreach (JToken tmp in orders)
                 foreach (JToken item in tmp["dish"])
                 {
-                    string dname = concat_name(item["dish_name"].ToString() ,item["dish_cost"].ToString());
+                    string dname = item["dish_name"].ToString() + "(" + item["dish_cost"].ToString() + "$.)";
                     int new_id = id.Count;
                     if (!id.ContainsKey(dname))
                     {
@@ -29,7 +29,11 @@ namespace FactoryClient.Analysis_Function
 
         public string get_name(int did) { return name[did]; }
         public int get_id(string dname) { return id[dname]; }
+        public int get_id(JToken dish)
+        {
+            string dname = dish["dish_name"].ToString() + "(" + dish["dish_cost"].ToString() + "$.)";
+            return id[dname];
+        }
         public int get_size() { return id.Keys.Count; }
-        public string concat_name(string dname, string charge) { return dname + "(" + charge + "$.)"; }
     }
 }

@@ -55,3 +55,4 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\規模化報
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\輸出模型.xlsx
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\金額報表.xlsx
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\zh-Hant\Microsoft.VisualStudio.TestTools.UITest.Extension.resources.dll
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\icon.ico

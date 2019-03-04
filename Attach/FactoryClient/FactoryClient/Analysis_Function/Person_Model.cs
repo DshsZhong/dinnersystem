@@ -56,8 +56,7 @@ namespace FactoryClient.Analysis_Function
                 if (item.Key.Equals(markov.First().Key)) continue;
                 foreach (JToken p in previous) foreach (JToken op in p["dish"])
                         foreach (JToken n in item.Value) foreach (JToken on in n["dish"])
-                                count[dish.get_id(dish.concat_name(op["dish_name"].ToString(), op["dish_cost"].ToString())),
-                                    dish.get_id(dish.concat_name(on["dish_name"].ToString(), on["dish_cost"].ToString()))] += 1;
+                                count[dish.get_id(op), dish.get_id(on)] += 1;
                 previous = item.Value;
             }
             ratio = new Markov(count);
