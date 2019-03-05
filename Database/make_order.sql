@@ -134,4 +134,4 @@ proce: BEGIN
 	select @oid;
     commit;
 END$$
-CALL make_order(1, 2, '(1,2,3,4)' ,CURRENT_TIMESTAMP);
+CALL make_order(1, 2, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);

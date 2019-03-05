@@ -47,7 +47,7 @@ namespace FactoryClient.Analysis_Function
             if (Not_Enough) return;
 
             order.Train(gradients, ternarys);
-            Matrix<double> count = CreateMatrix.Dense<double>(dish.get_size() ,dish.get_size());
+            Matrix<double> count = CreateMatrix.Dense<double>(dish.get_size() - 1 ,dish.get_size() - 1);
 
             SortedDictionary<DateTime, JArray> markov = time.get_markov();
             JArray previous = markov.First().Value;
@@ -90,14 +90,20 @@ namespace FactoryClient.Analysis_Function
             if (!Trained) throw new Exception("Must train before query.");
             if (!Allow_Future && days > 1) throw new Exception("Must train before query.");
 
+            Vector<double> ret;
             if (days == 1)
-                return order.Query(last) * ratio.Stable();
+                ret = order.Query(last) * ratio.Stable();
             else
-                return ratio.Stable() *
+                ret = ratio.Stable() *
                     future.Future(last, days).DotProduct(
                         CreateVector.Dense<double>(days,
                         (int i) => (i > (1 << (days - 1)) ? 1 : 0))
                     );
+            return CreateVector.Dense(ret.Count + 1, (int i) =>
+            {
+                if (i == ret.Count) return ret.Sum();
+                else return ret[i];
+            });
         }
     }
 }

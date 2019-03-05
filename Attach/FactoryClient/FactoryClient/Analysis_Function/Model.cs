@@ -62,7 +62,8 @@ namespace FactoryClient.Analysis_Function
             }));
         }
 
-        public Tuple<int ,int ,double> Show(DateTime dt, string dname ,int confidence_interval ,int show_interval , Chart show = null)
+        public Tuple<int ,int ,double ,int> 
+            Show(DateTime dt, string dname ,int confidence_interval ,int show_interval , Chart show = null)
         {
             double[] result = model.Query(dname , dt.Subtract(DateTime.Now).Days);
             string tag = dname;
@@ -80,6 +81,8 @@ namespace FactoryClient.Analysis_Function
                 if (result[max] < result[i]) max = i;
 
             double sum = 0;
+            confidence_interval = (int)Math.Floor((double)confidence_interval * max / 100);
+            show_interval = (int)Math.Floor((double)show_interval * max / 100);
             for (int i = max - show_interval; i <= max + show_interval; i++)
             {
                 if (!(0 <= i && i < result.Length)) continue;
@@ -100,7 +103,7 @@ namespace FactoryClient.Analysis_Function
                 }
             }
 
-            return new Tuple<int, int, double>(l ,r ,sum);
+            return new Tuple<int, int, double ,int>(l ,r ,sum ,max);
         }
     }
 }

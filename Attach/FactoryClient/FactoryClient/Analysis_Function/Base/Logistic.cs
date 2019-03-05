@@ -12,7 +12,7 @@ namespace FactoryClient.Analysis_Function
     {
         Matrix<double> X;
         Vector<double> W, Y;
-        const double L = 0, R = 2;
+        const double L = 0, R = 2 ,beta = 0.9;
 
         public Logistic(Tuple<bool[], bool>[] data)
         {
@@ -34,6 +34,7 @@ namespace FactoryClient.Analysis_Function
 
         public void Train(int gradients, int ternarys)
         {
+            Vector<double> previous = CreateVector.Dense<double>(W.Count);
             while (gradients-- != 0)
             {
                 Vector<double> slope = FPrime(W);
@@ -52,7 +53,8 @@ namespace FactoryClient.Analysis_Function
                         r = rmid;
                     }
                 }
-                W += (l + r) / 2 * slope;
+                W += (l + r) / 2 * slope + beta * previous;
+                previous = (l + r) / 2 * slope;
             }
         }
 

@@ -149,14 +149,16 @@ namespace FactoryClient
 
         private void Update(object sender, EventArgs e)
         {
-            Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "(份)";
-            Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "(份)";
-            double odd = model.Show(DateTime.Now.AddDays(1).AddHours(1),
+            Tuple<int, int, double, int> result = model.Show(DateTime.Now.AddDays(1).AddHours(1),
                 Dish_Name.GetItemText(Dish_Name.SelectedItem),
                 Confidence_Interval.Value,
                 Show_Interval.Value,
-                main_chart).Item3 * 100;
-            Confidence_Level.Text = "信心水平: " + odd.ToString("##.##") + "%";
+                main_chart);
+            Show_Interval_Label.Text = "顯示區間: ±" + Show_Interval.Value + "% " +
+                (int)Math.Floor((double)Show_Interval.Value * result.Item4 / 100) + "(份)";
+            Confidence_Interval_Label.Text = "信賴區間: ±" + Confidence_Interval.Value + "% " +
+                (int)Math.Floor((double)Confidence_Interval.Value * result.Item4 / 100) + "(份)";
+            Confidence_Level.Text = "信心水平: " + (result.Item3 * 100).ToString("##.##") + "%";
         }
 
         #region Export

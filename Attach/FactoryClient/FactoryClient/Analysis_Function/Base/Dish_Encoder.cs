@@ -25,6 +25,8 @@ namespace FactoryClient.Analysis_Function
                         name[new_id] = dname;
                     }
                 }
+            name[id.Count] = "總和";
+            id["總和"] = id.Count;
         }
 
         public string get_name(int did) { return name[did]; }

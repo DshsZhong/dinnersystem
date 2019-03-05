@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.main_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Build = new System.Windows.Forms.Button();
             this.Cost_Sum = new System.Windows.Forms.Label();
@@ -118,12 +118,12 @@
             // 
             // main_chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.main_chart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.main_chart.Legends.Add(legend1);
+            chartArea7.Name = "ChartArea1";
+            this.main_chart.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            this.main_chart.Legends.Add(legend7);
             this.main_chart.Location = new System.Drawing.Point(8, 136);
-            this.main_chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.main_chart.Margin = new System.Windows.Forms.Padding(4);
             this.main_chart.Name = "main_chart";
             this.main_chart.Size = new System.Drawing.Size(985, 435);
             this.main_chart.TabIndex = 0;
@@ -132,7 +132,7 @@
             // Build
             // 
             this.Build.Location = new System.Drawing.Point(97, 28);
-            this.Build.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Build.Margin = new System.Windows.Forms.Padding(4);
             this.Build.Name = "Build";
             this.Build.Size = new System.Drawing.Size(287, 31);
             this.Build.TabIndex = 4;
@@ -163,7 +163,7 @@
             // Ternary
             // 
             this.Ternary.Location = new System.Drawing.Point(175, 151);
-            this.Ternary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Ternary.Margin = new System.Windows.Forms.Padding(4);
             this.Ternary.Maximum = 50;
             this.Ternary.Minimum = 10;
             this.Ternary.Name = "Ternary";
@@ -195,7 +195,7 @@
             // Gradient
             // 
             this.Gradient.Location = new System.Drawing.Point(175, 225);
-            this.Gradient.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Gradient.Margin = new System.Windows.Forms.Padding(4);
             this.Gradient.Maximum = 500;
             this.Gradient.Minimum = 10;
             this.Gradient.Name = "Gradient";
@@ -207,7 +207,7 @@
             // Pool_Size
             // 
             this.Pool_Size.Location = new System.Drawing.Point(175, 83);
-            this.Pool_Size.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Pool_Size.Margin = new System.Windows.Forms.Padding(4);
             this.Pool_Size.Maximum = 100;
             this.Pool_Size.Minimum = 1;
             this.Pool_Size.Name = "Pool_Size";
@@ -240,9 +240,9 @@
             this.Predict_Model.Controls.Add(this.main_chart);
             this.Predict_Model.Enabled = false;
             this.Predict_Model.Location = new System.Drawing.Point(16, 345);
-            this.Predict_Model.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Predict_Model.Margin = new System.Windows.Forms.Padding(4);
             this.Predict_Model.Name = "Predict_Model";
-            this.Predict_Model.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Predict_Model.Padding = new System.Windows.Forms.Padding(4);
             this.Predict_Model.Size = new System.Drawing.Size(1001, 581);
             this.Predict_Model.TabIndex = 14;
             this.Predict_Model.TabStop = false;
@@ -250,8 +250,8 @@
             // 
             // Confidence_Interval
             // 
-            this.Confidence_Interval.Location = new System.Drawing.Point(147, 73);
-            this.Confidence_Interval.Maximum = 50;
+            this.Confidence_Interval.Location = new System.Drawing.Point(184, 73);
+            this.Confidence_Interval.Maximum = 100;
             this.Confidence_Interval.Name = "Confidence_Interval";
             this.Confidence_Interval.Size = new System.Drawing.Size(265, 56);
             this.Confidence_Interval.TabIndex = 22;
@@ -270,7 +270,7 @@
             // Show_Interval
             // 
             this.Show_Interval.Location = new System.Drawing.Point(744, 73);
-            this.Show_Interval.Maximum = 50;
+            this.Show_Interval.Maximum = 100;
             this.Show_Interval.Name = "Show_Interval";
             this.Show_Interval.Size = new System.Drawing.Size(240, 56);
             this.Show_Interval.TabIndex = 20;
@@ -290,7 +290,7 @@
             // Show_Interval_Label
             // 
             this.Show_Interval_Label.AutoSize = true;
-            this.Show_Interval_Label.Location = new System.Drawing.Point(613, 73);
+            this.Show_Interval_Label.Location = new System.Drawing.Point(572, 72);
             this.Show_Interval_Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Show_Interval_Label.Name = "Show_Interval_Label";
             this.Show_Interval_Label.Size = new System.Drawing.Size(68, 17);
@@ -302,10 +302,10 @@
             this.Show_Datetime.CustomFormat = "yyyy-MM-dd";
             this.Show_Datetime.Enabled = false;
             this.Show_Datetime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.Show_Datetime.Location = new System.Drawing.Point(145, 29);
-            this.Show_Datetime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Show_Datetime.Location = new System.Drawing.Point(97, 28);
+            this.Show_Datetime.Margin = new System.Windows.Forms.Padding(4);
             this.Show_Datetime.Name = "Show_Datetime";
-            this.Show_Datetime.Size = new System.Drawing.Size(265, 22);
+            this.Show_Datetime.Size = new System.Drawing.Size(352, 22);
             this.Show_Datetime.TabIndex = 15;
             // 
             // label8
@@ -321,7 +321,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(613, 32);
+            this.label7.Location = new System.Drawing.Point(572, 31);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(72, 17);
@@ -332,7 +332,7 @@
             // 
             this.Dish_Name.FormattingEnabled = true;
             this.Dish_Name.Location = new System.Drawing.Point(744, 28);
-            this.Dish_Name.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Dish_Name.Margin = new System.Windows.Forms.Padding(4);
             this.Dish_Name.Name = "Dish_Name";
             this.Dish_Name.Size = new System.Drawing.Size(248, 24);
             this.Dish_Name.TabIndex = 1;
@@ -340,12 +340,12 @@
             // 
             // Running_Chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.Running_Chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.Running_Chart.Legends.Add(legend2);
+            chartArea8.Name = "ChartArea1";
+            this.Running_Chart.ChartAreas.Add(chartArea8);
+            legend8.Name = "Legend1";
+            this.Running_Chart.Legends.Add(legend8);
             this.Running_Chart.Location = new System.Drawing.Point(11, 61);
-            this.Running_Chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Running_Chart.Name = "Running_Chart";
             this.Running_Chart.Size = new System.Drawing.Size(345, 255);
             this.Running_Chart.TabIndex = 15;
@@ -357,9 +357,9 @@
             this.Running_Status.Controls.Add(this.Running_Chart);
             this.Running_Status.Enabled = false;
             this.Running_Status.Location = new System.Drawing.Point(1125, 13);
-            this.Running_Status.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Status.Margin = new System.Windows.Forms.Padding(4);
             this.Running_Status.Name = "Running_Status";
-            this.Running_Status.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Running_Status.Padding = new System.Windows.Forms.Padding(4);
             this.Running_Status.Size = new System.Drawing.Size(363, 324);
             this.Running_Status.TabIndex = 16;
             this.Running_Status.TabStop = false;
@@ -387,9 +387,9 @@
             this.Download_Frame.Controls.Add(this.Download);
             this.Download_Frame.Controls.Add(this.Start_Date);
             this.Download_Frame.Location = new System.Drawing.Point(16, 16);
-            this.Download_Frame.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Download_Frame.Margin = new System.Windows.Forms.Padding(4);
             this.Download_Frame.Name = "Download_Frame";
-            this.Download_Frame.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Download_Frame.Padding = new System.Windows.Forms.Padding(4);
             this.Download_Frame.Size = new System.Drawing.Size(248, 313);
             this.Download_Frame.TabIndex = 18;
             this.Download_Frame.TabStop = false;
@@ -398,7 +398,7 @@
             // Save_Location
             // 
             this.Save_Location.Location = new System.Drawing.Point(97, 269);
-            this.Save_Location.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Save_Location.Margin = new System.Windows.Forms.Padding(4);
             this.Save_Location.Name = "Save_Location";
             this.Save_Location.Size = new System.Drawing.Size(141, 22);
             this.Save_Location.TabIndex = 25;
@@ -406,7 +406,7 @@
             // Open_Save
             // 
             this.Open_Save.Location = new System.Drawing.Point(8, 231);
-            this.Open_Save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Open_Save.Margin = new System.Windows.Forms.Padding(4);
             this.Open_Save.Name = "Open_Save";
             this.Open_Save.Size = new System.Drawing.Size(232, 31);
             this.Open_Save.TabIndex = 2;
@@ -417,7 +417,7 @@
             // Save
             // 
             this.Save.Location = new System.Drawing.Point(8, 192);
-            this.Save.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Save.Margin = new System.Windows.Forms.Padding(4);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(232, 31);
             this.Save.TabIndex = 24;
@@ -460,7 +460,7 @@
             this.End_Date.CustomFormat = "yyyy-MM-dd";
             this.End_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.End_Date.Location = new System.Drawing.Point(87, 123);
-            this.End_Date.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.End_Date.Margin = new System.Windows.Forms.Padding(4);
             this.End_Date.Name = "End_Date";
             this.End_Date.Size = new System.Drawing.Size(152, 22);
             this.End_Date.TabIndex = 21;
@@ -468,7 +468,7 @@
             // Download
             // 
             this.Download.Location = new System.Drawing.Point(8, 36);
-            this.Download.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Download.Margin = new System.Windows.Forms.Padding(4);
             this.Download.Name = "Download";
             this.Download.Size = new System.Drawing.Size(232, 31);
             this.Download.TabIndex = 19;
@@ -481,7 +481,7 @@
             this.Start_Date.CustomFormat = "yyyy-MM-dd";
             this.Start_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.Start_Date.Location = new System.Drawing.Point(87, 81);
-            this.Start_Date.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Start_Date.Margin = new System.Windows.Forms.Padding(4);
             this.Start_Date.Name = "Start_Date";
             this.Start_Date.Size = new System.Drawing.Size(152, 22);
             this.Start_Date.TabIndex = 20;
@@ -497,9 +497,9 @@
             this.Making_Model.Controls.Add(this.Gradient_Show);
             this.Making_Model.Enabled = false;
             this.Making_Model.Location = new System.Drawing.Point(1025, 540);
-            this.Making_Model.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Making_Model.Margin = new System.Windows.Forms.Padding(4);
             this.Making_Model.Name = "Making_Model";
-            this.Making_Model.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Making_Model.Padding = new System.Windows.Forms.Padding(4);
             this.Making_Model.Size = new System.Drawing.Size(463, 299);
             this.Making_Model.TabIndex = 22;
             this.Making_Model.TabStop = false;
@@ -513,9 +513,9 @@
             this.Model_Status.Controls.Add(this.People_Sum);
             this.Model_Status.Enabled = false;
             this.Model_Status.Location = new System.Drawing.Point(1025, 345);
-            this.Model_Status.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Model_Status.Margin = new System.Windows.Forms.Padding(4);
             this.Model_Status.Name = "Model_Status";
-            this.Model_Status.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Model_Status.Padding = new System.Windows.Forms.Padding(4);
             this.Model_Status.Size = new System.Drawing.Size(192, 187);
             this.Model_Status.TabIndex = 23;
             this.Model_Status.TabStop = false;
@@ -551,9 +551,9 @@
             this.Export.Controls.Add(this.label14);
             this.Export.Enabled = false;
             this.Export.Location = new System.Drawing.Point(1225, 345);
-            this.Export.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export.Margin = new System.Windows.Forms.Padding(4);
             this.Export.Name = "Export";
-            this.Export.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export.Padding = new System.Windows.Forms.Padding(4);
             this.Export.Size = new System.Drawing.Size(263, 187);
             this.Export.TabIndex = 24;
             this.Export.TabStop = false;
@@ -578,7 +578,7 @@
             // Export_Excel
             // 
             this.Export_Excel.Location = new System.Drawing.Point(12, 31);
-            this.Export_Excel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Export_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Export_Excel.Name = "Export_Excel";
             this.Export_Excel.Size = new System.Drawing.Size(240, 31);
             this.Export_Excel.TabIndex = 22;
@@ -589,7 +589,7 @@
             // Open_Excel
             // 
             this.Open_Excel.Location = new System.Drawing.Point(8, 105);
-            this.Open_Excel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Open_Excel.Margin = new System.Windows.Forms.Padding(4);
             this.Open_Excel.Name = "Open_Excel";
             this.Open_Excel.Size = new System.Drawing.Size(244, 31);
             this.Open_Excel.TabIndex = 2;
@@ -600,7 +600,7 @@
             // export_location
             // 
             this.export_location.Location = new System.Drawing.Point(109, 144);
-            this.export_location.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.export_location.Margin = new System.Windows.Forms.Padding(4);
             this.export_location.Name = "export_location";
             this.export_location.Size = new System.Drawing.Size(141, 22);
             this.export_location.TabIndex = 1;
@@ -619,9 +619,9 @@
             // 
             this.Other.Controls.Add(this.Back);
             this.Other.Location = new System.Drawing.Point(1025, 847);
-            this.Other.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Other.Margin = new System.Windows.Forms.Padding(4);
             this.Other.Name = "Other";
-            this.Other.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Other.Padding = new System.Windows.Forms.Padding(4);
             this.Other.Size = new System.Drawing.Size(463, 80);
             this.Other.TabIndex = 20;
             this.Other.TabStop = false;
@@ -630,7 +630,7 @@
             // Back
             // 
             this.Back.Location = new System.Drawing.Point(5, 37);
-            this.Back.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Back.Margin = new System.Windows.Forms.Padding(4);
             this.Back.Name = "Back";
             this.Back.Size = new System.Drawing.Size(447, 31);
             this.Back.TabIndex = 1;
@@ -648,9 +648,9 @@
             this.Classify.Controls.Add(this.Classification);
             this.Classify.Enabled = false;
             this.Classify.Location = new System.Drawing.Point(524, 17);
-            this.Classify.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify.Margin = new System.Windows.Forms.Padding(4);
             this.Classify.Name = "Classify";
-            this.Classify.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify.Padding = new System.Windows.Forms.Padding(4);
             this.Classify.Size = new System.Drawing.Size(593, 320);
             this.Classify.TabIndex = 25;
             this.Classify.TabStop = false;
@@ -690,17 +690,17 @@
             // 
             // Classify_Chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.Classify_Chart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.Classify_Chart.Legends.Add(legend3);
+            chartArea9.Name = "ChartArea1";
+            this.Classify_Chart.ChartAreas.Add(chartArea9);
+            legend9.Name = "Legend1";
+            this.Classify_Chart.Legends.Add(legend9);
             this.Classify_Chart.Location = new System.Drawing.Point(8, 56);
-            this.Classify_Chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classify_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Classify_Chart.Name = "Classify_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Classify_Chart.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.Classify_Chart.Series.Add(series3);
             this.Classify_Chart.Size = new System.Drawing.Size(577, 256);
             this.Classify_Chart.TabIndex = 18;
             this.Classify_Chart.Text = "chart3";
@@ -724,7 +724,7 @@
             "每周",
             "每月"});
             this.Classification.Location = new System.Drawing.Point(135, 20);
-            this.Classification.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Classification.Margin = new System.Windows.Forms.Padding(4);
             this.Classification.Name = "Classification";
             this.Classification.Size = new System.Drawing.Size(141, 24);
             this.Classification.TabIndex = 0;
@@ -741,9 +741,9 @@
             this.Load_Frame.Controls.Add(this.Open_Load);
             this.Load_Frame.Controls.Add(this.Load);
             this.Load_Frame.Location = new System.Drawing.Point(272, 17);
-            this.Load_Frame.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Load_Frame.Margin = new System.Windows.Forms.Padding(4);
             this.Load_Frame.Name = "Load_Frame";
-            this.Load_Frame.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Load_Frame.Padding = new System.Windows.Forms.Padding(4);
             this.Load_Frame.Size = new System.Drawing.Size(244, 312);
             this.Load_Frame.TabIndex = 26;
             this.Load_Frame.TabStop = false;
@@ -762,7 +762,7 @@
             // Load_Location
             // 
             this.Load_Location.Location = new System.Drawing.Point(93, 127);
-            this.Load_Location.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Load_Location.Margin = new System.Windows.Forms.Padding(4);
             this.Load_Location.Name = "Load_Location";
             this.Load_Location.Size = new System.Drawing.Size(141, 22);
             this.Load_Location.TabIndex = 27;
@@ -793,7 +793,7 @@
             this.load_end.Enabled = false;
             this.load_end.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.load_end.Location = new System.Drawing.Point(83, 259);
-            this.load_end.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.load_end.Margin = new System.Windows.Forms.Padding(4);
             this.load_end.Name = "load_end";
             this.load_end.Size = new System.Drawing.Size(152, 22);
             this.load_end.TabIndex = 28;
@@ -804,7 +804,7 @@
             this.load_start.Enabled = false;
             this.load_start.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.load_start.Location = new System.Drawing.Point(83, 217);
-            this.load_start.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.load_start.Margin = new System.Windows.Forms.Padding(4);
             this.load_start.Name = "load_start";
             this.load_start.Size = new System.Drawing.Size(152, 22);
             this.load_start.TabIndex = 27;
@@ -812,7 +812,7 @@
             // Open_Load
             // 
             this.Open_Load.Location = new System.Drawing.Point(8, 73);
-            this.Open_Load.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Open_Load.Margin = new System.Windows.Forms.Padding(4);
             this.Open_Load.Name = "Open_Load";
             this.Open_Load.Size = new System.Drawing.Size(228, 31);
             this.Open_Load.TabIndex = 1;
@@ -823,7 +823,7 @@
             // Load
             // 
             this.Load.Location = new System.Drawing.Point(8, 35);
-            this.Load.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Load.Margin = new System.Windows.Forms.Padding(4);
             this.Load.Name = "Load";
             this.Load.Size = new System.Drawing.Size(228, 31);
             this.Load.TabIndex = 0;
@@ -846,7 +846,7 @@
             this.Controls.Add(this.Download_Frame);
             this.Controls.Add(this.Running_Status);
             this.Controls.Add(this.Predict_Model);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Analysis";
             this.Text = "Analysis";
             ((System.ComponentModel.ISupportInitialize)(this.main_chart)).EndInit();
