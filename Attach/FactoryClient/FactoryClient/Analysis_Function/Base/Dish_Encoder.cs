@@ -14,10 +14,10 @@ namespace FactoryClient.Analysis_Function
 
         public Dish_Encoder(JArray orders)
         {
-            foreach (JToken tmp in orders)
-                foreach (JToken item in tmp["dish"])
+            foreach (JToken tmp in orders) foreach (JToken item in tmp["dish"])
                 {
-                    string dname = item["dish_name"].ToString() + "(" + item["dish_cost"].ToString() + "$.)";
+                    int did = item["dish_id"].ToObject<int>(); did /= 10;
+                    string dname = concat_name(item);
                     int new_id = id.Count;
                     if (!id.ContainsKey(dname))
                     {
@@ -29,11 +29,14 @@ namespace FactoryClient.Analysis_Function
 
         public string get_name(int did) { return name[did]; }
         public int get_id(string dname) { return id[dname]; }
-        public int get_id(JToken dish)
-        {
-            string dname = dish["dish_name"].ToString() + "(" + dish["dish_cost"].ToString() + "$.)";
-            return id[dname];
-        }
+        public int get_id(JToken dish) { return id[concat_name(dish)]; }
         public int get_size() { return id.Keys.Count; }
+
+        string concat_name(JToken item)
+        {
+            return item["department"]["factory"]["name"].ToString() + "(" +
+                        item["department"]["id"].ToString() + "-" +
+                        item["department"]["name"].ToString() + ")";
+        }
     }
 }

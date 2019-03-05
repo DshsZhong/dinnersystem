@@ -32,6 +32,7 @@ namespace FactoryClient.Analysis_Function
                 excel.Write(i + 2, 3, Math.Round(value * 100).ToString() + "%");
                 invoker((int)Math.Ceiling((double)(i + 1) / size * 100));
             }
+            excel.Close();
         }
     }
 }
