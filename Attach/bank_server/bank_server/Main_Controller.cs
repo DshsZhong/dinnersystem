@@ -86,11 +86,15 @@ namespace bank_server
             string uid = json.uid.ToString();
             string fid = json.fid.ToString();
             int charge = Int32.Parse(json.charge.ToString());
-            int money = reader.Get_Balance(uid);
-            if (money < charge) return false;                              // The check before write in.
             string cardno = reader.Get_Cardno(uid);
-            writer.Write(cardno, fid, charge);                             // Write in.
-            return alive = (reader.Get_Balance(uid) == (money - charge));  // The check after write in.
+            int money = reader.Get_Balance(uid);
+
+            if (money < charge) return false;
+            writer.Write(cardno, fid, charge ,() =>
+            {
+                alive &= (reader.Get_Balance(uid) == (money - charge));
+            });
+            return alive;
         }
 
         string Run(dynamic data)

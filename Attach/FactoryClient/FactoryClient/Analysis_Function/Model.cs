@@ -16,9 +16,9 @@ namespace FactoryClient.Analysis_Function
         Group_Model model;
         public bool Finished_Build = false;
 
-        public Model(JArray data, int pool)
+        public Model(JArray data, int pool ,DateTime start ,DateTime end)
         {
-            model = new Group_Model(data, pool);
+            model = new Group_Model(data, pool ,start ,end);
         }
 
         public Group_Model Get_Model() { return model; }

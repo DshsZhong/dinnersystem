@@ -19,7 +19,7 @@ namespace FactoryClient.Analysis_Function
         public Dish_Encoder dish_encoder;
         double[][] dish_predict;
 
-        public Group_Model(JArray data, int threads)
+        public Group_Model(JArray data, int threads ,DateTime start ,DateTime end)
         {
             Dictionary<string, JArray> sorted = new Dictionary<string, JArray>();
             foreach (JToken token in data)
@@ -34,7 +34,7 @@ namespace FactoryClient.Analysis_Function
             people_coder = new Dictionary<int, string>();
             foreach (KeyValuePair<string, JArray> item in sorted)
             {
-                people[id] = new Person_Model(item.Value);
+                people[id] = new Person_Model(item.Value ,start ,end);
                 people_coder[id] = item.Key;
                 id += 1;
             }

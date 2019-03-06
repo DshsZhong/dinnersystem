@@ -24,16 +24,16 @@ namespace bank_server
             Up = 2
         }
 
-        Queue<Tuple<List<string>, int>> waiter = new Queue<Tuple<List<string>, int>>();
+        Queue<Tuple<List<string>, int, Action>> waiter = new Queue<Tuple<List<string>, int, Action>>();
         public KeyPress()
         {
             Task.Run(() => Cycle());
         }
 
-        public void Run(List<string> data)
+        public void Run(List<string> data, Action callback)
         {
             int self = Id++;
-            Tuple<List<string>, int> sender = new Tuple<List<string>, int>(data, self);
+            Tuple<List<string>, int, Action> sender = new Tuple<List<string>, int, Action>(data, self, callback);
             waiter.Enqueue(sender);
             while (waiter.Count != 0 && waiter.Peek().Item2 <= self)
                 Thread.Sleep(100);
@@ -47,6 +47,7 @@ namespace bank_server
                 List<string> commands = waiter.Peek().Item1;
                 foreach (string s in commands) Write(s);
                 Flush();
+                waiter.Peek().Item3.Invoke();
                 waiter.Dequeue();
             }
         }

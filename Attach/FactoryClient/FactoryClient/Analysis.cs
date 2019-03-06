@@ -22,6 +22,7 @@ namespace FactoryClient
         JArray data;
         Classify classify;
         Model model;
+        DateTime start, end;
 
         const int Running_Previous = 100;
         public Analysis(Request req)
@@ -117,7 +118,7 @@ namespace FactoryClient
             Running_Chart.Legends[0].Docking = Docking.Bottom;
             Task.Run(() =>
             {
-                model = new Model(data, psize);
+                model = new Model(data, psize , start ,end);
                 List<double> recorder = new List<double>();
                 model.Build((int time, double value, string task) =>
                 {
@@ -185,9 +186,16 @@ namespace FactoryClient
         {
             Task.Run(() =>
             {
-                DateTime start = Start_Date.Value, end = End_Date.Value;
-                data = req.Get_Order((start.ToString("yyyy-MM-dd") + " 00:00:00").Replace("-", "/").Replace(" ", "-"),
-                    (end.ToString("yyyy-MM-dd") + " 23:59:59").Replace("-", "/").Replace(" ", "-"), true);
+                data = req.Get_Order((Start_Date.Value.ToString("yyyy-MM-dd") + " 00:00:00").Replace("-", "/").Replace(" ", "-"),
+                    (End_Date.Value.ToString("yyyy-MM-dd") + " 23:59:59").Replace("-", "/").Replace(" ", "-"), true);
+                start = DateTime.MaxValue;
+                end = DateTime.MinValue;
+                foreach (JToken token in data)
+                {
+                    DateTime dt = DateTime.Parse(token["recv_date"].ToString());
+                    start = start > dt ? dt : start;
+                    end = end > dt ? end : dt;
+                }
                 Invoke((MethodInvoker)(() =>
                 {
                     MessageBox.Show("完成下載");
@@ -214,7 +222,8 @@ namespace FactoryClient
         {
             data = JsonConvert.DeserializeObject<JArray>(new StreamReader(Load_Location.Text).ReadToEnd());
             Making_Model.Enabled = Classify.Enabled = true;
-            DateTime start = DateTime.MaxValue, end = DateTime.MinValue;
+            start = DateTime.MaxValue;
+            end = DateTime.MinValue;
             foreach(JToken token in data)
             {
                 DateTime dt = DateTime.Parse(token["recv_date"].ToString());
