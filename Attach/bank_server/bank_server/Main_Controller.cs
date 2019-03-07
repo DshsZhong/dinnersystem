@@ -11,6 +11,7 @@ using System.IO;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace bank_server
 {
@@ -88,12 +89,16 @@ namespace bank_server
             int charge = Int32.Parse(json.charge.ToString());
             string cardno = reader.Get_Cardno(uid);
             int money = reader.Get_Balance(uid);
+            bool done = false;
 
             if (money < charge) return false;
             writer.Write(cardno, fid, charge ,() =>
             {
                 alive &= (reader.Get_Balance(uid) == (money - charge));
+                done = true;
             });
+
+            while (!done) Thread.Sleep(100);
             return alive;
         }
 

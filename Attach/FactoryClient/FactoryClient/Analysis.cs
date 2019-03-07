@@ -124,9 +124,9 @@ namespace FactoryClient
                 {
                     Invoke((MethodInvoker)(() =>
                     {
-                        Running_Chart.Series["損失函數值"].Points.AddXY(time, -value);
+                        Running_Chart.Series["損失函數值"].Points.AddXY(time, value);
                         Running_Task.Text = "執行任務: " + task;
-                        Cost_Sum.Text = "損失函數和: " + Math.Round(-value, 3);
+                        Cost_Sum.Text = "損失函數和: " + Math.Round(value, 3);
                         Train_Time.Text = "訓練時間: " + time + "(秒)";
                         People_Sum.Text = "參與人數: " + model.Get_Model().people.Count() + " (個)";
                         Order_Sum.Text = "點單量: " + data.Count + " (份)";
