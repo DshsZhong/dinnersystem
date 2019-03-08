@@ -125,13 +125,14 @@ proce: BEGIN
 
 	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;
 	IF orders > daily_limit AND daily_limit > 0 THEN
-		SELECT "daily limit exceed";
+		/*SELECT "daily limit exceed";
 		ROLLBACK;
-		LEAVE proce;
+		LEAVE proce;*/
 	END IF;
 	/*-------------------------------------------------------------------------------------------------------*/
 
 	select @oid;
     commit;
 END$$
+delimiter ;
 CALL make_order(1, 2, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);

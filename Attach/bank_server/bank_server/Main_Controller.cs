@@ -82,29 +82,6 @@ namespace bank_server
             return false;
         }
 
-        Tuple<int ,bool> Write(dynamic json)
-        {
-            string uid = json.uid.ToString();
-            string fid = json.fid.ToString();
-            int charge = Int32.Parse(json.charge.ToString());
-            string cardno = reader.Get_Cardno(uid);
-            int money = reader.Get_Balance(uid);
-            bool done = false ,ok = false;
-
-            int after = 0;
-            if (money < charge) return new Tuple<int ,bool>(after, false);
-            writer.Write(cardno, fid, charge ,() =>
-            {
-                after = reader.Get_Balance(uid);
-                ok = (after == (money - charge));
-                alive &= ok;
-                done = true;
-            });
-            while (!done) Thread.Sleep(10);
-
-            return new Tuple<int, bool>(after, ok);
-        }
-
         string Run(dynamic data)
         {
             /* table.Columns.Add(new DataColumn("行為"));
@@ -134,15 +111,33 @@ namespace bank_server
             if (json.operation == "write")
             {
                 string result;
-                int before = reader.Get_Balance(json.uid.ToString()) ,after = -1;
+                bool ok = false; int after = 0;
                 if (json.uid.ToString() == "-1") result = "fail";
                 else
                 {
                     if (Auth(json.auth.ToString()))
                     {
-                        Tuple<bool, int> written = Write(json);
-                        result = (written.Item1 ? "success" : "fail");
-                        after = written.Item2;
+                        string uid = json.uid.ToString();
+                        string fid = json.fid.ToString();
+                        int charge = Int32.Parse(json.charge.ToString());
+                        string cardno = reader.Get_Cardno(uid);
+                        int money = reader.Get_Balance(uid);
+                        bool done = false;
+
+                        if (money < charge) ok = false;
+                        else
+                        {
+                            writer.Write(cardno, fid, charge, () =>
+                            {
+                                after = reader.Get_Balance(uid);
+                                ok = (after == (money - charge));
+                                alive &= ok;
+                                done = true;
+                            });
+                        }
+                        while (!done) Thread.Sleep(10);
+
+                        result = ok ? "success" : "fail";
                     }
                     else result = "fail";
                 }
