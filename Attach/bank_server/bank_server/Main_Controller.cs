@@ -111,7 +111,7 @@ namespace bank_server
             if (json.operation == "write")
             {
                 string result;
-                bool ok = false; int after = 0;
+                bool ok = false; int before = 0 ,after = 0;
                 if (json.uid.ToString() == "-1") result = "fail";
                 else
                 {
@@ -121,27 +121,28 @@ namespace bank_server
                         string fid = json.fid.ToString();
                         int charge = Int32.Parse(json.charge.ToString());
                         string cardno = reader.Get_Cardno(uid);
-                        int money = reader.Get_Balance(uid);
+                        before = reader.Get_Balance(uid);
                         bool done = false;
 
-                        if (money < charge) ok = false;
+                        if (before < charge) ok = false;
                         else
                         {
                             writer.Write(cardno, fid, charge, () =>
                             {
                                 after = reader.Get_Balance(uid);
-                                ok = (after == (money - charge));
+                                ok = (after == (before - charge));
                                 alive &= ok;
                                 done = true;
                             });
                         }
                         while (!done) Thread.Sleep(10);
-
                         result = ok ? "success" : "fail";
                     }
                     else result = "fail";
                 }
                 row[0] = "寫入";
+                row[1] = json.uid.ToString();
+                row[1] = json.uid.ToString();
                 row[1] = json.uid.ToString();
                 row[2] = json.charge.ToString();
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
