@@ -27,19 +27,33 @@ namespace FactoryClient.Analysis_Function
         public bool Allow_Future = false;
         public bool Not_Enough = false;
 
-        public Person_Model(JArray orders)
+        public Person_Model(JArray orders, DateTime start, DateTime end)
         {
             data = orders;
             dish = new Dish_Encoder(orders);
-            time = new Time_Encoder(orders);
-            Tuple<bool[], bool>[] result = time.get_logistic(days);
-            if(result.Length == 0)
+            time = new Time_Encoder(orders, start, end);
+            Tuple<bool[], bool, int>[] result = time.get_logistic(days);
+            if (result.Length == 0)
             {
                 Not_Enough = true;
                 return;
             }
-            last = CreateVector.Dense<double>(days, (int i) => (i == days - 1 ? result.Last().Item2 : result.Last().Item1[i + 1]) ? 1 : -1);
-            order = new Logistic(result);
+            last = CreateVector.Dense<double>(days, (int i) =>
+                {
+                    if (i == (result.Last().Item3 + 1) % 7) return 1;
+                    else return 0;
+                });
+
+            List<Tuple<double[], double>> param = new List<Tuple<double[], double>>();
+            for (int i = 0; i != result.Length; i++)
+            {
+                double[] tmp = new double[days];
+                for (int j = 0; j != 7; j++)
+                    tmp[j] = (j == result[i].Item3 ? 1 : 0);
+                Tuple<double[], double> row = new Tuple<double[], double>(tmp, result[i].Item2 ? 1 : 0);
+                param.Add(row);
+            }
+            order = new Logistic(param.ToArray());
         }
 
         public void Train(int gradients, int ternarys)

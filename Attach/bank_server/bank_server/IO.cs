@@ -18,12 +18,12 @@ namespace bank_server
             presser = new KeyPress();
         }
 
-        public void Write(string uid, string fid , int charge)
+        public void Write(string uid, string fid , int charge ,Action callback)
         {
             List<string> tmp = new List<string>();
             tmp.Add(uid);
             tmp.Add(fid + charge.ToString());
-            presser.Run(tmp);
+            presser.Run(tmp ,callback);
         }
     }
 

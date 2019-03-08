@@ -16,7 +16,6 @@ namespace FactoryClient.Analysis_Function
         {
             foreach (JToken tmp in orders) foreach (JToken item in tmp["dish"])
                 {
-                    int did = item["dish_id"].ToObject<int>(); did /= 10;
                     string dname = concat_name(item);
                     int new_id = id.Count;
                     if (!id.ContainsKey(dname))
@@ -37,8 +36,7 @@ namespace FactoryClient.Analysis_Function
         string concat_name(JToken item)
         {
             return item["department"]["factory"]["name"].ToString() + "(" +
-                        item["department"]["id"].ToString() + "-" +
-                        item["department"]["name"].ToString() + ")";
+                item["department"]["factory"]["id"].ToString() + ")";
         }
     }
 }
