@@ -82,24 +82,27 @@ namespace bank_server
             return false;
         }
 
-        bool Write(dynamic json)
+        Tuple<int ,bool> Write(dynamic json)
         {
             string uid = json.uid.ToString();
             string fid = json.fid.ToString();
             int charge = Int32.Parse(json.charge.ToString());
             string cardno = reader.Get_Cardno(uid);
             int money = reader.Get_Balance(uid);
-            bool done = false;
+            bool done = false ,ok = false;
 
-            if (money < charge) return false;
+            int after = 0;
+            if (money < charge) return new Tuple<int ,bool>(after, false);
             writer.Write(cardno, fid, charge ,() =>
             {
-                alive &= (reader.Get_Balance(uid) == (money - charge));
+                after = reader.Get_Balance(uid);
+                ok = (after == (money - charge));
+                alive &= ok;
                 done = true;
             });
+            while (!done) Thread.Sleep(10);
 
-            while (!done) Thread.Sleep(100);
-            return alive;
+            return new Tuple<int, bool>(after, ok);
         }
 
         string Run(dynamic data)
@@ -131,10 +134,18 @@ namespace bank_server
             if (json.operation == "write")
             {
                 string result;
-                int before = reader.Get_Balance(json.uid.ToString());
+                int before = reader.Get_Balance(json.uid.ToString()) ,after = -1;
                 if (json.uid.ToString() == "-1") result = "fail";
-                else result = (Auth(json.auth.ToString()) && Write(json) ? "success" : "fail");  //Write will not be executed if Auth returns false
-                int after = reader.Get_Balance(json.uid.ToString());
+                else
+                {
+                    if (Auth(json.auth.ToString()))
+                    {
+                        Tuple<bool, int> written = Write(json);
+                        result = (written.Item1 ? "success" : "fail");
+                        after = written.Item2;
+                    }
+                    else result = "fail";
+                }
                 row[0] = "寫入";
                 row[1] = json.uid.ToString();
                 row[2] = json.charge.ToString();
@@ -143,6 +154,7 @@ namespace bank_server
                 ret = result;
                 writes += 1;
                 msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4] + "\t," + before.ToString() + "\t," + after.ToString();
+
             }
             logger.WriteLine(msg);
 
