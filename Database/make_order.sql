@@ -1,5 +1,4 @@
 /*---------------------------------------------------------------------------------------------------------------*/
-/*-----------please ensure this procedure run in serializable transaction mode----------------------*/
 DROP PROCEDURE IF EXISTS make_order;
 DELIMITER $$
 
@@ -21,10 +20,10 @@ proce: BEGIN
 
 	START TRANSACTION;
 
-    INSERT INTO `dinnersys`.`money_info` (`money_sum`) VALUES (-1);		/* temporary set a number */
+    INSERT INTO `money_info` (`money_sum`) VALUES (-1);		/* temporary set a number */
     SET money_id = (SELECT MAX(id) FROM money_info);
     
-	INSERT INTO `dinnersys`.`payment`
+	INSERT INTO `payment`
 	(`paid`, `money_info` ,`reversable` ,
 	 `able_datetime`, `freeze_datetime`, `paid_datetime` ,`tag`)
 	VALUES
@@ -34,12 +33,12 @@ proce: BEGIN
 		CONCAT(DATE(esti_recv) ,'-10:30:00'), NULL, 'payment'
     );
     
-    INSERT INTO `dinnersys`.`logistics_info` (`esti_recv_datetime`)
+    INSERT INTO `logistics_info` (`esti_recv_datetime`)
 	VALUES (esti_recv);
     
 	SET logistics_id = (SELECT MAX(id) FROM logistics_info);
     
-    INSERT INTO `dinnersys`.`cargo`
+    INSERT INTO `cargo`
 	(`get`, `reversable`,
 	`able_datetime`, `get_datetime`, `freeze_datetime`, 
 	`logistics_info`, `tag`)
@@ -60,8 +59,7 @@ proce: BEGIN
 		logistics_id ,'factory'
 	);
     
-    
-    INSERT INTO `dinnersys`.`orders`
+    INSERT INTO `orders`
 	(`money_id`,
 	`user_id`, `order_maker` ,
 	`logistics_id`)
@@ -71,15 +69,15 @@ proce: BEGIN
 		usr_id, maker_id ,
 		logistics_id
     );
-	SELECT MAX(O.id) FROM dinnersys.orders AS O INTO @oid;
+	SELECT MAX(O.id) FROM orders AS O INTO @oid;
 
 	SET insert_order = REPLACE(dishes ,')' ,',@oid)');
 	SET insert_order = REPLACE(insert_order ,',' ,',@oid),(');
 	SET insert_order = REPLACE(insert_order ,',(@oid)' ,'');
-	SET @cmd = concat('INSERT INTO `dinnersys`.`buffet` (`dish`,`order`) VALUES ',insert_order ,';');
+	SET @cmd = concat('INSERT INTO `buffet` (`dish`,`order`) VALUES ',insert_order ,';');
     PREPARE stmt FROM @cmd;
     EXECUTE stmt;
-
+    
 	UPDATE money_info 
 	SET money_sum = 
 	(
@@ -88,7 +86,7 @@ proce: BEGIN
 		WHERE O.id = @oid AND B.dish = D.id AND B.order = O.id
 	)
 	WHERE id = money_id;
-
+	
 	/*-------------------------------------------------------------------------------------------------------*/
 	/* To avoid race conditions ,I used some business logic here.
 	 * Whenever it fails ,the procedure rollbacks everything it has done.
@@ -125,9 +123,9 @@ proce: BEGIN
 
 	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;
 	IF orders > daily_limit AND daily_limit > 0 THEN
-		/*SELECT "daily limit exceed";
+		SELECT "daily limit exceed";
 		ROLLBACK;
-		LEAVE proce;*/
+		LEAVE proce;
 	END IF;
 	/*-------------------------------------------------------------------------------------------------------*/
 
@@ -135,4 +133,4 @@ proce: BEGIN
     commit;
 END$$
 delimiter ;
-CALL make_order(1, 2, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);
+CALL make_order(1, 1, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);

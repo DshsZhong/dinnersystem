@@ -4,8 +4,12 @@ namespace food;
 function show_remaining($did)
 {
     $did = \other\check_valid::white_list($did ,\other\check_valid::$only_number); 
-    $mysqli = $_SESSION['sql_server'];
 
+    $dish = unserialize($_SESSION["dish"]);
+    if($dish[$did]->daily_produce == -1) 
+        return $dish[$did];
+
+    $mysqli = $_SESSION['sql_server'];
     $today = date("Y-m-d");
     $lower_bound = $today . ' 00:00:00';
     $upper_bound = $today . ' 23:59:59';
@@ -19,7 +23,6 @@ function show_remaining($did)
     $statement->store_result();
     $statement->bind_result($sum);
     
-    $dish = unserialize($_SESSION["dish"]);
     if($statement->fetch())
     {
         $dish[$did]->sold_out = $sum;

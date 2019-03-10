@@ -15,12 +15,12 @@ function config()
             "name" => "dinnersys"
         ],
         "login" => [
-            "time" => "30",
+            "time" => "60",
             "tolerance" => "3",
             "punish" => "60"
         ],
         "payment" => [
-            "time" => "30",
+            "time" => "60",
             "tolerance" => "3",
             "punish" => "60"
         ]

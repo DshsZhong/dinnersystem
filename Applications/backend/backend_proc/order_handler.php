@@ -28,7 +28,8 @@ function process_order()
     $this->req_id = \other\log\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
     try
     {
-        return $this->$func();   # A very danger way to call a function. #
+	    if($cmd == "payment_self") return $this->set_payment();
+	    else        return $this->$func();   # A very danger way to call a function. #
     } catch(\Exception $e) { 
         $output = $e->getMessage(); 
         \other\log\make_error_log($this->req_id ,$output);

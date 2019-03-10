@@ -30,8 +30,8 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
             AND P.tag = 'payment';";
         $statement = $pdo->prepare($sql_command);
         $statement->execute([$target ,$ord_id]);  
+        
         //to ensure we locked the row.
-
         $money = intval(\bank\get_money());
         if($money < $row->money->charge)
             throw new \Exception("Not enough money.");

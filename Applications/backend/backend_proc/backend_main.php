@@ -70,6 +70,7 @@ class backend_main
 
         require_once (__DIR__ . '/../bank/debit.php');
         require_once (__DIR__ . '/../bank/get_money.php');
+        require_once (__DIR__ . '/../bank/fei_yu_ggyy.php');
 
 
 

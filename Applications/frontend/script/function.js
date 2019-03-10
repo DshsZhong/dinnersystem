@@ -96,3 +96,14 @@ function make_order(login_id, did, type, callback) {
         callback(result);
     });
 }
+
+
+function show_remaining(id ,callback) {
+    var url = "/dinnersys_beta/backend/backend.php?cmd=get_remaining&id=" + id;
+    var result;
+    $.get(url, function (data) {
+        result = data;
+    }).done(function () {
+        callback(result);
+    });
+}
