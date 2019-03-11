@@ -24,6 +24,7 @@ namespace bank_server
         StreamWriter logger;
 
         int Tolerance;
+        public int Confirm_Delay = 500;
         string password;
 
         int reads = 0;
@@ -129,6 +130,7 @@ namespace bank_server
                         {
                             writer.Write(cardno, fid, charge, () =>
                             {
+                                Thread.Sleep(Confirm_Delay); //Fei Yu GGYY
                                 after = reader.Get_Balance(uid);
                                 ok = (after == (before - charge));
                                 alive &= ok;

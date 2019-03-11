@@ -77,7 +77,7 @@ namespace bank_server
 
         private void init_database_Click(object sender, EventArgs e)
         {
-            force_delay.Enabled = activate.Enabled = true;
+            confirm_delay.Enabled = type_delay.Enabled = activate.Enabled = true;
             close.Enabled = db_account.Enabled = db_name.Enabled = false;
             db_password.Enabled = init_database.Enabled = false;
             Database db = new Database(db_account.Text, db_name.Text, db_password.Text);
@@ -134,10 +134,16 @@ namespace bank_server
             }
         }
 
-        private void force_delay_Scroll(object sender, EventArgs e)
+        private void type_delay_Scroll(object sender, EventArgs e)
         {
-            controller.writer.presser.Delay = force_delay.Value;
-            force_delay_label.Text = "強制延遲(" + force_delay.Value.ToString() + "ms): ";
+            controller.writer.presser.Delay = type_delay.Value;
+            type_delay_label.Text = "打字延遲(" + type_delay.Value.ToString() + "ms): ";
+        }
+
+        private void confirm_delay_Scroll(object sender, EventArgs e)
+        {
+            controller.Confirm_Delay = confirm_delay.Value;
+            confirm_delay_label.Text = "確認延遲(" + confirm_delay.Value.ToString() + "ms): ";
         }
     }
 }

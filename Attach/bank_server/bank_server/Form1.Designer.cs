@@ -51,8 +51,10 @@
             this.db_name = new System.Windows.Forms.TextBox();
             this.init_database = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.force_delay = new System.Windows.Forms.TrackBar();
-            this.force_delay_label = new System.Windows.Forms.Label();
+            this.confirm_delay = new System.Windows.Forms.TrackBar();
+            this.confirm_delay_label = new System.Windows.Forms.Label();
+            this.type_delay = new System.Windows.Forms.TrackBar();
+            this.type_delay_label = new System.Windows.Forms.Label();
             this.db_password = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.db_account = new System.Windows.Forms.TextBox();
@@ -62,7 +64,8 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.force_delay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.confirm_delay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.type_delay)).BeginInit();
             this.SuspendLayout();
             // 
             // show_data
@@ -279,8 +282,10 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.force_delay);
-            this.groupBox3.Controls.Add(this.force_delay_label);
+            this.groupBox3.Controls.Add(this.confirm_delay);
+            this.groupBox3.Controls.Add(this.confirm_delay_label);
+            this.groupBox3.Controls.Add(this.type_delay);
+            this.groupBox3.Controls.Add(this.type_delay_label);
             this.groupBox3.Controls.Add(this.db_password);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.db_account);
@@ -295,26 +300,47 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "連結資訊";
             // 
-            // force_delay
+            // confirm_delay
             // 
-            this.force_delay.Enabled = false;
-            this.force_delay.LargeChange = 1;
-            this.force_delay.Location = new System.Drawing.Point(527, 62);
-            this.force_delay.Maximum = 1000;
-            this.force_delay.Name = "force_delay";
-            this.force_delay.Size = new System.Drawing.Size(186, 45);
-            this.force_delay.TabIndex = 21;
-            this.force_delay.Value = 1000;
-            this.force_delay.Scroll += new System.EventHandler(this.force_delay_Scroll);
+            this.confirm_delay.Enabled = false;
+            this.confirm_delay.LargeChange = 1;
+            this.confirm_delay.Location = new System.Drawing.Point(545, 92);
+            this.confirm_delay.Maximum = 1000;
+            this.confirm_delay.Name = "confirm_delay";
+            this.confirm_delay.Size = new System.Drawing.Size(186, 45);
+            this.confirm_delay.TabIndex = 23;
+            this.confirm_delay.Value = 500;
+            this.confirm_delay.Scroll += new System.EventHandler(this.confirm_delay_Scroll);
             // 
-            // force_delay_label
+            // confirm_delay_label
             // 
-            this.force_delay_label.AutoSize = true;
-            this.force_delay_label.Location = new System.Drawing.Point(429, 80);
-            this.force_delay_label.Name = "force_delay_label";
-            this.force_delay_label.Size = new System.Drawing.Size(104, 12);
-            this.force_delay_label.TabIndex = 20;
-            this.force_delay_label.Text = "強制延遲(1000ms): ";
+            this.confirm_delay_label.AutoSize = true;
+            this.confirm_delay_label.Location = new System.Drawing.Point(435, 110);
+            this.confirm_delay_label.Name = "confirm_delay_label";
+            this.confirm_delay_label.Size = new System.Drawing.Size(98, 12);
+            this.confirm_delay_label.TabIndex = 22;
+            this.confirm_delay_label.Text = "確認延遲(500ms): ";
+            // 
+            // type_delay
+            // 
+            this.type_delay.Enabled = false;
+            this.type_delay.LargeChange = 1;
+            this.type_delay.Location = new System.Drawing.Point(545, 26);
+            this.type_delay.Maximum = 1000;
+            this.type_delay.Name = "type_delay";
+            this.type_delay.Size = new System.Drawing.Size(186, 45);
+            this.type_delay.TabIndex = 21;
+            this.type_delay.Value = 1000;
+            this.type_delay.Scroll += new System.EventHandler(this.type_delay_Scroll);
+            // 
+            // type_delay_label
+            // 
+            this.type_delay_label.AutoSize = true;
+            this.type_delay_label.Location = new System.Drawing.Point(435, 44);
+            this.type_delay_label.Name = "type_delay_label";
+            this.type_delay_label.Size = new System.Drawing.Size(104, 12);
+            this.type_delay_label.TabIndex = 20;
+            this.type_delay_label.Text = "打字延遲(1000ms): ";
             // 
             // db_password
             // 
@@ -372,7 +398,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.force_delay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.confirm_delay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.type_delay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -404,10 +431,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button openLog;
         private System.Windows.Forms.Timer Updater;
-        private System.Windows.Forms.Label force_delay_label;
+        private System.Windows.Forms.Label type_delay_label;
         private System.Windows.Forms.TextBox Timestamp_Delay;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar force_delay;
+        private System.Windows.Forms.TrackBar type_delay;
+        private System.Windows.Forms.TrackBar confirm_delay;
+        private System.Windows.Forms.Label confirm_delay_label;
     }
 }
 
