@@ -17,10 +17,7 @@ function debit($row ,$req_id)
     
     $fp = fsockopen($ip, $port ,$errno ,$errstr ,3);
     if(!$fp) 
-    {
-        fei_yu_ggyy("有人繳款失敗，請注意" ,$row->user);
         throw new \Exception("Pos is dead ,unable to debit");
-    }
 
     $msg = [
         "operation" => "write" ,
@@ -40,7 +37,11 @@ function debit($row ,$req_id)
     fclose($fp);
 
     if($data == "success") return true;
-    else throw new \Exception("Unable debit from user's account");
+    else 
+    {
+        announce("#### 有人繳款失敗，請注意 ####" ,$row->user);
+        throw new \Exception("Unable debit from user's account");
+    }
 }
 
 

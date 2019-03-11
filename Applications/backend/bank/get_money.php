@@ -12,9 +12,9 @@ function get_money()
     {
         $rnd = rand(0 ,1);
         if($rnd == 0) {
-            fei_yu_ggyy("先準備一缸酒，再把系統泡進去，這種東西，輕者當日，重者七日就會好，急不得的。" ,$self);
+            announce("先準備一缸酒，再把系統泡進去，這種東西，輕者當日，重者七日就會好，急不得的。" ,$self);
         } else if($rnd == 1) {
-            fei_yu_ggyy("有人課金課到系統掛了，看起來是非洲運。" ,$self);
+            announce("有人課金課到系統掛了，看起來是非洲運。" ,$self);
         }
         
         throw new \Exception("POS is dead");

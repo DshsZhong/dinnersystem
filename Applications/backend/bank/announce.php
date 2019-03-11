@@ -1,26 +1,26 @@
 <?php
 
-function fei_yu_ggyy($content ,$self)
+function announce($content ,$self)
 {
     $url = 'https://discordapp.com/api/channels/552494392749981719/messages';
     $ch = curl_init( $url );
     $data = '{
         "embed":{
             "title":"' . $content . '",
-            "description":"邪靈飛宇觀陰，禍世災顯板中。",
+            "description":"邪靈飛宇觀落陰，禍世災難害板中。",
             "color":16711680,
             "fields":[
                 {
-                    "name":"陣亡人員座號：",
-                    "value":"' . $self->seat_no . '",
-                    "inline":true
+                    "name":"陣亡者資料：",
+                    "value":"' . $self->name . ', ' . $self->seat_no . '",
+                    "inline": false
                 },
                 {
-                    "name":"陣亡者姓名：",
-                    "value":"' . $self->name . '",
-                    "inline":true
+                    "name":"死亡日期：",
+                    "value":"' . date("Y/m/d H:i:s") . '",
+                    "inline": false
                 }
-            ], "timestamp":"' . date('c') . '"
+            ]
         }
     }';
     
