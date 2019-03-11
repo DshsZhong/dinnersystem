@@ -23,11 +23,11 @@ namespace FactoryClient.Analysis_Function
 
         public Group_Model Get_Model() { return model; }
 
-        public void Build(UpdateChart invoker, int gradient, int ternary)
+        public void Build(UpdateChart invoker, int gradient, int ternary , DateTime dt)
         {
-            Task.Run(() => model.Train(gradient, ternary));
+            Task.Run(() => model.Train(gradient, ternary ,dt));
             double cost_sum = 0; int counter = 0;
-            for (; model.current_days == -1; counter++)
+            for (; model.current == DateTime.MinValue; counter++)
             {
                 cost_sum = 0;
                 bool all_trained = true;
@@ -62,10 +62,9 @@ namespace FactoryClient.Analysis_Function
             }));
         }
 
-        public Tuple<int ,int ,double ,int> 
-            Show(DateTime dt, string dname ,int confidence_interval ,int show_interval , Chart show = null)
+        public Tuple<int ,int ,double ,int> Show(DateTime dt, string dname ,int confidence_interval ,int show_interval , Chart show = null)
         {
-            double[] result = model.Query(dname , dt.Subtract(DateTime.Now).Days);
+            double[] result = model.Query(dname , dt);
             string tag = dname;
 
             if(show != null)
