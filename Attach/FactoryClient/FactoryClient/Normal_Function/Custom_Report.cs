@@ -22,7 +22,7 @@ namespace FactoryClient
             JArray data = req.Get_Order(l.Replace("-", "/").Replace(" ", "-"), r.Replace("-", "/").Replace(" ", "-"));
             JArray dish_respond = req.Get_Dish();
 
-            int counter = 2;
+            int counter = 4;
             Dictionary<int, int> did_to_cordinate = new Dictionary<int, int>();
             
             foreach (JToken item in dish_respond)
@@ -42,6 +42,9 @@ namespace FactoryClient
                     sum[dish.ToObject<int>()] += 1;
 
                 excel.Write(counter, 1, item["id"].ToObject<int>());
+                excel.Write(counter, 2, item["user"]["seat_no"].ToString() + item["user"]["name"].ToString());
+                excel.Write(counter, 3, item["recv_date"].ToString());
+
                 foreach (JToken dish in dish_respond)
                 {
                     if (dish["department"]["factory"]["name"].ToString(Newtonsoft.Json.Formatting.None) != "\"" + req.uname + "\"") continue;
