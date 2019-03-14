@@ -55,7 +55,7 @@ function show_dish()
 
 function get_remaining()
 {
-    return \food\show_remaining($this->input['id']);
+    return \food\get_remaining($this->input['id']);
 }
 
 function update_dish()

@@ -32,7 +32,7 @@ class backend_main
         require_once (__DIR__ . '/../food/dish/dish.php');
         require_once (__DIR__ . '/../food/dish/get_dish.php');
         require_once (__DIR__ . '/../food/dish/updatable.php');
-        require_once (__DIR__ . '/../food/dish/show_remaining.php');
+        require_once (__DIR__ . '/../food/dish/get_remaining.php');
 
         require_once (__DIR__ . '/../food/factory/factory.php');
         require_once (__DIR__ . '/../food/factory/get_factory.php');

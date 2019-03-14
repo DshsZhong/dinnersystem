@@ -89,10 +89,8 @@ proce: BEGIN
 	
 	/*-------------------------------------------------------------------------------------------------------*/
 	/* To avoid race conditions ,I used some business logic here.
-	 * Whenever it fails ,the procedure rollbacks everything it has done.
-	 * In php ,we can't ensure everything is serialized ,so we put the codes here.
-	 * In this sql transacation ,everything is serialized. */
-	SET @cmd = concat("SET @maxi = (SELECT MAX(count) FROM 
+	 * Whenever it fails ,the procedure rollbacks everything it has done. */
+	SET @cmd = concat("SET @maxi = (SELECT MIN(count) FROM 
         (
             SELECT IF(D.daily_limit < 0 ,0 ,D.daily_limit - COUNT(O.id)) AS count
             FROM orders AS O ,buffet AS B ,logistics_info AS LO ,dish AS D
@@ -110,9 +108,29 @@ proce: BEGIN
 		ROLLBACK;
 		LEAVE proce;
     END IF;
+
+	/* Check if the factory is still able to produce more dish. */
+	SET @cmd = concat("SET @maxi = (SELECT MIN(count) FROM 
+        (
+            SELECT IF(F.daily_limit < 0 ,0 ,F.daily_limit - COUNT(O.id)) AS count
+            FROM orders AS O ,buffet AS B ,logistics_info AS LO ,dish AS D ,department AS DP ,factory AS F
+            WHERE O.logistics_id = LO.id AND B.order = O.id AND D.id = B.dish 
+			AND D.department_id = DP.id AND DP.factory = F.id
+			AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(?) ,'-00:00:00') AND CONCAT(DATE(?) ,'-23:59:59')
+			AND D.id IN", dishes,
+			"GROUP BY F.id FOR UPDATE
+        ) AS tmp);");
+    PREPARE stmt FROM @cmd;
+	SET @esti_recv = esti_recv;
+    EXECUTE stmt USING @esti_recv ,@esti_recv;
 	
-	/* Must ensure this statement won't scan the older part of dinnersys.
-	 * It would cause the user can unlimitly order if it scans the older part of database. */
+    IF @maxi < 0 THEN 
+		SELECT "factory limit exceed";
+		ROLLBACK;
+		LEAVE proce;
+    END IF;
+	
+	/* Must ensure this statement will scan for the right payment tag. */
 	SELECT COUNT(O.id)
 	FROM orders AS O ,logistics_info AS LO ,money_info AS MI ,payment AS P
 	WHERE O.logistics_id = LO.id AND O.user_id = usr_id

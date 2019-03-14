@@ -189,7 +189,6 @@ namespace FactoryClient
             {
                 start = Start_Date.Value.Date.AddHours(12);
                 end = End_Date.Value.Date.AddHours(12);
-                Show_Datetime.Value = end.AddDays(1);
                 data = req.Get_Order((Start_Date.Value.ToString("yyyy-MM-dd") + " 00:00:00").Replace("-", "/").Replace(" ", "-"),
                     (End_Date.Value.ToString("yyyy-MM-dd") + " 23:59:59").Replace("-", "/").Replace(" ", "-"), true);
                 Invoke((MethodInvoker)(() =>
@@ -198,6 +197,7 @@ namespace FactoryClient
                     Show_Datetime.Value = end.AddDays(1);
                     Making_Model.Enabled = Classify.Enabled = true;
                     Download.Enabled = Load_Frame.Enabled = false;
+                    Show_Datetime.Value = end.AddDays(1);
                 }));
                 classify = new Classify(data);
             });

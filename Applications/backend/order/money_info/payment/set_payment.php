@@ -12,13 +12,13 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
         throw new \Exception("Can't find order.");
 
     $user_id = unserialize($_SESSION['me'])->id;
-    payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
-    
+
     $ip = config()["database"]["ip"];
     $account = config()["database"]["account"];
     $password = config()["database"]["password"];
     $name = config()["database"]["name"];
     $pdo = new \PDO("mysql:host=$ip;dbname=$name;charset=utf8", $account, $password);
+    payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
 
     $pdo->beginTransaction();
     try
