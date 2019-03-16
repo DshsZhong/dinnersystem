@@ -4,7 +4,7 @@ namespace food;
 use json\json_output;
 use json\json_format;
 
-class factory implements json_format
+class factory extends limitable implements json_format
 {
     public $id;
     public $name;
@@ -15,24 +15,21 @@ class factory implements json_format
     public $boss_id;
     public $allow_custom;
     public $pos_id;
-    public $daily_produce;
 
     public function __construct($id ,$name ,
-        $lower_bound ,$prepare_time ,$upper_bound ,
-        $disabled ,$boss_id ,$allow_custom ,$minimum ,
-        $pos_id ,$daily_produce)
+        $lower_bound ,$prepare_time ,$upper_bound ,$payment_time ,
+        $boss_id ,$allow_custom ,$minimum ,$pos_id)
     {
         $this->id = $id;
         $this->name = $name;
         $this->lower_bound = $lower_bound;
         $this->prepare_time = $prepare_time;
         $this->upper_bound = $upper_bound;
-        $this->disabled = $disabled;
+        $this->payment_time = $payment_time;
         $this->boss_id = $boss_id;
         $this->allow_custom = $allow_custom;
         $this->minimum = $minimum;
         $this->pos_id = $pos_id;
-        $this->daily_produce = $daily_produce;
     }
     
     public function get_json()
@@ -42,11 +39,12 @@ class factory implements json_format
             '","name":"' . json_output::filter($this->name) .
             '","lower_bound":"' . json_output::filter($this->lower_bound) .
             '","prepare_time":"' . json_output::filter($this->prepare_time) .
+            '","payment_time":"' . json_output::filter($this->payment_time) .
             '","upper_bound":"' . json_output::filter($this->upper_bound) .
             '","minimum":"' . json_output::filter($this->minimum) .
-            '","daily_produce":"' . json_output::filter($this->daily_produce) .
-            '","allow_custom":"' . ($this->allow_custom ? "true" : "false") .
-            '","disabled":"' . json_output::filter($this->disabled) . '"}';
+            '","daily_produce":"' . json_output::filter($this->limit) .
+            '","remaining":"' . json_output::filter($this->get_remaining()) .
+            '","allow_custom":"' . ($this->allow_custom ? "true" : "false") . '"}';
         return $json;
     }
 
@@ -56,12 +54,11 @@ class factory implements json_format
         $this->lower_bound = $this->lower_bound;
         $this->prepare_time = $this->prepare_time;
         $this->upper_bound = $this->upper_bound;
-        $this->disabled = $this->disabled;
+        $this->payment_time = $this->payment_time;
         $this->boss_id = $this->boss_id;
         $this->allow_custom = $this->allow_custom;
         $this->minimum = $this->minimum;
         $this->pos_id = $this->pos_id;
-        $this->pos_id = $this->daily_produce;
     }
 }
 ?>

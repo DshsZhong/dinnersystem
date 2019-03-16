@@ -120,6 +120,7 @@ namespace FactoryClient
             {
                 model = new Model(data, psize , start ,end);
                 List<double> recorder = new List<double>();
+                Logistic.Momentum = momentum.Checked;
                 model.Build((int time, double value, string task) =>
                 {
                     Invoke((MethodInvoker)(() =>

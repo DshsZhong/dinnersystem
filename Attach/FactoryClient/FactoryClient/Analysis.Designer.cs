@@ -97,6 +97,7 @@
             this.load_start = new System.Windows.Forms.DateTimePicker();
             this.Open_Load = new System.Windows.Forms.Button();
             this.Load = new System.Windows.Forms.Button();
+            this.momentum = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.main_chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ternary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gradient)).BeginInit();
@@ -130,9 +131,9 @@
             // 
             // Build
             // 
-            this.Build.Location = new System.Drawing.Point(73, 21);
+            this.Build.Location = new System.Drawing.Point(46, 21);
             this.Build.Name = "Build";
-            this.Build.Size = new System.Drawing.Size(215, 23);
+            this.Build.Size = new System.Drawing.Size(129, 23);
             this.Build.TabIndex = 4;
             this.Build.Text = "建立模型";
             this.Build.UseVisualStyleBackColor = true;
@@ -239,7 +240,7 @@
             // Confidence_Interval
             // 
             this.Confidence_Interval.Location = new System.Drawing.Point(138, 55);
-            this.Confidence_Interval.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Confidence_Interval.Margin = new System.Windows.Forms.Padding(2);
             this.Confidence_Interval.Maximum = 100;
             this.Confidence_Interval.Name = "Confidence_Interval";
             this.Confidence_Interval.Size = new System.Drawing.Size(199, 45);
@@ -258,7 +259,7 @@
             // Show_Interval
             // 
             this.Show_Interval.Location = new System.Drawing.Point(558, 55);
-            this.Show_Interval.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Show_Interval.Margin = new System.Windows.Forms.Padding(2);
             this.Show_Interval.Maximum = 100;
             this.Show_Interval.Name = "Show_Interval";
             this.Show_Interval.Size = new System.Drawing.Size(180, 45);
@@ -456,6 +457,7 @@
             // 
             // Making_Model
             // 
+            this.Making_Model.Controls.Add(this.momentum);
             this.Making_Model.Controls.Add(this.Build);
             this.Making_Model.Controls.Add(this.Pool_Size);
             this.Making_Model.Controls.Add(this.Pool_Show);
@@ -532,7 +534,7 @@
             // export_progress
             // 
             this.export_progress.Location = new System.Drawing.Point(105, 52);
-            this.export_progress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.export_progress.Margin = new System.Windows.Forms.Padding(2);
             this.export_progress.Name = "export_progress";
             this.export_progress.Size = new System.Drawing.Size(84, 17);
             this.export_progress.TabIndex = 23;
@@ -619,7 +621,7 @@
             "高三",
             "其他"});
             this.Semi_Classify.Location = new System.Drawing.Point(346, 15);
-            this.Semi_Classify.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Semi_Classify.Margin = new System.Windows.Forms.Padding(2);
             this.Semi_Classify.Name = "Semi_Classify";
             this.Semi_Classify.Size = new System.Drawing.Size(92, 20);
             this.Semi_Classify.TabIndex = 21;
@@ -774,6 +776,18 @@
             this.Load.UseVisualStyleBackColor = true;
             this.Load.Click += new System.EventHandler(this.Load_Click);
             // 
+            // momentum
+            // 
+            this.momentum.AutoSize = true;
+            this.momentum.Checked = true;
+            this.momentum.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.momentum.Location = new System.Drawing.Point(210, 25);
+            this.momentum.Name = "momentum";
+            this.momentum.Size = new System.Drawing.Size(84, 16);
+            this.momentum.TabIndex = 14;
+            this.momentum.Text = "啟動動量法";
+            this.momentum.UseVisualStyleBackColor = true;
+            // 
             // Analysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -884,5 +898,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker load_end;
         private System.Windows.Forms.DateTimePicker load_start;
+        private System.Windows.Forms.CheckBox momentum;
     }
 }

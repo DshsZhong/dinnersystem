@@ -50,12 +50,7 @@ function logout()
 
 function show_dish()
 {
-    return ($this->input["real_time"] == "true" ? \food\get_dish() : unserialize($_SESSION["dish"]));
-}
-
-function get_remaining()
-{
-    return \food\get_remaining($this->input['id']);
+    return \food\show_dish();
 }
 
 function update_dish()

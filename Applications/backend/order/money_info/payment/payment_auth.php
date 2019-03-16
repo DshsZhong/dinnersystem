@@ -7,9 +7,9 @@ function payment_auth($row ,$uid ,$permission ,$target ,$hash ,$req_id)
 	if(!password_auth($row ,$hash ,$req_id))
 		throw new \Exception("Wrong password");
 	
-	# already done control.
-	if($row->money->payment["payment"]->paid == $target)
-		throw new \Exception("Already done");
+	# today control
+	if(date("Y-m-d" ,strtotime($row->esti_recv)) != date("Y-m-d"))
+		throw new \Exception("Only allow to payment for today");
 	
 	# date time control
 	if(!\other\date_api::is_between(
