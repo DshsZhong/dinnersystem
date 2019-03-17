@@ -18,12 +18,6 @@ function show_dish()
     foreach($department as $dp) $dp->factory = $factory[$dp->factory->id];
     foreach($dish as $d) $d->department = $department[$d->department->id];
 
-    session_start();
-    $_SESSION["dish"] = serialize($dish);
-    $_SESSION["department"] = serialize($department);
-    $_SESSION["factory"] = serialize($factory);
-    session_write_close();
-
     return $dish;
 }
 

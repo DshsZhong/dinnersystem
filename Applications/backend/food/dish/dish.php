@@ -48,6 +48,7 @@ class dish extends limitable implements json_format
         $this->charge = $this->charge;
         $this->is_idle = $this->is_idle;
         $this->department = clone $this->department;
+        $this->clone_limitable();
     }
 }
 

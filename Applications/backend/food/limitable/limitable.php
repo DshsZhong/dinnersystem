@@ -18,7 +18,7 @@ class limitable {
             if($this->limit == -1) {
                 return self::max;
             } else {
-                return $this->limit - $this-sum;
+                return intval($this->limit) - intval($this->sum);
             }
         } else {
             if($this->limit == -1) {
@@ -27,6 +27,12 @@ class limitable {
                 return $this->limit;
             }
         }
+    }
+
+    function clone_limitable() {
+        $this->sum = $this->sum;
+        $this->limit = $this->limit;
+        $this->last_update = $this->last_update;
     }
 }
 

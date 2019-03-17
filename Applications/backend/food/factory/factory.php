@@ -59,6 +59,7 @@ class factory extends limitable implements json_format
         $this->allow_custom = $this->allow_custom;
         $this->minimum = $this->minimum;
         $this->pos_id = $this->pos_id;
+        $this->clone_limitable();
     }
 }
 ?>
