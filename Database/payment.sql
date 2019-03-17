@@ -22,8 +22,6 @@ BEGIN
         UPDATE user_information AS UI
         SET UI.sum = UI.sum + IF(target ,-1 ,1)
         WHERE UI.id = (SELECT O.user_id FROM orders AS O WHERE O.id = oid);
-        
-        select "success";
     END IF;
 END$$
 delimiter ;

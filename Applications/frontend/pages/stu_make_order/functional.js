@@ -2,7 +2,7 @@ var result;
 var data = [];
 
 function submit() {
-    var over_time = (moment().hour() >= 10) && (moment().minute() >= 20);
+    var over_time = (moment().hour() >= 10) && (moment().minute() >= 10);
     var did = $(this).parent().attr('id').split('_')[1];
     var server_respond;
     
