@@ -12,7 +12,7 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
     if($row === null) 
         throw new \Exception("Can't find order.");
     payment_auth($row ,unserialize($_SESSION['me'])->id ,$permission ,$target ,$hash ,$req_id);
-
+    
     $mysqli = $_SESSION['sql_server'];
     $mysqli->begin_transaction();
     try
@@ -23,8 +23,10 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
         $statement->execute(); //to ensure we locked the row.
         $statement->store_result();
         $statement->bind_result($result);
+        
         while($statement->fetch()) 
             throw new \Exception($result);
+        
         /* The part is extremely slow. Fuck you ,ventem */
         $money = intval(\bank\get_money());
         if($money < $row->money->charge)
@@ -36,7 +38,6 @@ function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
         $mysqli->rollback();
         throw $e;
     }
-    $mysqli->autocommit(true);
 
     return $row;
 }
