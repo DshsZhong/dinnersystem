@@ -8,7 +8,7 @@ class limitable {
     const max = 2147483647;
 
     function init_limit($last_update ,$sum ,$limit) {
-        $this->sum = $sum;
+        $this->sum = (date("Y-m-d" ,strtotime($last_update)) === date("Y-m-d") ? $sum : 0);
         $this->limit = $limit;
         $this->last_update = $last_update;
     }

@@ -34,6 +34,7 @@ class backend_main
         require_once (__DIR__ . '/../food/dish/get_dish.php');
         require_once (__DIR__ . '/../food/dish/updatable.php');
         require_once (__DIR__ . '/../food/dish/show_dish.php');
+        require_once (__DIR__ . '/../food/dish/best_seller.php');
 
         require_once (__DIR__ . '/../food/factory/factory.php');
         require_once (__DIR__ . '/../food/factory/get_factory.php');

@@ -12,6 +12,7 @@ class dish extends limitable implements json_format
     public $vege;
     public $department;
     public $is_idle;
+    public $best_seller;
     
     public function __construct($id ,$name ,$charge ,$is_idle ,$department ,$is_vege)
     {
@@ -21,6 +22,12 @@ class dish extends limitable implements json_format
         $this->is_idle = $is_idle;
         $this->department = $department;
         $this->vege = $is_vege;
+
+        if(array_key_exists($department->factory->id ,best_seller())) {
+            $seller = best_seller()[$department->factory->id];
+            foreach($seller as $part)
+                $this->best_seller |= (strpos($name, $part) !== false);
+        }
     }
     
     public function get_json()
@@ -32,6 +39,7 @@ class dish extends limitable implements json_format
             ',"department":' . $this->department->get_json() . 
             ',"dish_cost":"' . json_output::filter($this->charge) .
             '","daily_produce":"' . json_output::filter($this->limit) .
+            '","best_seller":"' . ($this->best_seller ? "true" : "false") .
             '","remaining":"' . json_output::filter($this->get_remaining()) .
             '","is_idle":"' . json_output::filter($this->is_idle) . '"}';
         return $json;

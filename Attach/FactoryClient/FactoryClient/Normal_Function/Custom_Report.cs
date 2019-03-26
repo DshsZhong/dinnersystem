@@ -42,7 +42,7 @@ namespace FactoryClient
                 foreach (JToken dish in item["dish"])
                     sum[dish.ToObject<int>()] += 1;
 
-                excel.Write(counter, 1, item["id"].ToObject<int>());
+                excel.Write(counter, 1, counter - 1);
                 excel.Write(counter, 2, item["user"]["seat_no"].ToString());
                 excel.Write(counter, 3, Regex.Match(item["recv_date"].ToString(), " [0-9]{2}:[0-9]{2}").Groups[0].ToString().Replace(" " ,""));
                 excel.Write(counter, 4, item["money"]["charge"].ToString());
