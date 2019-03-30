@@ -1,27 +1,26 @@
 <?php
 
-function announce($content ,$self)
+function fei_yu_ggyy($content ,$self)
 {
-    $url = \config()["announce"]["url"];
-    $auth = \config()["announce"]["auth"];
+    $url = 'https://discordapp.com/api/channels/552494392749981719/messages';
     $ch = curl_init( $url );
     $data = '{
         "embed":{
             "title":"' . $content . '",
-            "description":"邪靈飛宇觀落陰，禍世災難害板中。",
+            "description":"邪靈飛宇觀陰，禍世災顯板中。",
             "color":16711680,
             "fields":[
                 {
-                    "name":"陣亡者資料：",
-                    "value":"' . $self->name . ', ' . $self->seat_no . '",
-                    "inline": false
+                    "name":"陣亡人員座號：",
+                    "value":"' . $self->seat_no . '",
+                    "inline":true
                 },
                 {
-                    "name":"死亡日期：",
-                    "value":"' . date("Y/m/d H:i:s") . '",
-                    "inline": false
+                    "name":"陣亡者姓名：",
+                    "value":"' . $self->name . '",
+                    "inline":true
                 }
-            ]
+            ], "timestamp":"' . date('c') . '"
         }
     }';
     
@@ -42,7 +41,7 @@ function announce($content ,$self)
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => [
-                "Authorization: Bot $auth",
+                "Authorization: Bot NTUyNDkzMTI0Nzc0MDAyNjkw.D2Aaeg.4NbmaYU3K_6i4yqgr9yXRHvMGlE",
             ]
     ));
     $response = curl_exec( $ch );

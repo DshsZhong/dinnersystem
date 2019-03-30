@@ -41,12 +41,13 @@ function factory_dom($parent_id ,$content_id ,$content ,$value){
         '</div></div></div>';
 }
 function dish_dom($parent_id ,$content_id ,$content ,$value){
-    $title = $value->info->dname . '(' . $value->info->dcharge .'$.)';
+    $best_seller = '<br> <label style="font-size: 15px;margin-top: 10px;font-weight: normal;color: black;margin-left: 80px;">人氣餐點！</label>';
+    $title = $value->info->dname . '(' . $value->info->dcharge .'$.)' . (reset($value->data)->best_seller ? $best_seller : '');
     # var_dump($value);
     $title_dom = '<h4 class=" panel-title"><a style="width:80%" data-toggle="collapse" data-parent="#' . $parent_id . '" href="#' . $content_id . '">' .
         $title . '</a></h4>';
     return '<div class="panel panel-default">' .
-        '<div class="panel-heading" style="' . (reset($value->data)->best_seller ? '' : '')  . 
+        '<div class="panel-heading" style="' . (reset($value->data)->best_seller ? 'color: #FF4444' : '')  . 
         '">' . $title_dom . '</div><div id="' . $content_id . '" class="panel-collapse collapse"><div class="panel-body"><div id="dish_' . 
         $value->info->did .'" cost="' . $value->info->dcharge . '">' .
         '<button class="make_order" style="width:100%">訂購</button></div></div></div></div>';
