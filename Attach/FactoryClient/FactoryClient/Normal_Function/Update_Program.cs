@@ -13,7 +13,7 @@ namespace FactoryClient
 {
     class Update_Program
     {
-        const int version = 4;
+        const int version = 5;
         const string remote_location = "http://dinnersystem.ddns.net/dinnersys_beta/factory_client/client.zip";
 
         public bool Updatable { get; set; }

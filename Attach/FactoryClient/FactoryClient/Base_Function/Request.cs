@@ -78,7 +78,7 @@ namespace FactoryClient
 
         public JArray Get_Dish()
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=show_dish";
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=show_dish&sortby=dish_id";
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();
