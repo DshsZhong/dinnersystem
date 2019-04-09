@@ -13,14 +13,14 @@ function update_device($uid ,$device)
     $statement->execute();
 }
 
-function get_data($uid ,$class)
+function get_data($login_id ,$class)
 {
     $sql_command = "SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,UI.bank_id ,U.prev_sum ,U.login_id ,U.password ,U.PIN ,UI.daily_limit
         FROM `dinnersys`.`users` AS U ,`dinnersys`.`user_information` AS UI
-        WHERE U.info_id = UI.id AND U.id = ?;";
+        WHERE U.info_id = UI.id AND U.login_id = ?;";
     $mysqli = $_SESSION['sql_server'];
     $statement = $mysqli->prepare($sql_command);
-    $statement->bind_param('i',$uid);
+    $statement->bind_param('s',$login_id);
     $statement->execute();
     $statement->store_result();
     $statement->bind_result($id ,$name ,$class_id ,$is_vege ,$seat_id, $bank_id, $prev_sum ,$login_id ,$pswd ,$PIN ,$daily_limit);
@@ -32,26 +32,43 @@ function get_data($uid ,$class)
     return $account;
 }
 
-function login($login_id, $time ,$hash ,$device_id ,$req_id)
+function fetch($login_id)
+{
+    $sql_command = "SELECT id ,password FROM users WHERE login_id = ?;";
+    $mysqli = $_SESSION['sql_server'];
+    $statement = $mysqli->prepare($sql_command);
+    $statement->bind_param('s',$login_id);
+    $statement->execute();
+    $statement->store_result();
+    $statement->bind_result($id ,$password);
+    $statement->fetch();
+    return ["id" => $id ,"password" => $password];
+}
+
+function login($login_id, $time ,$hash ,$password ,$device_id ,$req_id)
 {
     $login_id = check_valid::white_list($login_id ,check_valid::$white_list_pattern);
     $device_id = urldecode($device_id);
     $device_id = check_valid::regex_check($device_id ,check_valid::$device_regex);
     $time = ($time == null ? null : intval(check_valid::white_list($time ,check_valid::$only_number)));
     
-    $result = auth($login_id ,$time ,$hash);
-    # die(json_encode($result));
-    $uid = $result["uid"];
-    \punish\check($uid ,"login");
-    if(count($result["msg"]) != 0)
-    {
-        \punish\attempt($uid ,$req_id ,"login"); 
-        throw new \Exception(reset($result["msg"]));
-    }
     $class = \user\get_class();
-    $_SESSION["class"] = serialize($class);
+    $account = get_data($login_id ,$class);
+    if($account == null) throw new \Exception("No user");
+
+    \punish\check($account->id ,"login");
+    try {
+        $hash_success = hash_auth($login_id ,$time ,$hash);
+        $raw_auth = raw_auth($login_id ,$password);
+        if(!$hash_success && !$raw_auth) throw new \Exception("Wrong password");
+    } catch(\Exception $e) { 
+        \punish\attempt($account->id ,$req_id ,"login"); 
+        throw $e;
+    }
+    # die(json_encode($result));
+    
     update_device($uid ,$device_id);
-    $account = get_data($uid ,$class);
+    $_SESSION["class"] = serialize($class);
     $_SESSION['me'] = serialize($account);
     \other\init_vars();
     return $account;

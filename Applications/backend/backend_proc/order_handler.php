@@ -28,8 +28,7 @@ function process_order()
     $this->req_id = \other\log\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
     try
     {
-	    if($cmd == "payment_self") return $this->set_payment();
-	    else        return $this->$func();   # A very danger way to call a function. #
+	    return $this->$func();   # A very danger way to call a function. #
     } catch(\Exception $e) { 
         $output = $e->getMessage(); 
         \other\log\make_error_log($this->req_id ,$output);
@@ -39,7 +38,12 @@ function process_order()
 
 function login()
 {
-    return \user\login\login($this->input['id'] ,$this->input['time'] ,$this->input['hash'] ,$this->input['device_id'] ,$this->req_id);
+    return \user\login\login($this->input['id'] ,
+        $this->input['time'] ,
+        $this->input['hash'] ,
+        $this->input['password'] ,
+        $this->input['device_id'] ,
+        $this->req_id);
 }
 
 function logout() 
@@ -50,7 +54,7 @@ function logout()
 
 function show_dish()
 {
-    return \food\show_dish();
+    return \food\show_dish($this->input['sortby']);
 }
 
 function update_dish()
@@ -79,9 +83,6 @@ function show_order()
             $param['factory_id'] = \order\select_order\get_factory_id($param["user_id"]);
             break;
         case 'select_other':
-            $param['user_id'] = $this->input['uid'];
-            $param['person'] = $this->input['person'];
-            $param['class'] = $this->input['class'];
             break;
     }
     return \order\select_order\select_order($param);
@@ -89,29 +90,17 @@ function show_order()
 
 function make_order()
 {  
-    switch($this->input['cmd']) {
-        case 'make_self_order':
-            return \order\make_order\make_order(null ,$this->input['dish_id'] ,$this->input['time'] ,'self');
-            break;
-        case 'make_everyone_order':
-            return \order\make_order\make_order($this->input['target_id'] ,$this->input['dish_id'] ,$this->input['time'] ,'everyone');
-            break;
-    }
+    return \order\make_order\make_order(null ,$this->input['dish_id'] ,$this->input['time'] ,'self');
 }
 
 function set_payment()
 {   
     $target = ($this->input['target'] == 'true');
-    switch($this->input['cmd'])
-    {
-        case 'payment_self':
-            return \order\money_info\set_payment($this->req_id ,$this->input['hash'] ,$this->input['order_id'] ,"self" ,$target);
-            break;
-        case 'payment_everyone':
-            return \order\money_info\set_payment($this->req_id ,$this->input['hash'] ,$this->input['order_id'] ,"everyone" ,$target);
-            break;
-    }
-    
+    return \order\money_info\set_payment($this->req_id ,
+        $this->input['hash'] ,
+        $this->input['password'] ,
+        $this->input['order_id'] ,
+        $target);
 }
 
 function change_password()

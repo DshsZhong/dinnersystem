@@ -4,15 +4,8 @@ var time = "-12:00:00";
 
 function login(uid, pswd, callback, done) {
     var json;
-    var time = Math.floor(Date.now() / 1000);
-    var hashed = JSON.stringify({
-        "id": uid,
-        "password": pswd,
-        "time": time.toString()
-    });
-    hashed = sha512(hashed);
 
-    $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&hash=" + hashed + "&device_id=website&time=" + time, function (data) {
+    $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&password=" + pswd + "&device_id=website", function (data) {
         json = data;
     }).done(function () {
         callback(json);
@@ -41,7 +34,7 @@ function make_payment(id, type, pin, callback, target = true) {
     });
     hashed = sha512(hashed)
 
-    var url = "/dinnersys_beta/backend/backend.php?cmd=payment_" + type + "&target=" + target + "&order_id=" + id + "&hash=" + hashed;
+    var url = "/dinnersys_beta/backend/backend.php?cmd=payment_" + type + "&target=" + target + "&order_id=" + id + "&password=" + pin;
     $.get(url, function (data) {
         callback(data);
     });

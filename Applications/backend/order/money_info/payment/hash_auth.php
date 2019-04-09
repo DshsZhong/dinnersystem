@@ -1,10 +1,8 @@
 <?php
 namespace order\money_info;
 
-function password_auth($row ,$hash ,$req_id)
+function hash_auth($row ,$hash)
 {
-    \punish\check($row->user->id ,"payment");
-
 	$self = unserialize($_SESSION["me"]);
     $tolerance = config()["payment"]["time"];
     $now = \time();
@@ -24,10 +22,6 @@ function password_auth($row ,$hash ,$req_id)
         $server_hash = hash("SHA512" ,$json);
         $success |= ($server_hash == $hash);
 	}
-    
-    if(!$success)
-        \punish\attempt($row->user->id ,$req_id ,"payment");
-    
     return $success;
 }
 

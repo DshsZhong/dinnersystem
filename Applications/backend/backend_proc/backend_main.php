@@ -55,7 +55,8 @@ class backend_main
         require_once (__DIR__ . '/../order/money_info/payment/payment_auth.php');
         require_once (__DIR__ . '/../order/money_info/payment/payment.php');
         require_once (__DIR__ . '/../order/money_info/payment/set_payment.php');
-        require_once (__DIR__ . '/../order/money_info/payment/password_auth.php');
+        require_once (__DIR__ . '/../order/money_info/payment/raw_auth.php');
+        require_once (__DIR__ . '/../order/money_info/payment/hash_auth.php');
         require_once (__DIR__ . '/../order/money_info/get_payments.php');
         require_once (__DIR__ . '/../order/money_info/money_info.php');
 
@@ -105,7 +106,8 @@ class backend_main
         require_once (__DIR__ . '/../user/user.php');
 
         require_once (__DIR__ . '/../user/login/login.php');
-        require_once (__DIR__ . '/../user/login/auth.php');
+        require_once (__DIR__ . '/../user/login/raw_auth.php');
+        require_once (__DIR__ . '/../user/login/hash_auth.php');
 
         $this->input = $input;
     }

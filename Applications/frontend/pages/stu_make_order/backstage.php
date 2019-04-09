@@ -43,7 +43,6 @@ function factory_dom($parent_id ,$content_id ,$content ,$value){
 function dish_dom($parent_id ,$content_id ,$content ,$value){
     $best_seller = '<br> <label style="font-size: 15px;margin-top: 10px;font-weight: normal;color: black;margin-left: 80px;">人氣餐點！</label>';
     $title = $value->info->dname . '(' . $value->info->dcharge .'$.)' . (reset($value->data)->best_seller ? $best_seller : '');
-    # var_dump($value);
     $title_dom = '<h4 class=" panel-title"><a style="width:80%" data-toggle="collapse" data-parent="#' . $parent_id . '" href="#' . $content_id . '">' .
         $title . '</a></h4>';
     return '<div class="panel panel-default">' .

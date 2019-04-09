@@ -40,7 +40,7 @@ proce: BEGIN
 	(
 		FALSE, money_id, FALSE,
 		CONCAT(DATE(esti_recv) ,"-00:00:00"),
-		FROM_UNIXTIME(UNIX_TIMESTAMP(esti_recv) + TIME_TO_SEC((SELECT F.payment_time FROM factory AS F WHERE F.id = @fid))), 
+		FROM_UNIXTIME(UNIX_TIMESTAMP(esti_recv) - TIME_TO_SEC((SELECT F.payment_time FROM factory AS F WHERE F.id = @fid))), 
         NULL, 'payment'
     );
     
