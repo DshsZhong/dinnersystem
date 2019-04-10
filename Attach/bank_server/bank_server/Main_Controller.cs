@@ -24,6 +24,7 @@ namespace bank_server
         StreamWriter logger;
 
         int Tolerance;
+        public int Confirm_Delay = 500;
         string password;
 
         int reads = 0;
@@ -82,29 +83,6 @@ namespace bank_server
             return false;
         }
 
-        Tuple<int ,bool> Write(dynamic json)
-        {
-            string uid = json.uid.ToString();
-            string fid = json.fid.ToString();
-            int charge = Int32.Parse(json.charge.ToString());
-            string cardno = reader.Get_Cardno(uid);
-            int money = reader.Get_Balance(uid);
-            bool done = false ,ok = false;
-
-            int after = 0;
-            if (money < charge) return new Tuple<int ,bool>(after, false);
-            writer.Write(cardno, fid, charge ,() =>
-            {
-                after = reader.Get_Balance(uid);
-                ok = (after == (money - charge));
-                alive &= ok;
-                done = true;
-            });
-            while (!done) Thread.Sleep(10);
-
-            return new Tuple<int, bool>(after, ok);
-        }
-
         string Run(dynamic data)
         {
             /* table.Columns.Add(new DataColumn("行為"));
@@ -134,21 +112,39 @@ namespace bank_server
             if (json.operation == "write")
             {
                 string result;
-                int before = reader.Get_Balance(json.uid.ToString()) ,after = -1;
+                bool ok = false; int before = 0 ,after = 0;
                 if (json.uid.ToString() == "-1") result = "fail";
                 else
                 {
                     if (Auth(json.auth.ToString()))
                     {
-                        Tuple<bool, int> written = Write(json);
-                        result = (written.Item1 ? "success" : "fail");
-                        after = written.Item2;
+                        string uid = json.uid.ToString();
+                        string fid = json.fid.ToString();
+                        int charge = Int32.Parse(json.charge.ToString());
+                        string cardno = reader.Get_Cardno(uid);
+                        before = reader.Get_Balance(uid);
+                        bool done = false;
+
+                        if (before < charge) ok = false;
+                        else
+                        {
+                            writer.Write(cardno, fid, charge, () =>
+                            {
+                                Thread.Sleep(Confirm_Delay); //Fei Yu GGYY
+                                after = reader.Get_Balance(uid);
+                                ok = (after == (before - charge));
+                                alive &= ok;
+                                done = true;
+                            });
+                        }
+                        while (!done) Thread.Sleep(10);
+                        result = ok ? "success" : "fail";
                     }
                     else result = "fail";
                 }
                 row[0] = "寫入";
                 row[1] = json.uid.ToString();
-                row[2] = json.charge.ToString();
+                row[2] = json.fid.ToString() + json.charge.ToString();
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 row[4] = result;
                 ret = result;

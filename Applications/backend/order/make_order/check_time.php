@@ -5,6 +5,8 @@ function check_time($dishes ,$esti_recv)
 {
     $recv = \other\date_api::is_valid_time($esti_recv);
     $date = $recv->format("Y-m-d");
+    if($date !== date("Y-m-d"))
+        throw new \Exception("Not allow order at tomorrow");
 
     foreach($dishes as $dish)
     {

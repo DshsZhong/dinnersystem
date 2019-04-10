@@ -33,6 +33,7 @@ function payment() {
                 $("#" + id).find(".payment").remove();
                 $("#" + id).find("img").attr("src" ,"../../images/paid.png");
                 show("繳款成功");
+                update_money();
             } catch (err) {
                 show("繳款失敗");
                 $(this).children("label").text("確認付款");

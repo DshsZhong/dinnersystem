@@ -4,7 +4,7 @@ namespace food;
 use json\json_output;
 use json\json_format;
 
-class dish implements json_format ,food
+class dish extends limitable implements json_format
 {
     public $id;
     public $name;
@@ -12,12 +12,9 @@ class dish implements json_format ,food
     public $vege;
     public $department;
     public $is_idle;
-    public $daily_produce;
-
-    public $sold_out;
-    public $remaining = -1;
+    public $best_seller;
     
-    public function __construct($id ,$name ,$charge ,$is_idle ,$department ,$is_vege ,$limit)
+    public function __construct($id ,$name ,$charge ,$is_idle ,$department ,$is_vege)
     {
         $this->id = $id;
         $this->name = $name;
@@ -25,7 +22,12 @@ class dish implements json_format ,food
         $this->is_idle = $is_idle;
         $this->department = $department;
         $this->vege = $is_vege;
-        $this->daily_produce = $limit;
+
+        if(array_key_exists($department->factory->id ,best_seller())) {
+            $seller = best_seller()[$department->factory->id];
+            foreach($seller as $part)
+                $this->best_seller |= (strpos($name, $part) !== false);
+        }
     }
     
     public function get_json()
@@ -36,8 +38,9 @@ class dish implements json_format ,food
             '","vege":' . $this->vege->get_json() . 
             ',"department":' . $this->department->get_json() . 
             ',"dish_cost":"' . json_output::filter($this->charge) .
-            '","daily_produce":"' . json_output::filter($this->daily_produce) .
-            '","remaining":"' . json_output::filter($this->remaining) .
+            '","daily_produce":"' . json_output::filter($this->limit) .
+            '","best_seller":"' . ($this->best_seller ? "true" : "false") .
+            '","remaining":"' . json_output::filter($this->get_remaining()) .
             '","is_idle":"' . json_output::filter($this->is_idle) . '"}';
         return $json;
     }
@@ -53,6 +56,7 @@ class dish implements json_format ,food
         $this->charge = $this->charge;
         $this->is_idle = $this->is_idle;
         $this->department = clone $this->department;
+        $this->clone_limitable();
     }
 }
 

@@ -13,9 +13,12 @@ function debit($row ,$req_id)
         "password" => $password,
         "timestamp" => strval(time())
     ]);
-    $auth = hash("SHA512" ,$auth);
+    $auth = hash("SHA512" ,$auth);   
     
-    $fp = fsockopen($ip, $port);
+    $fp = fsockopen($ip, $port ,$errno ,$errstr ,3);
+    if(!$fp) 
+        throw new \Exception("Pos is dead ,unable to debit");
+
     $msg = [
         "operation" => "write" ,
         "uid" => $bank,
@@ -25,16 +28,20 @@ function debit($row ,$req_id)
     ];
     $msg = json_encode($msg);
     fwrite($fp, $msg . "\n");
-    stream_set_timeout($fp, 3);
+    stream_set_timeout($fp);
 
     $data = "";
     while (!feof($fp)) {
         $data .= fgets($fp, 128);
     }
     fclose($fp);
-    
+
     if($data == "success") return true;
-    else throw new \Exception("Unable debit from user's account");
+    else 
+    {
+        announce("#### 有人繳款失敗，請注意 ####" ,$row->user);
+        throw new \Exception("Unable debit from user's account");
+    }
 }
 
 

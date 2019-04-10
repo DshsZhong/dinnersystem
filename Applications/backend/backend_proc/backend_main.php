@@ -19,7 +19,8 @@ class backend_main
 
 
 
-        require_once (__DIR__ . '/../food/food.php');
+        require_once (__DIR__ . '/../food/limitable/limitable.php');
+        require_once (__DIR__ . '/../food/limitable/fetch_limitable.php');
 
         require_once (__DIR__ . '/../food/buffet/buffet.php');
         require_once (__DIR__ . '/../food/buffet/get_buffets.php');
@@ -32,7 +33,8 @@ class backend_main
         require_once (__DIR__ . '/../food/dish/dish.php');
         require_once (__DIR__ . '/../food/dish/get_dish.php');
         require_once (__DIR__ . '/../food/dish/updatable.php');
-        require_once (__DIR__ . '/../food/dish/show_remaining.php');
+        require_once (__DIR__ . '/../food/dish/show_dish.php');
+        require_once (__DIR__ . '/../food/dish/best_seller.php');
 
         require_once (__DIR__ . '/../food/factory/factory.php');
         require_once (__DIR__ . '/../food/factory/get_factory.php');
@@ -53,7 +55,8 @@ class backend_main
         require_once (__DIR__ . '/../order/money_info/payment/payment_auth.php');
         require_once (__DIR__ . '/../order/money_info/payment/payment.php');
         require_once (__DIR__ . '/../order/money_info/payment/set_payment.php');
-        require_once (__DIR__ . '/../order/money_info/payment/password_auth.php');
+        require_once (__DIR__ . '/../order/money_info/payment/raw_auth.php');
+        require_once (__DIR__ . '/../order/money_info/payment/hash_auth.php');
         require_once (__DIR__ . '/../order/money_info/get_payments.php');
         require_once (__DIR__ . '/../order/money_info/money_info.php');
 
@@ -70,6 +73,7 @@ class backend_main
 
         require_once (__DIR__ . '/../bank/debit.php');
         require_once (__DIR__ . '/../bank/get_money.php');
+        require_once (__DIR__ . '/../bank/announce.php');
 
 
 
@@ -102,7 +106,8 @@ class backend_main
         require_once (__DIR__ . '/../user/user.php');
 
         require_once (__DIR__ . '/../user/login/login.php');
-        require_once (__DIR__ . '/../user/login/auth.php');
+        require_once (__DIR__ . '/../user/login/raw_auth.php');
+        require_once (__DIR__ . '/../user/login/hash_auth.php');
 
         $this->input = $input;
     }

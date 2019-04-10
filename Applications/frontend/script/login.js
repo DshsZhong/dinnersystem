@@ -14,14 +14,11 @@ function normal_login()
             show("帳號或密碼不對");
         } else if(result == "Punish not over") {
             show("重試次數過多");
-        } else if(result == "Invalid time") {
-            show("時間有誤");
         } else if($.parseJSON(result) == null) {
             show("登入失敗");
         } else {
             window.localStorage.user_data = result;
             window.localStorage.user_id = uid;
-            window.localStorage.password = pswd;
             window.localStorage.login_date = Math.floor(Date.now() / 1000);
             window.location = 'index.html';
         }

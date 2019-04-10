@@ -13,7 +13,7 @@ namespace FactoryClient.Analysis_Function
         Matrix<double> X;
         Vector<double> W, Y;
         const double L = 0, R = 2 ,beta = 0.1;
-        static List<double> tmp = new List<double>();
+        public static bool Momentum = true;
 
         public Logistic(Tuple<double[], double>[] data)
         {
@@ -46,13 +46,13 @@ namespace FactoryClient.Analysis_Function
                     Vector<double> lpos = W + lmid * slope, rpos = W + rmid * slope;
                     Vector<double> lgrad = FPrime(W + lmid * slope), rgrad = FPrime(W + rmid * slope);
                     double leftover = (lgrad + rgrad) * (lgrad - rgrad);
-                    //for (int j = 0; j != lgrad.Count; j++) leftover += (lgrad[j] - rgrad[j]) * (lgrad[j] - rgrad[j]);
+
                     if (leftover < 0) r = rmid;
                     if (leftover > 0) l = lmid;
                     if (leftover == 0)
                         break;
                 }
-                W += (l + r) / 2 * slope + beta * previous;
+                W += (l + r) / 2 * slope + (Momentum ? beta : 0) * previous;
                 previous = (l + r) / 2 * slope;
             }
         }
@@ -71,7 +71,6 @@ namespace FactoryClient.Analysis_Function
         public double Query(Vector<double> data)
         {
             Vector<double> tmp = CreateVector.Dense(data.Count + 1, (int i) => (i == data.Count ? 1 : data[i]));
-            Logistic.tmp.Add(sigmoid(tmp * W));
             return sigmoid(tmp * W);
         }
 

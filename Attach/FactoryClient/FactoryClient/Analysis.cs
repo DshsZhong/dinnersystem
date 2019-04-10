@@ -120,6 +120,7 @@ namespace FactoryClient
             {
                 model = new Model(data, psize , start ,end);
                 List<double> recorder = new List<double>();
+                Logistic.Momentum = momentum.Checked;
                 model.Build((int time, double value, string task) =>
                 {
                     Invoke((MethodInvoker)(() =>
@@ -131,7 +132,7 @@ namespace FactoryClient
                         People_Sum.Text = "參與人數: " + model.Get_Model().people.Count() + " (個)";
                         Order_Sum.Text = "點單量: " + data.Count + " (份)";
                     }));
-                }, gvalue, tvalue);
+                }, gvalue, tvalue ,end);
                 while (!model.Finished_Build) Thread.Sleep(100);
                 model.UpdateForm(Dish_Name);
                 Invoke((MethodInvoker)(() => Export.Enabled = Predict_Model.Enabled = true));
@@ -150,7 +151,8 @@ namespace FactoryClient
 
         private void Update(object sender, EventArgs e)
         {
-            Tuple<int, int, double, int> result = model.Show(DateTime.Now.AddDays(1).AddHours(1),
+            if (model == null) return;
+            Tuple<int, int, double, int> result = model.Show(Show_Datetime.Value,
                 Dish_Name.GetItemText(Dish_Name.SelectedItem),
                 Confidence_Interval.Value,
                 Show_Interval.Value,
@@ -186,22 +188,17 @@ namespace FactoryClient
         {
             Task.Run(() =>
             {
+                start = Start_Date.Value.Date.AddHours(12);
+                end = End_Date.Value.Date.AddHours(12);
                 data = req.Get_Order((Start_Date.Value.ToString("yyyy-MM-dd") + " 00:00:00").Replace("-", "/").Replace(" ", "-"),
                     (End_Date.Value.ToString("yyyy-MM-dd") + " 23:59:59").Replace("-", "/").Replace(" ", "-"), true);
-                start = DateTime.MaxValue;
-                end = DateTime.MinValue;
-                foreach (JToken token in data)
-                {
-                    DateTime dt = DateTime.Parse(token["recv_date"].ToString());
-                    start = start > dt ? dt : start;
-                    end = end > dt ? end : dt;
-                }
                 Invoke((MethodInvoker)(() =>
                 {
                     MessageBox.Show("完成下載");
                     Show_Datetime.Value = end.AddDays(1);
                     Making_Model.Enabled = Classify.Enabled = true;
                     Download.Enabled = Load_Frame.Enabled = false;
+                    Show_Datetime.Value = end.AddDays(1);
                 }));
                 classify = new Classify(data);
             });
@@ -224,12 +221,13 @@ namespace FactoryClient
             Making_Model.Enabled = Classify.Enabled = true;
             start = DateTime.MaxValue;
             end = DateTime.MinValue;
-            foreach(JToken token in data)
+            foreach (JToken token in data)
             {
                 DateTime dt = DateTime.Parse(token["recv_date"].ToString());
                 start = start > dt ? dt : start;
                 end = end > dt ? end : dt;
             }
+            Show_Datetime.Value = end.AddDays(1);
             load_start.Value = start;
             load_end.Value = end;
             Show_Datetime.Value = end.AddDays(1);

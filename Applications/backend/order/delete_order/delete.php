@@ -11,17 +11,15 @@ function delete_order($order_id ,$type)
     if($row == false)
         throw new \Exception("Unable to find the row");
 
-    if(!delete_auth($row ,$type))
-        throw new \Exception("Access denied");
+    delete_auth($row ,$type);
 
-    $sql_command = "UPDATE `dinnersys`.`orders`
-        SET `dinnersys`.`orders`.`disabled` = TRUE
-        WHERE `dinnersys`.`orders`.`id` = ?";
+    $sql_command = "CALL delete_order(?, ?)";
     
     $mysqli = $_SESSION['sql_server'];
     $statement = $mysqli->prepare($sql_command);
     
-    $statement->bind_param('i' ,$order_id);
+    $supreme = ($type == 'none');
+    $statement->bind_param('ii' ,$order_id ,$supreme);
     $statement->execute();
 
     return $row;

@@ -2,21 +2,6 @@
 namespace order;
 
 function delete_auth($row ,$type) {
-    $has_paid = false;
-    switch($type) {
-        case "self":
-            foreach($row->money->payment as $payment)
-                $has_paid |= $payment->paid;
-            $uid = unserialize($_SESSION['me'])->id;
-            break;
-        case 'none':
-            break;
-    }
-    
-    if($has_paid) {
-        throw new \Exception("This order already has payment.");
-    }
-
     $self = unserialize($_SESSION['me']);
     switch($type) {
         case "self":
@@ -27,6 +12,10 @@ function delete_auth($row ,$type) {
             break;
     }
 
+    $date = strtotime($row->esti_recv);
+    $now = time();
+    if(date("Y-m-d" ,$date) !== date("Y-m-d" ,$now))
+        throw new \Exception("Only allowed to delete order at today");
     return true;
 }
 

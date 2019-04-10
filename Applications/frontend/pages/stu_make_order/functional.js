@@ -2,14 +2,15 @@ var result;
 var data = [];
 
 function submit() {
-    var over_time = (moment().hour() >= 10);
+    var over_time = (moment().hour() >= 10) && (moment().minute() >= 20);
     var did = $(this).parent().attr('id').split('_')[1];
     var server_respond;
+    
     make_order(null, did, "self", function (result) { server_respond = result });
-
+    
     $(document).ajaxStop(function () {
         if (over_time) {
-            show("十點之後無法點餐");
+            show("時間已過");
         } else if(server_respond == "daily limit exceed") {
             show("達單日訂購上限");
         } else {

@@ -14,7 +14,6 @@ namespace FactoryClient.Analysis_Function
         const int days = 7;
 
         JArray data;
-        Vector<double> last;
 
         public Dish_Encoder dish;
         Time_Encoder time;
@@ -38,11 +37,6 @@ namespace FactoryClient.Analysis_Function
                 Not_Enough = true;
                 return;
             }
-            last = CreateVector.Dense<double>(days, (int i) =>
-                {
-                    if (i == (result.Last().Item3 + 1) % 7) return 1;
-                    else return 0;
-                });
 
             List<Tuple<double[], double>> param = new List<Tuple<double[], double>>();
             for (int i = 0; i != result.Length; i++)
@@ -77,42 +71,13 @@ namespace FactoryClient.Analysis_Function
             Trained = true;
         }
 
-        public void Future_Train()
-        {
-            if (Not_Enough) return;
-            if (!Trained) throw new Exception("Must train before calling this function.");
-
-            Matrix<double> count = CreateMatrix.Dense<double>((1 << days), (1 << days));
-            for (int i = 0; i != (1 << days); i++)
-            {
-                int has_order = (i >> 1) | (1 << (days - 1));
-                int hasnt_order = (i >> 1);
-                Vector<double> tmp = CreateVector.Dense<double>(days,
-                    (int j) => ((i >> j) & 1) == 1 ? 1 : -1);
-                double odd = order.Query(tmp);
-                count[i, has_order] = odd;
-                count[i, hasnt_order] = 1 - odd;
-            }
-            future = new Markov(count);
-            Allow_Future = true;
-        }
-
-        public Vector<double> Query(int days = 1)
+        public Vector<double> Query(DateTime dt)
         {
             if (Not_Enough) return CreateVector.Dense<double>(dish.get_size());
-
             if (!Trained) throw new Exception("Must train before query.");
-            if (!Allow_Future && days > 1) throw new Exception("Must train before query.");
 
-            Vector<double> ret;
-            if (days == 1)
-                ret = order.Query(last) * ratio.Stable();
-            else
-                ret = ratio.Stable() *
-                    future.Future(last, days).DotProduct(
-                        CreateVector.Dense<double>(days,
-                        (int i) => (i > (1 << (days - 1)) ? 1 : 0))
-                    );
+            Vector<double> ret = order.Query(CreateVector.Dense<double>(7 ,(int i) => i == (int)dt.DayOfWeek ? 1 : 0)) * ratio.Stable();
+            
             return CreateVector.Dense(ret.Count + 1, (int i) =>
             {
                 if (i == ret.Count) return ret.Sum();

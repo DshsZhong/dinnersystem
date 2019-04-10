@@ -1,5 +1,4 @@
 /*---------------------------------------------------------------------------------------------------------------*/
-/*-----------please ensure this procedure run in serializable transaction mode----------------------*/
 DROP PROCEDURE IF EXISTS make_order;
 DELIMITER $$
 
@@ -12,6 +11,9 @@ proce: BEGIN
 	DECLARE daily_limit INT;
 	DECLARE orders INT;
 	DECLARE insert_order VARCHAR(1024);
+	DECLARE user_exceed BOOL;
+	DECLARE factory_exceed BOOL;
+	DECLARE dish_exceed BOOL;
 	
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -20,48 +22,34 @@ proce: BEGIN
     END;
 
 	START TRANSACTION;
-
-    INSERT INTO `dinnersys`.`money_info` (`money_sum`) VALUES (-1);		/* temporary set a number */
+    
+    SET @cmd = concat("SELECT DP.factory
+		FROM department AS DP ,dish AS D
+		WHERE D.id IN " ,dishes ," AND D.department_id = DP.id
+        LIMIT 1 INTO @fid;");
+	PREPARE stmt FROM @cmd;
+    EXECUTE stmt;
+    
+    INSERT INTO `money_info` (`money_sum`) VALUES (-1);		/* temporary set a number */
     SET money_id = (SELECT MAX(id) FROM money_info);
     
-	INSERT INTO `dinnersys`.`payment`
+	INSERT INTO `payment`
 	(`paid`, `money_info` ,`reversable` ,
 	 `able_datetime`, `freeze_datetime`, `paid_datetime` ,`tag`)
 	VALUES
 	(
 		FALSE, money_id, FALSE,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), 
-		CONCAT(DATE(esti_recv) ,'-10:30:00'), NULL, 'payment'
+		CONCAT(DATE(esti_recv) ,"-00:00:00"),
+		FROM_UNIXTIME(UNIX_TIMESTAMP(esti_recv) - TIME_TO_SEC((SELECT F.payment_time FROM factory AS F WHERE F.id = @fid))), 
+        NULL, 'payment'
     );
     
-    INSERT INTO `dinnersys`.`logistics_info` (`esti_recv_datetime`)
+    INSERT INTO `logistics_info` (`esti_recv_datetime`)
 	VALUES (esti_recv);
     
 	SET logistics_id = (SELECT MAX(id) FROM logistics_info);
     
-    INSERT INTO `dinnersys`.`cargo`
-	(`get`, `reversable`,
-	`able_datetime`, `get_datetime`, `freeze_datetime`, 
-	`logistics_info`, `tag`)
-	VALUES
-	(
-		FALSE ,TRUE ,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
-		logistics_id ,'user'
-	),
-	(
-		FALSE ,TRUE ,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
-		logistics_id ,'dinnerman'
-	),
-	(
-		FALSE ,TRUE ,
-		CONCAT(DATE(esti_recv) ,'-00:00:00'), null ,CONCAT(DATE(esti_recv) ,'-23:59:59'),
-		logistics_id ,'factory'
-	);
-    
-    
-    INSERT INTO `dinnersys`.`orders`
+    INSERT INTO `orders`
 	(`money_id`,
 	`user_id`, `order_maker` ,
 	`logistics_id`)
@@ -71,15 +59,15 @@ proce: BEGIN
 		usr_id, maker_id ,
 		logistics_id
     );
-	SELECT MAX(O.id) FROM dinnersys.orders AS O INTO @oid;
+	SELECT MAX(O.id) FROM orders AS O INTO @oid;
 
 	SET insert_order = REPLACE(dishes ,')' ,',@oid)');
 	SET insert_order = REPLACE(insert_order ,',' ,',@oid),(');
 	SET insert_order = REPLACE(insert_order ,',(@oid)' ,'');
-	SET @cmd = concat('INSERT INTO `dinnersys`.`buffet` (`dish`,`order`) VALUES ',insert_order ,';');
+	SET @cmd = concat('INSERT INTO `buffet` (`dish`,`order`) VALUES ',insert_order ,';');
     PREPARE stmt FROM @cmd;
     EXECUTE stmt;
-
+    
 	UPDATE money_info 
 	SET money_sum = 
 	(
@@ -88,50 +76,47 @@ proce: BEGIN
 		WHERE O.id = @oid AND B.dish = D.id AND B.order = O.id
 	)
 	WHERE id = money_id;
+	
+	UPDATE factory AS F
+	SET F.sum = IF(DATE(F.last_update) = DATE(CURRENT_TIMESTAMP), F.sum + 1 ,1), 
+	F.last_update = CURRENT_TIMESTAMP
+	WHERE F.id = @fid;
+	
+	UPDATE user_information AS UI
+	SET UI.sum = IF(DATE(UI.last_update) = DATE(CURRENT_TIMESTAMP), UI.sum + 1, 1),
+    UI.last_update = CURRENT_TIMESTAMP
+	WHERE UI.id = (SELECT U.info_id FROM users AS U WHERE U.id = usr_id); 
 
+	UPDATE dish AS D
+	SET D.sum = IF(DATE(D.last_update) = DATE(CURRENT_TIMESTAMP), 
+		D.sum + (SELECT COUNT(B.dish) FROM buffet AS B WHERE B.order = @oid AND B.dish = D.id) ,
+		(SELECT COUNT(B.dish) FROM buffet AS B WHERE B.order = @oid AND B.dish = D.id)), 
+	last_update = CURRENT_TIMESTAMP
+	WHERE id IN (SELECT B.dish FROM buffet AS B WHERE B.order = @oid);
+   
 	/*-------------------------------------------------------------------------------------------------------*/
-	/* To avoid race conditions ,I used some business logic here.
-	 * Whenever it fails ,the procedure rollbacks everything it has done.
-	 * In php ,we can't ensure everything is serialized ,so we put the codes here.
-	 * In this sql transacation ,everything is serialized. */
-	SET @cmd = concat("SET @maxi = (SELECT MAX(count) FROM 
-        (
-            SELECT IF(D.daily_limit < 0 ,0 ,D.daily_limit - COUNT(O.id)) AS count
-            FROM orders AS O ,buffet AS B ,logistics_info AS LO ,dish AS D
-            WHERE O.logistics_id = LO.id AND B.order = O.id AND D.id = B.dish
-			AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(?) ,'-00:00:00') AND CONCAT(DATE(?) ,'-23:59:59')
-			AND D.id IN", dishes,
-			"GROUP BY D.id FOR UPDATE
-        ) AS tmp);");
-    PREPARE stmt FROM @cmd;
-	SET @esti_recv = esti_recv;
-    EXECUTE stmt USING @esti_recv ,@esti_recv;
-	
-    IF @maxi < 0 THEN 
-		SELECT "not enough dish";
-		ROLLBACK;
-		LEAVE proce;
-    END IF;
-	
-	/* Must ensure this statement won't scan the older part of dinnersys.
-	 * It would cause the user can unlimitly order if it scans the older part of database. */
-	SELECT COUNT(O.id)
-	FROM orders AS O ,logistics_info AS LO ,money_info AS MI ,payment AS P
-	WHERE O.logistics_id = LO.id AND O.user_id = usr_id
-	AND LO.esti_recv_datetime BETWEEN CONCAT(DATE(esti_recv) ,'-00:00:00') AND CONCAT(DATE(esti_recv) ,'-23:59:59')
-	AND O.money_id = MI.id AND P.money_info = MI.id AND P.paid = FALSE AND P.tag = "payment"
-	AND O.disabled = FALSE
-	INTO orders FOR UPDATE;
-
-	SELECT UI.daily_limit FROM user_information AS UI ,users AS U WHERE U.id = usr_id AND U.info_id = UI.id INTO daily_limit;
-	IF orders > daily_limit AND daily_limit > 0 THEN
+	/* Business Logic */
+	SET user_exceed = (
+		NOT (SELECT UI.daily_limit FROM user_information AS UI WHERE UI.id = (SELECT U.info_id FROM users AS U WHERE U.id = usr_id)) = -1 AND
+		(SELECT UI.daily_limit - UI.sum FROM user_information AS UI WHERE UI.id = (SELECT U.info_id FROM users AS U WHERE U.id = usr_id)) < 0);
+	SET factory_exceed = (
+		NOT (SELECT F.daily_limit FROM factory AS F WHERE F.id = @fid) = -1 AND
+		(SELECT F.daily_limit - F.sum FROM factory AS F WHERE F.id = @fid) < 0);
+	SET dish_exceed = ((
+		SELECT MIN(IF(D.daily_limit = -1 ,1 ,D.daily_limit - D.sum)) 
+        FROM dish AS D 
+        WHERE id IN 
+			(SELECT B.dish FROM buffet AS B WHERE B.order = @oid)) 
+		< 0);
+	IF user_exceed OR factory_exceed OR dish_exceed THEN 
 		SELECT "daily limit exceed";
 		ROLLBACK;
 		LEAVE proce;
 	END IF;
 	/*-------------------------------------------------------------------------------------------------------*/
-
+	
 	select @oid;
     commit;
 END$$
-CALL make_order(1, 2, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);
+delimiter ;
+CALL make_order(1, 1, '(1 ,2 ,3 ,4)' ,CURRENT_TIMESTAMP);

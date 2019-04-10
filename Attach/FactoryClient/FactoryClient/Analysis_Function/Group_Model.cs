@@ -14,7 +14,7 @@ namespace FactoryClient.Analysis_Function
         public Dictionary<int, string> people_coder;
         public Person_Model[] people;
         public Thread_Pool thread;
-        public int current_days = -1;
+        public DateTime current = DateTime.MinValue;
 
         public Dish_Encoder dish_encoder;
         double[][] dish_predict;
@@ -40,12 +40,10 @@ namespace FactoryClient.Analysis_Function
             }
 
             dish_encoder = new Dish_Encoder(data);
-            dish_predict = new double[dish_encoder.get_size()][];
-
             thread = new Thread_Pool(threads);
         }
 
-        public void Train(int gradients, int ternarys)
+        public void Train(int gradients, int ternarys ,DateTime dt)
         {
             int flag = 0;
             foreach (Person_Model p in people)
@@ -55,54 +53,45 @@ namespace FactoryClient.Analysis_Function
                     flag += 1;
                 });
             while (flag != people.Length) Thread.Sleep(100);
+            Prebuild(dt);
+        }
 
-            flag = 0;
-            thread.Entask(() =>
+        void Prebuild(DateTime dt)
+        {
+            dish_predict = new double[dish_encoder.get_size()][];
+            foreach (Person_Model p in people)
             {
-                foreach (Person_Model p in people)
+                Vector<double> result = p.Query(dt);
+                for (int i = 0; i != result.Count; i++)
                 {
-                    Vector<double> result = p.Query();
-                    for (int i = 0; i != result.Count; i++)
+                    double odd = result[i];
+                    string dname = p.dish.get_name(i);
+                    int global_did = dish_encoder.get_id(dname);
+
+                    double[] origin = dish_predict[global_did];
+                    double[] updated = new double[people.Length + 1];
+                    if (origin == null)
                     {
-                        double odd = result[i];
-                        string dname = p.dish.get_name(i);
-                        int global_did = dish_encoder.get_id(dname);
-
-
-                        double[] origin = dish_predict[global_did];
-                        double[] updated = new double[people.Length + 1];
-                        if (origin == null)
-                        {
-                            updated[0] = 1 - odd;
-                            updated[1] = odd;
-                        }
-                        else for (int j = 0; j <= people.Length; j++)
-                                updated[j] = (j == 0 ? origin[0] * (1 - odd) : origin[j] * (1 - odd) + origin[j - 1] * odd);
-                        dish_predict[global_did] = updated;
+                        updated[0] = 1 - odd;
+                        updated[1] = odd;
                     }
-                    flag = 1;
+                    else for (int j = 0; j <= people.Length; j++)
+                            updated[j] = (j == 0 ? origin[0] * (1 - odd) : origin[j] * (1 - odd) + origin[j - 1] * odd);
+                    dish_predict[global_did] = updated;
                 }
-            });
-            while (flag != 1) Thread.Sleep(100);
-
-            current_days = 1;
+            }
+            current = dt;
         }
 
-        public void Future(int days)
+        public double[] Query(string dname, DateTime dt)
         {
-            //Temporary using doing this.
-            current_days = days;
-        }
-
-        public double[] Query(string dname, int days = 1)
-        {
-            if(days == current_days)
+            if(dt == current)
             {
                 return dish_predict[dish_encoder.get_id(dname)];
             }
             else
             {
-                Future(days);
+                Prebuild(dt);
                 return dish_predict[dish_encoder.get_id(dname)];
             }
         }

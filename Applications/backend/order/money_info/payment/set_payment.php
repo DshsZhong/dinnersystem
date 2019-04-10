@@ -3,44 +3,41 @@ namespace order\money_info;
 
 use \other\check_valid;
 
-function set_payment($req_id ,$hash ,$ord_id ,$permission ,$target)
+function set_payment($req_id ,$hash ,$password ,$ord_id ,$target)
 {
     $ord_id = check_valid::white_list($ord_id ,check_valid::$only_number);
     $result = \order\select_order\select_order(['oid' => $ord_id]);
     $row = reset($result);
+
     if($row === null) 
         throw new \Exception("Can't find order.");
-
-    $user_id = unserialize($_SESSION['me'])->id;
-    payment_auth($row ,$user_id ,$permission ,$target ,$hash ,$req_id);
+    payment_auth($row ,$target ,$hash ,$password ,$req_id);
     
-    $ip = config()["database"]["ip"];
-    $account = config()["database"]["account"];
-    $password = config()["database"]["password"];
-    $name = config()["database"]["name"];
-    $pdo = new \PDO("mysql:host=$ip;dbname=$name;charset=utf8", $account, $password);
-
-    $pdo->beginTransaction();
+    $mysqli = $_SESSION['sql_server'];
+    $mysqli->begin_transaction();
     try
     {
-        $sql_command = "UPDATE `dinnersys`.`payment` AS P
-            SET `paid` = ?,
-            `paid_datetime` = CURRENT_TIMESTAMP
-            WHERE P.money_info = (SELECT O.money_id FROM `dinnersys`.`orders` AS O WHERE O.id = ? FOR UPDATE) 
-            AND P.tag = 'payment';";
-        $statement = $pdo->prepare($sql_command);
-        $statement->execute([$target ,$ord_id]);  
-        //to ensure we locked the row.
-
+        $sql = "CALL payment(? ,?)";
+        $statement = $mysqli->prepare($sql);
+        $statement->bind_param('ii' ,$ord_id ,$target);
+        $statement->execute(); //to ensure we locked the row.
+        $statement->store_result();
+        $statement->bind_result($result);
+        
+        while($statement->fetch()) 
+            throw new \Exception($result);
+        
+        /* The part is extremely slow. Fuck you ,ventem */
         $money = intval(\bank\get_money());
         if($money < $row->money->charge)
             throw new \Exception("Not enough money.");
         \bank\debit($row ,$hash);
+
+        $mysqli->commit();
     } catch (\Exception $e) {
-        $pdo->rollback();
+        $mysqli->rollback();
         throw $e;
     }
-    $pdo->commit();
 
     return $row;
 }
