@@ -48,11 +48,15 @@ $(document).ready(function(){
     $("#welcome").append(welcome);
 
     get_card((card) => {
-        JsBarcode("#barcode", card, {
-            width: 1,
-            height: 15,
-            displayValue: false
-        });
+        if(card == null) {
+            $("#barcode").remove();
+        } else {
+            JsBarcode("#barcode", card, {
+                width: 1,
+                height: 15,
+                displayValue: false
+            });
+        }
     });
 });
 

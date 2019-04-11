@@ -7,11 +7,11 @@ $(document).ready(function(){
         $("#loading").css("display" ,"none");  
     });
     
-    try {
-        get_money((value) => {
+    get_money((value) => {
+        if(value == null) {
+            $("#money").text("- $.");
+        } else {
             $("#money").text(value + " $.");
-        });
-    } catch(e) {
-        $("#money").text("- $.");
-    }
+        }
+    });
 });

@@ -91,7 +91,11 @@ function make_order(login_id, did, type, callback) {
 function get_card(callback) {
     var result;
     $.get(url + "cmd=get_pos", function (data) {
-        result = $.parseJSON(data)["card"];
+        try {
+            result = $.parseJSON(data)["money"];
+        } catch (e) {
+            result = null;
+        }
     }).done(function () {
         callback(result);
     });
@@ -100,7 +104,11 @@ function get_card(callback) {
 function get_money(callback) {
     var result;
     $.get(url + "cmd=get_pos", function (data) {
-        result = $.parseJSON(data)["money"];
+        try {
+            result = $.parseJSON(data)["money"];
+        } catch (e) {
+            result = null;
+        }
     }).done(function () {
         callback(result);
     });
