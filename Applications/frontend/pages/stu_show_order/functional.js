@@ -35,7 +35,11 @@ function payment() {
                 show("繳款成功");
                 update_money();
             } catch (err) {
-                show("繳款失敗");
+                if(result == "POS is dead") {
+                    alert("繳款失敗，我們已經派出最精銳的猴子去修理這個問題，若長時間出現此問題請通知開發人員！");
+                } else {
+                    show("密碼有誤");
+                }
                 $(this).children("label").text("確認付款");
                 $("#" + oid).prepend(button);
                 $(this).addClass("clickable");

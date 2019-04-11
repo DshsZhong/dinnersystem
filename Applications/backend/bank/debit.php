@@ -1,5 +1,5 @@
 <?php
-namespace pos;
+namespace bank;
 
 function debit($row ,$req_id)
 {
@@ -17,7 +17,7 @@ function debit($row ,$req_id)
     
     $fp = fsockopen($ip, $port ,$errno ,$errstr ,3);
     if(!$fp) 
-        throw new \Exception("POS is dead");
+        throw new \Exception("Pos is dead ,unable to debit");
 
     $msg = [
         "operation" => "write" ,
@@ -40,7 +40,7 @@ function debit($row ,$req_id)
     else 
     {
         announce("#### 有人繳款失敗，請注意 ####" ,$row->user);
-        throw new \Exception("POS is dead");
+        throw new \Exception("Unable debit from user's account");
     }
 }
 

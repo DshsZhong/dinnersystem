@@ -92,8 +92,9 @@ function get_card(callback) {
     var result;
     $.get(url + "cmd=get_pos", function (data) {
         try {
-            result = $.parseJSON(data)["card"];
+            result = $.parseJSON(data)["money"];
         } catch (e) {
+            alert("查詢卡號失敗，我們已經派出最精銳的猴子去修理這個問題，若長時間出現此問題請通知開發人員！");
             result = null;
         }
     }).done(function () {
@@ -107,6 +108,7 @@ function get_money(callback) {
         try {
             result = $.parseJSON(data)["money"];
         } catch (e) {
+            alert("查詢卡號失敗，我們已經派出最精銳的猴子去修理這個問題，若長時間出現此問題請通知開發人員！");
             result = null;
         }
     }).done(function () {
