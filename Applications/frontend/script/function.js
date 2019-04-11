@@ -92,7 +92,7 @@ function get_card(callback) {
     var result;
     $.get(url + "cmd=get_pos", function (data) {
         try {
-            result = $.parseJSON(data)["money"];
+            result = $.parseJSON(data)["card"];
         } catch (e) {
             result = null;
         }
