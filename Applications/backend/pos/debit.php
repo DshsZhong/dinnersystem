@@ -1,5 +1,5 @@
 <?php
-namespace bank;
+namespace pos;
 
 function debit($row ,$req_id)
 {

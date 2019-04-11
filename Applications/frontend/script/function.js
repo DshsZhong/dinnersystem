@@ -1,11 +1,12 @@
 //every function here is synchornized.
 
 var time = "-12:00:00";
+var url = "/dinnersys_beta/backend/backend.php?";
 
 function login(uid, pswd, callback, done) {
     var json;
 
-    $.get("/dinnersys_beta/backend/backend.php?cmd=login&id=" + uid + "&password=" + pswd + "&device_id=website", function (data) {
+    $.get(url + "cmd=login&id=" + uid + "&password=" + pswd + "&device_id=website", function (data) {
         json = data;
     }).done(function () {
         callback(json);
@@ -14,7 +15,7 @@ function login(uid, pswd, callback, done) {
 }
 
 function logout(done) {
-    $.get("/dinnersys_beta/backend/backend.php?cmd=logout", function (data) {
+    $.get(url + "cmd=logout", function (data) {
 
     }).done(function () {
         done();
@@ -34,8 +35,7 @@ function make_payment(id, type, pin, callback, target = true) {
     });
     hashed = sha512(hashed)
 
-    var url = "/dinnersys_beta/backend/backend.php?cmd=payment_" + type + "&target=" + target + "&order_id=" + id + "&password=" + pin;
-    $.get(url, function (data) {
+    $.get(url + "cmd=payment_" + type + "&target=" + target + "&order_id=" + id + "&password=" + pin, function (data) {
         callback(data);
     });
 }
@@ -45,7 +45,6 @@ function make_payment(id, type, pin, callback, target = true) {
 
 function delete_order(oid, type, callback, done) {
     var json;
-    var url = "/dinnersys_beta/backend/backend.php?";
     switch (type) {
         case "self":
             url += "cmd=delete_self";
@@ -70,7 +69,6 @@ function delete_order(oid, type, callback, done) {
 function make_order(login_id, did, type, callback) {
     var result;
     var esti_recv = moment().format("YYYY/MM/DD") + time;
-    var url = "/dinnersys_beta/backend/backend.php?";
     switch (type) {
         case "self":
             url += "cmd=make_self_order";
@@ -85,6 +83,24 @@ function make_order(login_id, did, type, callback) {
 
     $.get(url + "&dish_id[]=" + did + "&time=" + esti_recv, function (data) {
         result = data;
+    }).done(function () {
+        callback(result);
+    });
+}
+
+function get_card(callback) {
+    var result;
+    $.get(url + "cmd=get_pos", function (data) {
+        result = $.parseJSON(data)["card"];
+    }).done(function () {
+        callback(result);
+    });
+}
+
+function get_money(callback) {
+    var result;
+    $.get(url + "cmd=get_pos", function (data) {
+        result = $.parseJSON(data)["money"];
     }).done(function () {
         callback(result);
     });

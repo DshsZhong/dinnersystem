@@ -46,6 +46,14 @@ $(document).ready(function(){
 
     welcome += "<br> 歡迎使用系統，" + json['name'];
     $("#welcome").append(welcome);
+
+    get_card((card) => {
+        JsBarcode("#barcode", card, {
+            width: 1,
+            height: 15,
+            displayValue: false
+        });
+    });
 });
 
 function logout()

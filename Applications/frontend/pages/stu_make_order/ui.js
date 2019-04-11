@@ -6,15 +6,12 @@ $(document).ready(function(){
     }).done(function(){
         $("#loading").css("display" ,"none");  
     });
-    update_money()
+    
+    try {
+        get_money((value) => {
+            $("#money").text(value + " $.");
+        });
+    } catch(e) {
+        $("#money").text("- $.");
+    }
 });
-
-function update_money() {
-    var money = "../../../backend/backend.php?cmd=get_money";
-    $.get(money, (data) => {
-        if(data == parseInt(data))
-            $("#money").text(data + "$.");
-        else
-            $("#money").text("- $.");
-    });
-}

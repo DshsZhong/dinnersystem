@@ -71,9 +71,9 @@ class backend_main
 
 
 
-        require_once (__DIR__ . '/../bank/debit.php');
-        require_once (__DIR__ . '/../bank/get_money.php');
-        require_once (__DIR__ . '/../bank/announce.php');
+        require_once (__DIR__ . '/../pos/debit.php');
+        require_once (__DIR__ . '/../pos/get_pos.php');
+        require_once (__DIR__ . '/../pos/announce.php');
 
 
 

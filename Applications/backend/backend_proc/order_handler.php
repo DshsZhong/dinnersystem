@@ -123,7 +123,12 @@ function delete_order()
 
 function get_money()
 {
-    return \bank\get_money();
+    return \pos\get_pos()->money;
+}
+
+function get_pos()
+{
+    return \pos\get_pos();
 }
 }
 

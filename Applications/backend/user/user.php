@@ -19,6 +19,9 @@ class user implements json_format
     public $PIN;
     public $daily_limit;
 
+    public $money;
+    public $card;
+
     public $services = [];
     public $prev = [];
     public $services_output = [];
@@ -54,6 +57,12 @@ class user implements json_format
         $this->full_init();
     }
 
+    public function pos_init($money ,$card)
+    {
+        $this->money = $money;
+        $this->card = $card;
+    }
+
     public static function get_guest()
     {
         $user = new user(null ,null ,null ,null);
@@ -72,6 +81,8 @@ class user implements json_format
             ',"class":' . $this->class->get_json() .
             ',"seat_no":"' . json_output::filter($this->seat_no) .
             '","prev_sum":"' . json_output::filter($this->prev_sum) .
+            '","money":"' . json_output::filter($this->money) .
+            '","card":"' . json_output::filter($this->card) .
             '","valid_oper":' . json_output::array_to_json($this->services_output) . '}';
         return $data;
     }

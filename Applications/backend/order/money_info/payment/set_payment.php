@@ -28,10 +28,10 @@ function set_payment($req_id ,$hash ,$password ,$ord_id ,$target)
             throw new \Exception($result);
         
         /* The part is extremely slow. Fuck you ,ventem */
-        $money = intval(\bank\get_money());
+        $money = intval(\pos\get_pos()->money);
         if($money < $row->money->charge)
             throw new \Exception("Not enough money.");
-        \bank\debit($row ,$hash);
+        \pos\debit($row ,$hash);
 
         $mysqli->commit();
     } catch (\Exception $e) {

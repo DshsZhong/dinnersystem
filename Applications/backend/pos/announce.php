@@ -1,4 +1,5 @@
 <?php
+namespace pos;
 
 function announce($content ,$self)
 {
