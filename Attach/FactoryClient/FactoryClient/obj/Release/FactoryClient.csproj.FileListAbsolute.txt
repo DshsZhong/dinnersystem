@@ -26,3 +26,4 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryCli
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.CopyComplete
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.exe
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.pdb
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.csprojAssemblyReference.cache

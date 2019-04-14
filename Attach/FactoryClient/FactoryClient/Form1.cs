@@ -87,7 +87,7 @@ namespace FactoryClient
             {
                 try
                 {
-                    ExcelStream excel = new ExcelStream(menu_file.Text);
+                    ExcelStream excel = new ExcelStream(menu_file.Text, sender.Equals(download_menu));
                     Update_Menu menu_update = new Update_Menu(req, excel);
                     UpdateProgress progress = new UpdateProgress((int value) =>
                     {
