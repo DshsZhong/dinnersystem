@@ -43,7 +43,6 @@
             this.id.Name = "id";
             this.id.Size = new System.Drawing.Size(131, 22);
             this.id.TabIndex = 0;
-            this.id.Text = "dinnersys";
             // 
             // login_btn
             // 
@@ -90,7 +89,6 @@
             this.password.PasswordChar = '*';
             this.password.Size = new System.Drawing.Size(131, 22);
             this.password.TabIndex = 6;
-            this.password.Text = "2rjurrru";
             // 
             // Login
             // 
