@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace FactoryClient
 {
@@ -15,16 +16,16 @@ namespace FactoryClient
     {
         string cookieHeader;
         public string uname = "";
+        public List<string> valid_opers = new List<string>();
         const string host = "https://dinnersystem.ddns.net";
         public Request(string id, string pswd)
         {
-            string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&hash=" + create_hash(id, pswd);
+            string url = host + "/dinnersys_beta/backend/backend.php?cmd=login&device_id=factory_client&id=" + id + "&password=" + pswd;
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Method = "GET";
             WebResponse wr = req.GetResponse();
             cookieHeader = wr.Headers["Set-cookie"];
-            Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-            StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
+            StreamReader readStream = new StreamReader(wr.GetResponseStream(), Encoding.GetEncoding("utf-8"));
             string reponse = readStream.ReadToEnd();
             JObject obj;
             try { obj = JsonConvert.DeserializeObject<JObject>(reponse); }
@@ -35,29 +36,20 @@ namespace FactoryClient
             {
                 able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"update_dish\"");
                 able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_facto\"");
-                able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_cafet\"");
+                able |= (item.ToString(Newtonsoft.Json.Formatting.None) == "\"select_other\"");
+                valid_opers.Add(item.ToString(Newtonsoft.Json.Formatting.None));
             }
             uname = obj["name"].ToString();
             if (!able) throw new Exception("Access denied");
-        }
-
-        string create_hash(string id ,string password)
-        {
-            SHA512 sha = new SHA512CryptoServiceProvider();
-            int now = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            JObject json = new JObject();
-            json["id"] = id;
-            json["password"] = password;
-            json["time"] = now.ToString();
-            string local_hashed = BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(json.ToString(Newtonsoft.Json.Formatting.None))));
-            local_hashed = local_hashed.Replace("-", "").ToLower();
-            return local_hashed;
         }
 
         public JArray Get_Order(string lower_bound ,string upper_bound ,bool model = false)
         {
             string url = host + "/dinnersys_beta/backend/backend.php?cmd=select_" + (model ? "other" : "facto") + 
                 "&esti_start=" + lower_bound + "&esti_end=" + upper_bound + (model ? "&history=true" : "");
+            if (model && (from item in valid_opers where item == "\"select_other\"" select item).Count() == 0)
+                throw new Exception("Access denied.");
+
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             req.Headers.Add("Cookie", cookieHeader);
             WebResponse wr = req.GetResponse();

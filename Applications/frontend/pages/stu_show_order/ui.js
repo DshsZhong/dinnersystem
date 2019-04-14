@@ -28,7 +28,10 @@ function load() {
     }).done(function () {
         $("#loading").css("display", "none");
     });
-    
+    update_money();
+}
+
+function update_money() {
     get_money((value) => {
         if(value == null) {
             $("#money").text("- $.");

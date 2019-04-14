@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.id = new System.Windows.Forms.TextBox();
-            this.password = new System.Windows.Forms.MaskedTextBox();
             this.login_btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.password = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // id
@@ -43,14 +43,7 @@
             this.id.Name = "id";
             this.id.Size = new System.Drawing.Size(131, 22);
             this.id.TabIndex = 0;
-            // 
-            // password
-            // 
-            this.password.ImeMode = System.Windows.Forms.ImeMode.Alpha;
-            this.password.Location = new System.Drawing.Point(85, 95);
-            this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(131, 22);
-            this.password.TabIndex = 1;
+            this.id.Text = "dinnersys";
             // 
             // login_btn
             // 
@@ -90,16 +83,25 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "廠商管理前端";
             // 
+            // password
+            // 
+            this.password.Location = new System.Drawing.Point(85, 95);
+            this.password.Name = "password";
+            this.password.PasswordChar = '*';
+            this.password.Size = new System.Drawing.Size(131, 22);
+            this.password.TabIndex = 6;
+            this.password.Text = "2rjurrru";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(268, 178);
+            this.Controls.Add(this.password);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.login_btn);
-            this.Controls.Add(this.password);
             this.Controls.Add(this.id);
             this.Name = "Login";
             this.Text = "Login";
@@ -111,10 +113,10 @@
         #endregion
 
         private System.Windows.Forms.TextBox id;
-        private System.Windows.Forms.MaskedTextBox password;
         private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.MaskedTextBox password;
     }
 }

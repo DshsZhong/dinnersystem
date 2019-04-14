@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace FactoryClient
 {
@@ -13,17 +14,7 @@ namespace FactoryClient
     {
         Excel.Worksheet Sheet;
         Excel.Workbook Book;
-        public ExcelStream(string path)
-        {
-            Book = initailExcel().Workbooks.Open(path);
-            Sheet = Book.Sheets[1];
-        }
-        ~ExcelStream()
-        {
-            Close();
-        }
-
-        Excel.Application initailExcel()
+        public ExcelStream(string path ,bool reset = true)
         {
             Excel.Application _Excel;
             bool flag = false;
@@ -46,7 +37,23 @@ namespace FactoryClient
                 _Excel = obj as Excel.Application;
             }
             _Excel.Visible = false;//設false效能會比較好
-            return _Excel;
+            Book = _Excel.Workbooks.Open(path);
+            Sheet = Book.Sheets[1];
+
+            /* Reset the file */
+            if(reset)
+            {
+                _Excel.ActiveSheet.ResetAllPageBreaks();
+                Sheet.get_Range("A2:ZZ999", Type.Missing).Cells.Value2 = "";
+            }
+        }
+        ~ExcelStream()
+        {
+            try
+            {
+                Close();
+            }
+            catch (Exception e) { }
         }
 
         public void Close()
@@ -57,6 +64,7 @@ namespace FactoryClient
             {
                 pro.Kill();//沒有更好的方法,只有殺掉進程
             }
+            Thread.Sleep(1000);
         }
 
         public void Write(int x, int y, object value)

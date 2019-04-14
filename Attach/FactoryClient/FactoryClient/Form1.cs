@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-using System.Globalization;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace FactoryClient
@@ -53,6 +53,7 @@ namespace FactoryClient
             scale_file.Text = AppDomain.CurrentDomain.BaseDirectory + "規模化報表.xlsx";
             custom_file.Text = AppDomain.CurrentDomain.BaseDirectory + "精緻化報表.xlsx";
             money_file.Text = AppDomain.CurrentDomain.BaseDirectory + "金額報表.xlsx";
+            analysiser.Enabled = (from item in req.valid_opers where item == "\"select_other\"" select item).Count() == 1;
         }
 
         #region open_file
@@ -99,10 +100,11 @@ namespace FactoryClient
                     if (sender.Equals(download_menu)) menu_update.Download(progress);
                     else menu_update.Upload(progress);
                     excel.Close();
+                    if (sender.Equals(download_menu)) Process.Start(menu_file.Text);
                     Invoke((MethodInvoker)(() =>
                     {
                         original();
-                        MessageBox.Show(sender.Equals(download_menu) ? "下載完成" : "上載完成");
+                        if (sender.Equals(upload_menu)) MessageBox.Show("上載完成");
                     }));
                 }
                 catch (Exception ex)
@@ -142,11 +144,8 @@ namespace FactoryClient
                             }));
                         }));
                     excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show("下載完成");
-                    }));
+                    Process.Start(scale_file.Text);
+                    Invoke((MethodInvoker)(() => original()));
                 }
                 catch (Exception ex)
                 {
@@ -185,11 +184,8 @@ namespace FactoryClient
                             }));
                         }));
                     excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show("下載完成");
-                    }));
+                    Process.Start(custom_file.Text);
+                    Invoke((MethodInvoker)(() => original()));
                 }
                 catch (Exception ex)
                 {
@@ -215,7 +211,7 @@ namespace FactoryClient
             {
                 try
                 {
-                    ExcelStream excel = new ExcelStream(money_file.Text);
+                    ExcelStream excel = new ExcelStream(money_file.Text, false);
                     Money_Report money_update = new Money_Report(req, excel);
                     money_update.Download(money_start.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                         money_end.Value.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -228,11 +224,8 @@ namespace FactoryClient
                             }));
                         }));
                     excel.Close();
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        original();
-                        MessageBox.Show("下載完成");
-                    }));
+                    Process.Start(money_file.Text);
+                    Invoke((MethodInvoker)(() => original()));
                 }
                 catch (Exception ex)
                 {

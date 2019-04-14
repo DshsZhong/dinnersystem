@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.main_chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Build = new System.Windows.Forms.Button();
             this.Cost_Sum = new System.Windows.Forms.Label();
@@ -69,6 +69,7 @@
             this.Download = new System.Windows.Forms.Button();
             this.Start_Date = new System.Windows.Forms.DateTimePicker();
             this.Making_Model = new System.Windows.Forms.GroupBox();
+            this.momentum = new System.Windows.Forms.CheckBox();
             this.Model_Status = new System.Windows.Forms.GroupBox();
             this.Train_Time = new System.Windows.Forms.Label();
             this.Order_Sum = new System.Windows.Forms.Label();
@@ -97,7 +98,6 @@
             this.load_start = new System.Windows.Forms.DateTimePicker();
             this.Open_Load = new System.Windows.Forms.Button();
             this.Load = new System.Windows.Forms.Button();
-            this.momentum = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.main_chart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ternary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Gradient)).BeginInit();
@@ -119,10 +119,10 @@
             // 
             // main_chart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.main_chart.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.main_chart.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.main_chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.main_chart.Legends.Add(legend1);
             this.main_chart.Location = new System.Drawing.Point(6, 102);
             this.main_chart.Name = "main_chart";
             this.main_chart.Size = new System.Drawing.Size(739, 326);
@@ -324,10 +324,10 @@
             // 
             // Running_Chart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.Running_Chart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.Running_Chart.Legends.Add(legend5);
+            chartArea2.Name = "ChartArea1";
+            this.Running_Chart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.Running_Chart.Legends.Add(legend2);
             this.Running_Chart.Location = new System.Drawing.Point(8, 46);
             this.Running_Chart.Name = "Running_Chart";
             this.Running_Chart.Size = new System.Drawing.Size(259, 191);
@@ -386,7 +386,7 @@
             this.Open_Save.Name = "Open_Save";
             this.Open_Save.Size = new System.Drawing.Size(174, 23);
             this.Open_Save.TabIndex = 2;
-            this.Open_Save.Text = "選擇檔案";
+            this.Open_Save.Text = "選擇路徑";
             this.Open_Save.UseVisualStyleBackColor = true;
             this.Open_Save.Click += new System.EventHandler(this.Open_Save_Click);
             // 
@@ -396,7 +396,7 @@
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(174, 23);
             this.Save.TabIndex = 24;
-            this.Save.Text = "存檔";
+            this.Save.Text = "存檔下載資料";
             this.Save.UseVisualStyleBackColor = true;
             this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
@@ -472,6 +472,18 @@
             this.Making_Model.TabIndex = 22;
             this.Making_Model.TabStop = false;
             this.Making_Model.Text = "製作模型";
+            // 
+            // momentum
+            // 
+            this.momentum.AutoSize = true;
+            this.momentum.Checked = true;
+            this.momentum.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.momentum.Location = new System.Drawing.Point(210, 25);
+            this.momentum.Name = "momentum";
+            this.momentum.Size = new System.Drawing.Size(84, 16);
+            this.momentum.TabIndex = 14;
+            this.momentum.Text = "啟動動量法";
+            this.momentum.UseVisualStyleBackColor = true;
             // 
             // Model_Status
             // 
@@ -648,16 +660,16 @@
             // 
             // Classify_Chart
             // 
-            chartArea6.Name = "ChartArea1";
-            this.Classify_Chart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.Classify_Chart.Legends.Add(legend6);
+            chartArea3.Name = "ChartArea1";
+            this.Classify_Chart.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.Classify_Chart.Legends.Add(legend3);
             this.Classify_Chart.Location = new System.Drawing.Point(6, 42);
             this.Classify_Chart.Name = "Classify_Chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Classify_Chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.Classify_Chart.Series.Add(series1);
             this.Classify_Chart.Size = new System.Drawing.Size(433, 192);
             this.Classify_Chart.TabIndex = 18;
             this.Classify_Chart.Text = "chart3";
@@ -772,21 +784,9 @@
             this.Load.Name = "Load";
             this.Load.Size = new System.Drawing.Size(171, 23);
             this.Load.TabIndex = 0;
-            this.Load.Text = "載入";
+            this.Load.Text = "載入存檔資料";
             this.Load.UseVisualStyleBackColor = true;
             this.Load.Click += new System.EventHandler(this.Load_Click);
-            // 
-            // momentum
-            // 
-            this.momentum.AutoSize = true;
-            this.momentum.Checked = true;
-            this.momentum.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.momentum.Location = new System.Drawing.Point(210, 25);
-            this.momentum.Name = "momentum";
-            this.momentum.Size = new System.Drawing.Size(84, 16);
-            this.momentum.TabIndex = 14;
-            this.momentum.Text = "啟動動量法";
-            this.momentum.UseVisualStyleBackColor = true;
             // 
             // Analysis
             // 

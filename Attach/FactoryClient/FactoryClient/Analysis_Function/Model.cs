@@ -14,7 +14,6 @@ namespace FactoryClient.Analysis_Function
     class Model
     {
         Group_Model model;
-        public bool Finished_Build = false;
 
         public Model(JArray data, int pool ,DateTime start ,DateTime end)
         {
@@ -48,7 +47,6 @@ namespace FactoryClient.Analysis_Function
                 cost_sum += p.order.Cost();
             }
             invoker(counter, cost_sum, "完成訓練");
-            Finished_Build = true;
         }
 
         public void UpdateForm(ComboBox dish)
