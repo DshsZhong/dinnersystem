@@ -20,7 +20,6 @@ namespace FactoryClient.Analysis_Function
             while (threads-- != 0)
                 new Thread(new ThreadStart(Run)).Start();
         } 
-        ~Thread_Pool() { dispose = true; }
 
         public void Entask(Function task)
         {

@@ -100,12 +100,13 @@ namespace bank_server
                 int balance;
                 if (json.uid.ToString() == "-1") balance = 0;
                 else balance = reader.Get_Balance(json.uid.ToString());
+                string cardno = reader.Get_Cardno(json.uid.ToString());
+                ret = "{\"cardno\":\"" + cardno + "\",\"money\":\"" + balance.ToString() + "\"}";
                 row[0] = "讀取";
                 row[1] = json.uid.ToString();
                 row[2] = "-";
                 row[3] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                row[4] = balance.ToString();
-                ret = balance.ToString();
+                row[4] = ret.ToString();
                 reads += 1;
                 msg = row[0] + "\t," + row[1] + "\t," + row[2] + "\t," + row[3] + "\t," + row[4];
             }

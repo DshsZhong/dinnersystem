@@ -15,22 +15,22 @@ namespace FactoryClient.Analysis_Function
         const double L = 0, R = 2 ,beta = 0.1;
         public static bool Momentum = true;
 
-        public Logistic(Tuple<double[], double>[] data)
+        public Logistic(double[,] X, double[] Y)
         {
-            X = CreateMatrix.Dense<double>(data.Length, data[0].Item1.Length + 1);
-            Y = CreateVector.Dense<double>(data.Length);
+            this.X = CreateMatrix.Dense<double>(Y.Length, X.Length / Y.Length + 1);
+            this.Y = CreateVector.Dense<double>(Y.Length);
 
             int rows = 0;
-            foreach (Tuple<double[], double> item in data)
+            for(int i = 0;i != Y.Length;i++)
             {
-                for (int i = 0; i != item.Item1.Length; i++)
-                    X[rows, i] = item.Item1[i];
-                X[rows, item.Item1.Length] = 1;
-                Y[rows] = item.Item2;
+                for (int j = 0; j != X.Length / Y.Length; j++)
+                    this.X[i, j] = X[i, j];
+                this.X[i, X.Length / Y.Length] = 1;
+                this.Y[i] = Y[i];
                 rows += 1;
             }
 
-            W = CreateVector.Dense<double>(X.ColumnCount);
+            W = CreateVector.Dense<double>(X.Length / Y.Length + 1);
         }
 
         public void Train(int gradients, int ternarys)

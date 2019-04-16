@@ -20,7 +20,6 @@ namespace FactoryClient.Analysis_Function
 
         public Logistic order;
         Markov ratio;
-        Markov future;
 
         public bool Trained = false;
         public bool Allow_Future = false;
@@ -38,22 +37,21 @@ namespace FactoryClient.Analysis_Function
                 return;
             }
 
-            List<Tuple<double[], double>> param = new List<Tuple<double[], double>>();
+            double[,] X = new double[result.Length, 7];
+            double[] Y = new double[result.Length];
             for (int i = 0; i != result.Length; i++)
             {
-                double[] tmp = new double[days];
                 for (int j = 0; j != 7; j++)
-                    tmp[j] = (j == result[i].Item3 ? 1 : 0);
-                Tuple<double[], double> row = new Tuple<double[], double>(tmp, result[i].Item2 ? 1 : 0);
-                param.Add(row);
+                    X[i ,j] = (j == result[i].Item3 ? 1 : 0);
+                Y[i] = (result[i].Item2 ? 1 : 0);
             }
-            order = new Logistic(param.ToArray());
+            order = new Logistic(X ,Y);
         }
 
         public void Train(int gradients, int ternarys)
         {
             if (Not_Enough) return;
-
+             
             order.Train(gradients, ternarys);
             Matrix<double> count = CreateMatrix.Dense<double>(dish.get_size() - 1 ,dish.get_size() - 1);
 

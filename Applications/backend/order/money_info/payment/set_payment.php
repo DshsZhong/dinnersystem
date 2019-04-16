@@ -3,7 +3,7 @@ namespace order\money_info;
 
 use \other\check_valid;
 
-function set_payment($req_id ,$hash ,$password ,$ord_id ,$target)
+function set_payment($req_id ,$password ,$ord_id ,$target)
 {
     $ord_id = check_valid::white_list($ord_id ,check_valid::$only_number);
     $result = \order\select_order\select_order(['oid' => $ord_id]);
@@ -11,7 +11,7 @@ function set_payment($req_id ,$hash ,$password ,$ord_id ,$target)
 
     if($row === null) 
         throw new \Exception("Can't find order.");
-    payment_auth($row ,$target ,$hash ,$password ,$req_id);
+    payment_auth($row ,$target ,$password ,$req_id);
     
     $mysqli = $_SESSION['sql_server'];
     $mysqli->begin_transaction();
@@ -28,10 +28,10 @@ function set_payment($req_id ,$hash ,$password ,$ord_id ,$target)
             throw new \Exception($result);
         
         /* The part is extremely slow. Fuck you ,ventem */
-        $money = intval(\bank\get_money());
+        $money = intval(\pos\get_pos()->money);
         if($money < $row->money->charge)
             throw new \Exception("Not enough money.");
-        \bank\debit($row ,$hash);
+        \pos\debit($row ,$hash);
 
         $mysqli->commit();
     } catch (\Exception $e) {

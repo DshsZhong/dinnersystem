@@ -13,6 +13,7 @@ using FactoryClient.Analysis_Function;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using Newtonsoft.Json;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace FactoryClient
 {
@@ -107,6 +108,7 @@ namespace FactoryClient
         #region Build
         private void Build_Click(object sender, EventArgs e)
         {
+            Build.Enabled = false;
             Model_Status.Enabled = Running_Status.Enabled = true;
             int psize = Pool_Size.Value, gvalue = Gradient.Value, tvalue = Ternary.Value;
             Running_Chart.Series.Clear();
@@ -133,7 +135,6 @@ namespace FactoryClient
                         Order_Sum.Text = "點單量: " + data.Count + " (份)";
                     }));
                 }, gvalue, tvalue ,end);
-                while (!model.Finished_Build) Thread.Sleep(100);
                 model.UpdateForm(Dish_Name);
                 Invoke((MethodInvoker)(() => Export.Enabled = Predict_Model.Enabled = true));
             });
@@ -175,10 +176,14 @@ namespace FactoryClient
                 progress_text.Text = "輸出進度: " + value + "%";
             }
             Export.Enabled = false;
-            Export_Model export = new Export_Model(new ExcelStream(export_location.Text), model);
+
+            ExcelStream stream = new ExcelStream(export_location.Text);
+            Export_Model export = new Export_Model(stream, model);
             export.Write(Show_Datetime.Value, Confidence_Interval.Value, Update);
+            stream.Close();
+
             Export.Enabled = true;
-            MessageBox.Show("輸出完成");
+            System.Diagnostics.Process.Start(export_location.Text);
             Update(0);
         }
         #endregion

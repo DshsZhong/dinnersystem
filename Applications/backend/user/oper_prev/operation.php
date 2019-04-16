@@ -15,8 +15,7 @@ class operation
             'make_self_order' => 'make_order',
             'delete_self' => 'delete_order',
             'payment_self' => 'set_payment',
-            'get_money' => 'get_money',
-            'get_remaining' => 'get_remaining'
+            'get_pos' => 'get_pos'
         ],
         'dinnerman' => [
             'change_password' => 'change_password',

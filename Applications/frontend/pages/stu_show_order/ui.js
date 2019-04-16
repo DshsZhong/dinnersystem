@@ -32,12 +32,12 @@ function load() {
 }
 
 function update_money() {
-    var money = "../../../backend/backend.php?cmd=get_money";
-    $.get(money, (data) => {
-        if(data == parseInt(data))
-            $("#money").text(data + "$.");
-        else
+    get_money((value) => {
+        if(value == null) {
             $("#money").text("- $.");
+        } else {
+            $("#money").text(value + " $.");
+        }
     });
 }
 

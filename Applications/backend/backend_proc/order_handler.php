@@ -39,8 +39,6 @@ function process_order()
 function login()
 {
     return \user\login\login($this->input['id'] ,
-        $this->input['time'] ,
-        $this->input['hash'] ,
         $this->input['password'] ,
         $this->input['device_id'] ,
         $this->req_id);
@@ -97,7 +95,6 @@ function set_payment()
 {   
     $target = ($this->input['target'] == 'true');
     return \order\money_info\set_payment($this->req_id ,
-        $this->input['hash'] ,
         $this->input['password'] ,
         $this->input['order_id'] ,
         $target);
@@ -121,9 +118,9 @@ function delete_order()
     }
 }
 
-function get_money()
+function get_pos()
 {
-    return \bank\get_money();
+    return \pos\get_pos();
 }
 }
 

@@ -45,7 +45,7 @@ function fetch($login_id)
     return ["id" => $id ,"password" => $password];
 }
 
-function login($login_id, $time ,$hash ,$password ,$device_id ,$req_id)
+function login($login_id ,$password ,$device_id ,$req_id)
 {
     $login_id = check_valid::white_list($login_id ,check_valid::$white_list_pattern);
     $device_id = urldecode($device_id);
@@ -58,14 +58,12 @@ function login($login_id, $time ,$hash ,$password ,$device_id ,$req_id)
 
     \punish\check($account->id ,"login");
     try {
-        $hash_success = hash_auth($login_id ,$time ,$hash);
         $raw_auth = raw_auth($login_id ,$password);
-        if(!$hash_success && !$raw_auth) throw new \Exception("Wrong password");
+        if(!$raw_auth) throw new \Exception("Wrong password");
     } catch(\Exception $e) { 
         \punish\attempt($account->id ,$req_id ,"login"); 
         throw $e;
     }
-    # die(json_encode($result));
     
     update_device($uid ,$device_id);
     $_SESSION["class"] = serialize($class);

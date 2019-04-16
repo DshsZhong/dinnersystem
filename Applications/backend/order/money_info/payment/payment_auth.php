@@ -1,13 +1,12 @@
 <?php
 namespace order\money_info;
 
-function payment_auth($row ,$target ,$hash ,$password ,$req_id)
+function payment_auth($row ,$target ,$password ,$req_id)
 {
 	# password control
 	\punish\check($row->user->id ,"payment");
-	$hash_success = hash_auth($row ,$hash);
 	$raw_success = raw_auth($row ,$password);
-	if(!$hash_success && !$raw_success) {
+	if(!$raw_success) {
 		\punish\attempt($row->user->id ,$req_id ,"payment");
 		throw new \Exception("Wrong password");
 	}
