@@ -45,19 +45,20 @@ function make_payment(id, type, pin, callback, target = true) {
 
 function delete_order(oid, type, callback, done) {
     var json;
+    var local_url = url;
     switch (type) {
         case "self":
-            url += "cmd=delete_self";
+            local_url += "cmd=delete_self";
             break;
         case "class":
-            url += "cmd=delete_dm";
+            local_url += "cmd=delete_dm";
             break;
         case "everyone":
-            url += "cmd=delete_everyone";
+            local_url += "cmd=delete_everyone";
             break;
     }
 
-    $.get(url + "&order_id=" + oid, function (data) {
+    $.get(local_url + "&order_id=" + oid, function (data) {
         json = data;
     }).done(function () {
         callback(json);
@@ -92,7 +93,7 @@ function get_card(callback) {
     var result;
     $.get(url + "cmd=get_pos", function (data) {
         try {
-            result = $.parseJSON(data)["money"];
+            result = $.parseJSON(data)["card"];
         } catch (e) {
             alert("查詢卡號失敗，我們已經派出最精銳的猴子去修理這個問題，若長時間出現此問題請通知開發人員！");
             result = null;

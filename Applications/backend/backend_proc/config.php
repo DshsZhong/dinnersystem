@@ -4,7 +4,7 @@ function config()
 {
     return [
         "bank" => [
-            "ip" => "192.168.56.1",
+            "ip" => "192.168.0.2",
             "port" => 8787,
             "password" => "Fei Yu GGYY"
         ],

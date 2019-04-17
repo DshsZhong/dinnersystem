@@ -2,7 +2,11 @@ function make_order(value) {
     var dname = (value["dish"].length == 1 ? value['dish'][0]['dish_name'] : "自訂套餐");
     var has_paid = (value['money']["payment"][0]['paid'] == "true");
     var highlight = (value['user']['id'] !== value['order_maker']['id']);
-    var expired = (moment().isAfter(moment().format("YYYY-MM-DD") + " 10:30:00"));
+
+    var lower_bound = value["money"]["payment"][0]["able_dt"];
+    var upper_bound = value["money"]["payment"][0]["freeze_dt"];
+    var expired = !moment().isBetween(lower_bound ,upper_bound);
+
     return '<div id="' + value['id'] + '"><div class="info"><div class="index index_adjust"><label>付款狀態:</label>' +
         '<img src="../../images/' + (has_paid ? 'paid' : 'unpaid') + '.png"></img></div>' +
         (has_paid || expired ? '' : '<div class="value payment clickable"><label> 確認繳款 </label></div>') +
@@ -17,8 +21,8 @@ function load() {
 
     $("#loading").css("display", "block");
     $.get(url, function (data) {
-        $("#data").empty();
         var json = $.parseJSON(data);
+        $("#data").empty();
         for (var key in json) {
             var value = json[key];
             $("#data").append(make_order(value));

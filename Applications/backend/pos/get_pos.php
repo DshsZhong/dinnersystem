@@ -24,8 +24,8 @@ function get_pos()
         "operation" => "read",
         "uid" => $bank
     ];
-    fwrite($fp, json_encode($operation) . "\n");
     stream_set_timeout($fp, 3);
+    fwrite($fp, json_encode($operation) . "\n");
     if(!$fp) throw new \Exception("Fetch data timeout");
 
     $data = "";

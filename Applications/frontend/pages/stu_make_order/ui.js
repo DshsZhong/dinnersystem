@@ -14,4 +14,6 @@ $(document).ready(function(){
             $("#money").text(value + " $.");
         }
     });
+
+    $.get("")
 });

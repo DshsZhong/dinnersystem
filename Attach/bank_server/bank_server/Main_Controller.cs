@@ -129,6 +129,7 @@ namespace bank_server
                         if (before < charge) ok = false;
                         else
                         {
+                            //done = ok = true;
                             writer.Write(cardno, fid, charge, () =>
                             {
                                 Thread.Sleep(Confirm_Delay); //Fei Yu GGYY

@@ -9,7 +9,7 @@ function submit() {
     make_order(null, did, "self", function (result) { server_respond = result });
     
     $(document).ajaxStop(function () {
-        if (over_time) {
+        if (server_respond == "Impossible to make the order." || server_respond == "Off hours") {
             show("時間已過");
         } else if(server_respond == "daily limit exceed") {
             show("達單日訂購上限");
