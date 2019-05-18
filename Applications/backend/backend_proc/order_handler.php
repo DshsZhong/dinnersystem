@@ -8,8 +8,7 @@ class order_handler
 public $input;
 public $req_id;
 
-function __construct($input)
-{
+function __construct($input) {
     session_start();
     \other\init_server();
     if($input["cmd"] != "login")
@@ -20,14 +19,12 @@ function __construct($input)
     $this->input = $input;
 }
 
-function process_order()
-{
+function process_order() {
     $cmd = $this->input['cmd'];
     $func = unserialize($_SESSION['me'])->services[$cmd];
     $user = unserialize($_SESSION['me']);
     $this->req_id = \other\log\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
-    try
-    {
+    try {
 	    return $this->$func();   # A very danger way to call a function. #
     } catch(\Exception $e) { 
         $output = $e->getMessage(); 
@@ -36,27 +33,23 @@ function process_order()
     }
 }
 
-function login()
-{
+function login() {
     return \user\login\login($this->input['id'] ,
         $this->input['password'] ,
         $this->input['device_id'] ,
         $this->req_id);
 }
 
-function logout() 
-{
+function logout()  {
     \user\logout();
     return "Successfully logout.";
 }
 
-function show_dish()
-{
+function show_dish() {
     return \food\show_dish($this->input['sortby']);
 }
 
-function update_dish()
-{
+function update_dish() {
     return \food\update_dish($this->input['id'] ,
         $this->input['dish_name'] ,
         $this->input['charge_sum'] ,
@@ -65,8 +58,7 @@ function update_dish()
         $this->input['daily_limit']);
 }
 
-function show_order()
-{
+function show_order() {
     $param = $this->input;
     $param['user_id'] = strval(unserialize($_SESSION['me'])->id);
     switch($this->input['cmd'])
@@ -86,13 +78,11 @@ function show_order()
     return \order\select_order\select_order($param);
 }
 
-function make_order()
-{  
+function make_order() {  
     return \order\make_order\make_order(null ,$this->input['dish_id'] ,$this->input['time'] ,'self');
 }
 
-function set_payment()
-{   
+function set_payment() {   
     $target = ($this->input['target'] == 'true');
     return \order\money_info\set_payment($this->req_id ,
         $this->input['password'] ,
@@ -100,13 +90,11 @@ function set_payment()
         $target);
 }
 
-function change_password()
-{
+function change_password() {
     return \user\change_password($this->input['old_pswd'] ,$this->input['new_pswd']);
 }
     
-function delete_order()
-{
+function delete_order() {
     switch($this->input['cmd'])
     {
         case 'delete_self':
@@ -118,10 +106,14 @@ function delete_order()
     }
 }
 
-function get_pos()
-{
+function get_pos() {
     return \pos\get_pos();
 }
+
+function data_collected() {
+    return \AI\data_collected();
+}
+
 }
 
 ?>

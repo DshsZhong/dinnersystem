@@ -1,6 +1,6 @@
 //every function here is synchornized.
 
-var time = "-12:00:00";
+var time = "-23:00:00";
 var url = "/dinnersys_beta/backend/backend.php?";
 
 function login(uid, pswd, callback, done) {
@@ -24,17 +24,6 @@ function logout(done) {
 
 
 function make_payment(id, type, pin, callback, target = true) {
-    var uid = window.localStorage.user_id;
-    var pswd = window.localStorage.password;
-    var hashed = JSON.stringify({
-        "id": id,
-        "usr_id": uid,
-        "usr_password": pswd,
-        "pmt_password": pin,
-        "time": Math.floor(Date.now() / 1000).toString()
-    });
-    hashed = sha512(hashed)
-
     $.get(url + "cmd=payment_" + type + "&target=" + target + "&order_id=" + id + "&password=" + pin, function (data) {
         callback(data);
     });

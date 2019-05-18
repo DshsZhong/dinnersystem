@@ -22,7 +22,7 @@
             
             <script>
                 $("#reverse").click(function(){
-                    window.parent.history.back();
+                    window.parent.location.replace("/dinnersys_beta/frontend");
                 });
             </script>
     </body>

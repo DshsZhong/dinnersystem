@@ -12,6 +12,8 @@ class backend_main
         require_once (__DIR__ . '/config.php');
         
 
+        require_once (__DIR__ . '/../AI/data_collected.php'); 
+
         
         require_once (__DIR__ . '/../json/json_format.php'); 
         require_once (__DIR__ . '/../json/json_output.php'); 

@@ -15,7 +15,7 @@ function update_device($uid ,$device)
 
 function get_data($login_id ,$class)
 {
-    $sql_command = "SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,UI.bank_id ,U.prev_sum ,U.login_id ,U.password ,U.PIN ,UI.daily_limit
+    $sql_command = "SELECT U.id ,UI.name ,U.class_id ,UI.is_vegetarian ,UI.seat_id ,UI.bank_id ,U.prev_sum ,U.login_id ,U.password ,U.PIN ,UI.daily_limit ,UI.data_collected
         FROM `dinnersys`.`users` AS U ,`dinnersys`.`user_information` AS UI
         WHERE U.info_id = UI.id AND U.login_id = ?;";
     $mysqli = $_SESSION['sql_server'];
@@ -23,11 +23,11 @@ function get_data($login_id ,$class)
     $statement->bind_param('s',$login_id);
     $statement->execute();
     $statement->store_result();
-    $statement->bind_result($id ,$name ,$class_id ,$is_vege ,$seat_id, $bank_id, $prev_sum ,$login_id ,$pswd ,$PIN ,$daily_limit);
+    $statement->bind_result($id ,$name ,$class_id ,$is_vege ,$seat_id, $bank_id, $prev_sum ,$login_id ,$pswd ,$PIN ,$daily_limit ,$data_collected);
     if($statement->fetch())
     {
         $account = new user($id ,$name ,$class[strval($class_id)] ,$seat_id);
-        $account->private_init($prev_sum ,new \food\vege($is_vege) ,$login_id ,$bank_id ,$pswd ,$PIN ,$daily_limit);  
+        $account->private_init($prev_sum ,new \food\vege($is_vege) ,$login_id ,$bank_id ,$pswd ,$PIN ,$daily_limit ,$data_collected);  
     }
     return $account;
 }
@@ -50,7 +50,6 @@ function login($login_id ,$password ,$device_id ,$req_id)
     $login_id = check_valid::white_list($login_id ,check_valid::$white_list_pattern);
     $device_id = urldecode($device_id);
     $device_id = check_valid::regex_check($device_id ,check_valid::$device_regex);
-    $time = ($time == null ? null : intval(check_valid::white_list($time ,check_valid::$only_number)));
     
     $class = \user\get_class();
     $account = get_data($login_id ,$class);
@@ -65,7 +64,7 @@ function login($login_id ,$password ,$device_id ,$req_id)
         throw $e;
     }
     
-    update_device($uid ,$device_id);
+    update_device($account->id ,$device_id);
     $_SESSION["class"] = serialize($class);
     $_SESSION['me'] = serialize($account);
     \other\init_vars();

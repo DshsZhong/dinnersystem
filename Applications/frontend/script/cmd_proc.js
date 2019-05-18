@@ -7,7 +7,7 @@
 
 
 
-$(document).ready(function(){
+$(document).ready(() => {
     var now = Math.floor(Date.now() / 1000);
     if(now - window.localStorage.login_date > 3600 || window.localStorage.user_data == null) {
         window.localStorage.clear();
@@ -26,7 +26,15 @@ $(document).ready(function(){
     var welcome = "";// = "你的身分是：";
     if(opers['select_self']) {
         $("#student").css("display" ,"block");
-        //welcome += "使用者";
+        if(json["data_collected"] == "0" && document.referrer.indexOf("login.html") >= 0) {
+            if (confirm('請問你要填寫午餐系統的問卷嗎?')) {
+                $.get("/dinnersys_beta/backend/backend.php?cmd=data_collected" ,() => {
+                    json["data_collected"] == "1";
+                    window.localStorage.user_data = JSON.stringify(json);
+                    window.location.replace("https://forms.gle/W6G3zNr2pxyunoMv8");
+                });
+            }
+        }
     }
 
     if(opers['select_class']) {
@@ -60,8 +68,7 @@ $(document).ready(function(){
     });
 });
 
-function logout()
-{
+function logout() {
 	$.get( "../backend/backend.php?cmd=logout", function( data ) {
 	    window.localStorage.clear();
 		window.location = "login.html";
