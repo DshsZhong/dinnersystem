@@ -11,7 +11,7 @@ function config()
         "database" => [
             "ip" => "localhost",
             "account" => "dinnersystem",
-            "password" => "2rjurrru",
+            "password" => "####",
             "name" => "dinnersys"
         ],
         "login" => [
@@ -26,9 +26,7 @@ function config()
         ],
         "announce" => [
             "url" => "www.google.com",
-            "auth" => "NTUyNDkzMTI0Nzc0MDAyNjkw.D2Aaeg.4NbmaYU3K_6i4yqgr9yXRHvMGlE" 
-            /* "url" => "https://discordapp.com/api/channels/552494392749981719/messages",
-            "auth" => "NTUyNDkzMTI0Nzc0MDAyNjkw.D2Aaeg.4NbmaYU3K_6i4yqgr9yXRHvMGlE" */
+            "auth" => "####" 
         ]
     ];
 }
