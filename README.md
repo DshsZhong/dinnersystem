@@ -1,5 +1,5 @@
 # 交換介面格式
-向後台發送這些請求，後台將會做出相對應的回應。
+向後台發送請求，後台將會做出相對應的回應。
 - 後台位置 https://dinnersystem.ddns.net/dinnersyste_beta/backend/backend.php
 - 你可以採用 `get` 方法進行傳輸，也可以採用 `post` 進行傳輸
 
@@ -17,7 +17,8 @@
 >> - 系統不限制一隻帳號同時能有幾個人登入
 >> - 登入失敗會被記載到 `error_log` 中，某隻帳號登入失敗太多次會被鎖
 >> - 更改密碼後，並不會強制要求使用者跳出系統
->> 
+>>
+
 > # 登出
 >> 呼叫方法
 >> - URL Suffix `?cmd=logout`
@@ -36,6 +37,7 @@
 >> 附註
 >> - 密碼打錯並不會被記錄到 `error_log`，可以嘗試無限次
 >> 
+
 > # 展現菜單
 >> 呼叫方法
 >> - URL Suffix `?cmd=show_dish`
@@ -48,6 +50,7 @@
 >> - 取得剩下多少餐時，採用 `S` 鎖進行上鎖，增加資料庫效能
 >> - 人氣餐點的判斷是經由 `regex` 來判斷的，如果餐點名稱被 `regex` 判斷為真，則該餐點屬於人氣餐點
 >> 
+
 > # 展現點單
 >> 呼叫方法
 >> - 請自行組合 URL Suffix
@@ -89,6 +92,7 @@
 >> - 取得是否繳款時，採用 `S` 鎖進行上鎖，增加資料庫效能
 >> - 由於餐點名稱、金額會變動，取得實際歷史資料才能得到真正的資料，但是效能會較慢
 >> 
+
 > # 點餐
 >> 呼叫方法
 >> - URL suffix `?cmd=make_self_order&dish_id[]={dish_id}&time={Year/Month/Date-Hour:Minute:Second}`
@@ -116,6 +120,7 @@
 >> - 遇到資料庫死結時，直接回傳 `database deadlock`
 >> - 資料庫並不會真的刪除那筆資料，而是在欄位中標記為 `deleted`
 >> 
+
 > # 付款
 >> 呼叫方法
 >> - URL suffix `?cmd=set_payment&password={password}&order_id={order_id}&target={true,false}`
@@ -128,6 +133,7 @@
 >> - `target = true` 代表標記為有付款 `target = false` 代表標記為尚未付款
 >> - 改變付款狀態時，採用 `X` 鎖進行上鎖，確保資料庫一致性
 >> - 遇到資料庫死結時，直接回傳 `database deadlock`
+
 > # 請求 pos 資料
 >> 呼叫方法
 >> - URL suffix `?cmd=get_pos`
@@ -138,6 +144,7 @@
 >>
 >> 附註
 >> - 飛宇的系統如果出問題，回傳 `pos is dead`
+
 > # 更新菜單
 >> 呼叫方法
 >> - URL suffix 
