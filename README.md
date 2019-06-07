@@ -1,13 +1,13 @@
 # 交換介面格式
 向後台發送請求，後台將會做出相對應的回應。
-- 後台位置 https://dinnersystem.ddns.net/dinnersyste_beta/backend/backend.php
+- 後台位置 https://dinnersystem.com/dinnersystem_beta/backend/backend.php
 - 你可以採用 `get` 方法進行傳輸，也可以採用 `post` 進行傳輸
 
 ## 使用方法
 > # 登入
 >> 呼叫方法
 >> - URL Suffix `?cmd=login&id={your_id}&password={your_password}&device_id={device_id}`
->> - 例如 `?cmd=login&id=06610089&password=910426&device_id=HELLO_FROM_ANDROID`
+>> - 例如 `?cmd=login&id=seanpai&password=131313&device_id=HELLO_FROM_ANDROID`
 >> 
 >> 回傳
 >> - 一個使用者 `json` 物件
@@ -262,17 +262,20 @@
         "url" => "www.google.com",
         "auth" => "##############" 
     ]
+]
 ```
 
 # 常見問題集
 > 無法更新菜單
->
 > - 檢查資料夾裡面有沒有錯誤訊息檔
 
 > 系統無法連線
->
 > - 確認 dns 解析正常
 > - 確認有開啟 Nginx MySQL PHP
+
+> 如果 App 一打開就 crash
+> - 確認 u_move_u_dead 存在於 frontend
+> - 確認 version.txt 存在於 u_move_u_dead
 
 > 附註
 > - pos 掛掉，午餐系統也很容易連累掛掉，跟其他伺服器溝通是很耗費效能的事情
