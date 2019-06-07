@@ -245,7 +245,7 @@
     "database" => [
         "ip" => "localhost",
         "account" => "dinnersystem",
-        "password" => "2rjurrru",
+        "password" => "########",
         "name" => "dinnersys"
     ],
     "login" => [
@@ -260,7 +260,7 @@
     ],
     "announce" => [
         "url" => "www.google.com",
-        "auth" => "NTUyNDkzMTI0Nzc0MDAyNjkw.D2Aaeg.4NbmaYU3K_6i4yqgr9yXRHvMGlE" 
+        "auth" => "##############" 
     ]
 ```
 
