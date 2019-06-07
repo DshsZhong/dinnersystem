@@ -155,7 +155,7 @@
 >>> - `?is_vege={MEAT ,VEGE ,PURE}`
 >>> - `?is_idle={true ,false}'`
 >>> - `?daily_limit={廠商一天能供應多少量}`
->> - 例如 `?cmd=update_dish&id=1&dish_name=Fei Yu GGYY&charge_sum=ㄉ&is_vege=MEAT&is_idle=true&daily_limit=-1`
+>> - 例如 `?cmd=update_dish&id=1&dish_name=Fei Yu GGYY&charge_sum=87&is_vege=MEAT&is_idle=true&daily_limit=-1`
 >>
 >> 回傳
 >> - `Successfully updated food.`
