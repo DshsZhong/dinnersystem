@@ -103,7 +103,7 @@ namespace FactoryClient
             }
         }
 
-        public List<int> Get_Version()
+        public List<JObject> Get_Version()
         {
             string url = host + "/dinnersys_beta/frontend/u_move_u_dead/version.txt";
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -112,9 +112,9 @@ namespace FactoryClient
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
             JObject array = JsonConvert.DeserializeObject<JObject>(readStream.ReadToEnd());
-            List<int> version = new List<int>();
+            List<JObject> version = new List<JObject>();
             foreach (JToken v in array["factory"])
-                version.Add(v.ToObject<int>());
+                version.Add(v.ToObject<JObject>());
             return version;
         }
     }

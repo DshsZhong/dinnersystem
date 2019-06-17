@@ -22,5 +22,32 @@ namespace FactoryClient.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public string version {
+            get {
+                return ((string)(this["version"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dinnersystem.com/dinnersys_beta/factory_client")]
+        public string remote_url {
+            get {
+                return ((string)(this["remote_url"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("client.zip")]
+        public string remote_name {
+            get {
+                return ((string)(this["remote_name"]));
+            }
+        }
     }
 }

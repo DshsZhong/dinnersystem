@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
 using System.IO.Compression;
-using IWshRuntimeLibrary;
+using System.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace FactoryClient
 {
     class Update_Program
     {
-        const int version = 7;
-        const string remote_location = "http://dinnersystem.ddns.net/dinnersys_beta/factory_client/client.zip";
+        public static string version = ConfigurationManager.AppSettings["version"];
+        public static string remote_url = ConfigurationManager.AppSettings["remote_url"];
+        public static string remote_name = ConfigurationManager.AppSettings["remote_name"];
+        public static string remote_location;
+        // Might cause serious problem if the config has been modified.
 
         public bool Updatable { get; set; }
+
         string zip_location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "v" + (version + 1).ToString() + ".zip");
         string local_location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\v" + (version + 1).ToString());
         string icon_location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "icon.ico");
@@ -24,10 +26,15 @@ namespace FactoryClient
 
         public Update_Program(Request req)
         {
-            List<int> ver = req.Get_Version();
-            Updatable = true;
-            foreach (int s in ver)
-                Updatable &= (version != s);
+            List<JObject> ver = req.Get_Version();
+            foreach(JObject obj in ver)
+            {
+                if(obj["version"].ToString() == version)
+                {
+                    Updatable = obj["updatable"].ToString() == "1";
+                    remote_location = String.Format("{0}/v{1}/{2}", remote_url, obj["next"], remote_name);
+                }
+            }
         }
 
         public void Update(UpdateProgress invoker)
