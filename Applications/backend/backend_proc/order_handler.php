@@ -23,6 +23,7 @@ function process_order() {
     $cmd = $this->input['cmd'];
     $func = unserialize($_SESSION['me'])->services[$cmd];
     $user = unserialize($_SESSION['me']);
+    if($func == null) return "Operation not allowed";
     $this->req_id = \other\log\make_log($user->id ,$func ,$_SERVER['REQUEST_URI'] ,serialize($this->input) ,\other\get_ip());
     try {
 	    return $this->$func();   # A very danger way to call a function. #
