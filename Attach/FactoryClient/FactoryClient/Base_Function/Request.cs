@@ -120,26 +120,21 @@ namespace FactoryClient
         public void Report_Error(string error)
         {
             string url = host + "/dinnersys_beta/backend/backend.php?cmd=error_report";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.Headers.Add("Cookie", cookieHeader);
             var postData = new
             {
-                data = new
-                {
-                    user_name = uname,
-                    error_string = error,
-                    config = Properties.Settings.Default,
-                    location = AppDomain.CurrentDomain.BaseDirectory
-                }
+                user_name = uname,
+                error_string = error,
+                config = Properties.Settings.Default,
+                location = AppDomain.CurrentDomain.BaseDirectory
             };
-            byte[] byteArray = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postData));
-            using (Stream reqStream = request.GetRequestStream())
-            {
-                reqStream.Write(byteArray, 0, byteArray.Length);
-            }
-            request.GetResponse();
+            url += "&data=" + Uri.EscapeUriString(JsonConvert.SerializeObject(postData));
+            url = (url.Length >= 1750 ? url.Remove(1750) : url);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Headers.Add("Cookie", cookieHeader);
+            WebResponse resp = request.GetResponse();
+            string s = new StreamReader(resp.GetResponseStream(), Encoding.GetEncoding("utf-8")).ReadToEnd();
+
         }
     }
 }
