@@ -18,7 +18,6 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Debug\zh-Hant\Micr
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csprojAssemblyReference.cache
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.csproj.ResolveComReference.cache
-D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Analysis.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Form1.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Login.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Debug\FactoryClient.Properties.Resources.resources

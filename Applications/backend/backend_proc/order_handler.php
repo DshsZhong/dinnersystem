@@ -110,8 +110,8 @@ function get_pos() {
     return \pos\get_pos();
 }
 
-function data_collected() {
-    return \AI\data_collected();
+function error_report() {
+    return \other\error_report($this->input['data']);
 }
 
 }

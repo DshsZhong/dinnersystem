@@ -11,7 +11,7 @@ function config()
         "database" => [
             "ip" => "localhost",
             "account" => "dinnersystem",
-            "password" => "####",
+            "password" => "2rjurrru",
             "name" => "dinnersys"
         ],
         "login" => [

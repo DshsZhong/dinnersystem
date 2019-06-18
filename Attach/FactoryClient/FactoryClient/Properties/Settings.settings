@@ -11,5 +11,8 @@
     <Setting Name="remote_name" Type="System.String" Scope="Application">
       <Value Profile="(Default)">client.zip</Value>
     </Setting>
+    <Setting Name="remote_host" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://dinnersystem.com</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

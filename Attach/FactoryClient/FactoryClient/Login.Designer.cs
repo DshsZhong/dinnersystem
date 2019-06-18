@@ -34,6 +34,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.MaskedTextBox();
+            this.Saver = new System.Windows.Forms.LinkLabel();
+            this.SaveMe = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // id
@@ -49,7 +51,7 @@
             this.login_btn.Location = new System.Drawing.Point(85, 123);
             this.login_btn.Name = "login_btn";
             this.login_btn.Size = new System.Drawing.Size(97, 23);
-            this.login_btn.TabIndex = 2;
+            this.login_btn.TabIndex = 3;
             this.login_btn.Text = "登入";
             this.login_btn.UseVisualStyleBackColor = true;
             this.login_btn.Click += new System.EventHandler(this.login_btn_Click);
@@ -88,13 +90,37 @@
             this.password.Name = "password";
             this.password.PasswordChar = '*';
             this.password.Size = new System.Drawing.Size(131, 22);
-            this.password.TabIndex = 6;
+            this.password.TabIndex = 2;
+            // 
+            // Saver
+            // 
+            this.Saver.AutoSize = true;
+            this.Saver.Font = new System.Drawing.Font("新細明體", 30F);
+            this.Saver.Location = new System.Drawing.Point(50, 226);
+            this.Saver.Name = "Saver";
+            this.Saver.Size = new System.Drawing.Size(177, 40);
+            this.Saver.TabIndex = 7;
+            this.Saver.TabStop = true;
+            this.Saver.Text = "問題回覆";
+            this.Saver.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Saver_LinkClicked);
+            // 
+            // SaveMe
+            // 
+            this.SaveMe.Location = new System.Drawing.Point(85, 152);
+            this.SaveMe.Name = "SaveMe";
+            this.SaveMe.Size = new System.Drawing.Size(131, 23);
+            this.SaveMe.TabIndex = 8;
+            this.SaveMe.Text = "系統掛了，快來救我";
+            this.SaveMe.UseVisualStyleBackColor = true;
+            this.SaveMe.Click += new System.EventHandler(this.SaveMe_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 178);
+            this.ClientSize = new System.Drawing.Size(268, 186);
+            this.Controls.Add(this.SaveMe);
+            this.Controls.Add(this.Saver);
             this.Controls.Add(this.password);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -116,5 +142,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MaskedTextBox password;
+        private System.Windows.Forms.LinkLabel Saver;
+        private System.Windows.Forms.Button SaveMe;
     }
 }

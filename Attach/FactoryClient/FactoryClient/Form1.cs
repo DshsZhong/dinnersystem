@@ -53,7 +53,6 @@ namespace FactoryClient
             scale_file.Text = AppDomain.CurrentDomain.BaseDirectory + "規模化報表.xlsx";
             custom_file.Text = AppDomain.CurrentDomain.BaseDirectory + "精緻化報表.xlsx";
             money_file.Text = AppDomain.CurrentDomain.BaseDirectory + "金額報表.xlsx";
-            analysiser.Enabled = (from item in req.valid_opers where item == "\"select_other\"" select item).Count() == 1;
         }
 
         #region open_file
@@ -109,10 +108,11 @@ namespace FactoryClient
                 }
                 catch (Exception ex)
                 {
+                    req.Report_Error(ex.ToString());
                     Invoke((MethodInvoker)(() =>
                     {
                         original();
-                        MessageBox.Show(ex.Message);
+                        Error_Report.Text += ex.Message + "\r\n ----------- \r\n";
                     }));
                 }
             });
@@ -149,10 +149,11 @@ namespace FactoryClient
                 }
                 catch (Exception ex)
                 {
+                    req.Report_Error(ex.ToString());
                     Invoke((MethodInvoker)(() =>
                     {
                         original();
-                        MessageBox.Show(ex.Message);
+                        Error_Report.Text += ex.Message + "\r\n ----------- \r\n";
                     }));
                 }
             });
@@ -189,10 +190,11 @@ namespace FactoryClient
                 }
                 catch (Exception ex)
                 {
+                    req.Report_Error(ex.ToString());
                     Invoke((MethodInvoker)(() =>
                     {
                         original();
-                        MessageBox.Show(ex.Message);
+                        Error_Report.Text += ex.Message + "\r\n ----------- \r\n";
                     }));
                 }
             });
@@ -229,20 +231,14 @@ namespace FactoryClient
                 }
                 catch (Exception ex)
                 {
+                    req.Report_Error(ex.ToString());
                     Invoke((MethodInvoker)(() =>
                     {
                         original();
-                        MessageBox.Show(ex.Message);
+                        Error_Report.Text += ex.Message + "\r\n ----------- \r\n";
                     }));
                 }
             });
-        }
-
-        private void analysiser_Click(object sender, EventArgs e)
-        {
-            Analysis form = new Analysis(req);
-            form.ShowDialog();
-            Show();
         }
 
         private void update_Click(object sender, EventArgs e)
@@ -280,5 +276,10 @@ namespace FactoryClient
         }
 
         private void logout_Click(object sender, EventArgs e)   { Close(); }
+
+        private void Error_Report_TextChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show((sender as RichTextBox).Text, "發生錯誤",MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }

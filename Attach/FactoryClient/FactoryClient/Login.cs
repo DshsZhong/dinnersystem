@@ -24,5 +24,15 @@ namespace FactoryClient
             Form1 form = new Form1(req);
             form.Show();
         }
+
+        private void SaveMe_Click(object sender, EventArgs e)
+        {
+            this.Height += (this.Height == 225 ? 100 : 0 );
+        }
+
+        private void Saver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://forms.gle/5vF8q7LUXUtXySAeA");
+        }
     }
 }

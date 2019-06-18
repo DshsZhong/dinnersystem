@@ -2,7 +2,7 @@
     # this file requires a bom header to let ios plugin run
     ini_set('display_errors' ,1);
     error_reporting(0);
-    # mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     
     require_once(__DIR__ . "/backend_proc/backend_main.php");
     

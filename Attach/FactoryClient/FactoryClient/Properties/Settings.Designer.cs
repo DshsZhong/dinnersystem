@@ -49,5 +49,17 @@ namespace FactoryClient.Properties {
                 return ((string)(this["remote_name"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://dinnersystem.com")]
+        public string remote_host {
+            get {
+                return ((string)(this["remote_host"]));
+            }
+            set {
+                this["remote_host"] = value;
+            }
+        }
     }
 }

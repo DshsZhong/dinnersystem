@@ -14,10 +14,15 @@ function submit() {
         } else if(server_respond == "daily limit exceed") {
             show("達單日訂購上限");
         } else {
-            show("成功點餐");
-            setTimeout(function () {
-                window.history.back();
-            }, 1000);
+            try {
+                var respond = JSON.parse(server_respond);
+                show("成功點餐");
+                setTimeout(function () {
+                    window.history.back();
+                }, 1000);
+            } catch(e) {
+                show("點餐失敗");
+            }
         }
     });
 }

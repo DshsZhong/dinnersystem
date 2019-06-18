@@ -10,9 +10,6 @@ class backend_main
     {
         require_once (__DIR__ . '/order_handler.php');
         require_once (__DIR__ . '/config.php');
-        
-
-        require_once (__DIR__ . '/../AI/data_collected.php'); 
 
         
         require_once (__DIR__ . '/../json/json_format.php'); 
@@ -88,6 +85,7 @@ class backend_main
         require_once (__DIR__ . '/../other/get_ip.php');
         require_once (__DIR__ . '/../other/init_vars.php');
         require_once (__DIR__ . '/../other/sql_server.php');
+        require_once (__DIR__ . '/../other/error_report.php');
 
         require_once (__DIR__ . '/../other/log/make_log.php');
         require_once (__DIR__ . '/../other/log/make_error_log.php');
