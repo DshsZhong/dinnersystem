@@ -3,10 +3,10 @@ function order(value) {
     var highlight = (value['user']['id'] !== value['order_maker']['id']);
     var ret = '<div id="' + value['id'] + '" class="order"><div class="info"><div class="index index_adjust' + (highlight ? " red-highlight " : "") +
         '"><label>' + value['user']['name'] + '(' + seat_no + ')' + '</label></div>';
+    var text = (value['dish'].length > 1 ? "自訂套餐(" + value['money']['charge'] + "$.)" : value['dish'][0]['dish_name'] + '(' + value['dish'][0]['dish_cost'] + '$.)');
     return ret + '</div><div class="info"><div class="index dish_name' +
         (highlight ? " red-highlight " : "") + '"><label>' +
-        value['dish'][0]['dish_name'] + '(' + value['dish'][0]['dish_cost'] + '$.)' +
-        '</label></div></div><hr /></div>';
+        text + '</label></div></div><hr /></div>';
 }
 
 function load() {

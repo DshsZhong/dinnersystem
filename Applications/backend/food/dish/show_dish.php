@@ -6,7 +6,13 @@ function show_dish($sortby)
     $flimit = fetch_factory();
     $dlimit = fetch_dish();
 
-    $dish = unserialize($_SESSION["dish"]);
+    $me = unserialize($_SESSION['me']);
+    if(in_array("factory" ,$me->prev))  {
+        $dish = get_dish();
+    } else {
+        $dish = unserialize($_SESSION["dish"]);
+    }
+
     $department = unserialize($_SESSION["department"]);
     $factory = unserialize($_SESSION["factory"]);
     
