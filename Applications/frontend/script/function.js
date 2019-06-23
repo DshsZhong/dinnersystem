@@ -1,6 +1,6 @@
 //every function here is synchornized.
 
-var time = "12:00:00";
+var time = "-12:00:00";
 var url = "/dinnersys_beta/backend/backend.php?";
 
 function login(uid, pswd, callback, done) {
