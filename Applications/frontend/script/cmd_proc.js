@@ -26,15 +26,6 @@ $(document).ready(() => {
     var welcome = "";// = "你的身分是：";
     if(opers['select_self']) {
         $("#student").css("display" ,"block");
-        if(json["data_collected"] == "0" && document.referrer.indexOf("login.html") >= 0) {
-            if (confirm('請問你要填寫午餐系統的問卷嗎?')) {
-                $.get("/dinnersys_beta/backend/backend.php?cmd=data_collected" ,() => {
-                    json["data_collected"] == "1";
-                    window.localStorage.user_data = JSON.stringify(json);
-                    window.location.replace("https://forms.gle/W6G3zNr2pxyunoMv8");
-                });
-            }
-        }
     }
 
     if(opers['select_class']) {
