@@ -269,7 +269,7 @@
 > 無法更新菜單
 > - 詢問廠商是否有錯誤訊息
 > - 去看資料庫的 error report 表格
-> - 檢查有沒有匯入 SQL Procedure
+> - 檢查有沒有匯入 SQL Procedure (Morgan 就是你!)
 
 > 系統無法連線
 > - 確認 dns 解析正常
