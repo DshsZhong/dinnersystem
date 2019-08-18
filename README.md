@@ -264,10 +264,17 @@
     ]
 ]
 ```
+# 給未來的我，看到這段文字請回憶起你之前幹的蠢事
+> - payment 資料表中的 tag 分為五種 {user ,dinnerman ,cafeteria ,factory ,payment}
+> - cafeteria 代表合作社收到實體錢，也就是代表這份點單是成立的；payment 代表是合作社收到虛擬錢，也代表這份點單成立。
+> - (cafeteria = true OR payment = true) 的點單就是成立的點單，其餘都是不成立的。
+
 
 # 常見問題集
 > 無法更新菜單
-> - 檢查資料夾裡面有沒有錯誤訊息檔
+> - 詢問廠商是否有錯誤訊息
+> - 去看資料庫的 error report 表格
+> - 檢查有沒有匯入 SQL Procedure (Morgan 就是你!)
 
 > 系統無法連線
 > - 確認 dns 解析正常
