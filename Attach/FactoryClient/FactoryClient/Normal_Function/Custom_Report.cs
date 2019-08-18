@@ -20,7 +20,9 @@ namespace FactoryClient
 
         public void Download(string l, string r ,UpdateProgress invoker)
         {
-            JArray data = req.Get_Order(l.Replace("-", "/").Replace(" ", "-"), r.Replace("-", "/").Replace(" ", "-"));
+            JArray orders = req.Get_Order(l.Replace("-", "/").Replace(" ", "-"), r.Replace("-", "/").Replace(" ", "-"));
+            List<JToken> data = new List<JToken>(from token in orders orderby DateTime.Parse(token["recv_date"].ToString()) select token);
+
             JArray dish_respond = req.Get_Dish();
 
             int counter = 5;
