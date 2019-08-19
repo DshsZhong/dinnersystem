@@ -9,10 +9,10 @@ function get_user($cid ,$everyone)
     $sql = "SELECT U.id ,UI.name ,U.class_id ,UI.seat_id
         FROM users AS U ,user_information AS UI 
         WHERE U.info_id = UI.id
-        AND (U.class_id = ? OR U.prev_sum >= 8 OR ?)";
+        AND (U.prev_sum >= 8 OR ?)";
     
     $statement = $mysqli->prepare($sql);
-    $statement->bind_param('ii', $cid ,$everyone);
+    $statement->bind_param('i' ,$everyone);
 
     $statement->execute();
     $statement->store_result();
