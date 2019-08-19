@@ -4,15 +4,16 @@ namespace user;
 function get_user($cid ,$everyone)
 {
     $mysqli = $_SESSION['sql_server'];
-
+    $me = unserialize($_SESSION["me"]);
     //load all the users might be seen.
+    
     $sql = "SELECT U.id ,UI.name ,U.class_id ,UI.seat_id
         FROM users AS U ,user_information AS UI 
         WHERE U.info_id = UI.id
-        AND (U.prev_sum >= 4 OR ?)";
+        AND (U.prev_sum >= 4 OR ? OR U.id = ?)";
     
     $statement = $mysqli->prepare($sql);
-    $statement->bind_param('i' ,$everyone);
+    $statement->bind_param('ii' ,$everyone ,$me->id);
 
     $statement->execute();
     $statement->store_result();
