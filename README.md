@@ -284,6 +284,9 @@
 > - 確認 u_move_u_dead 存在於 frontend
 > - 確認 version.txt 存在於 u_move_u_dead
 
+> PHP 抓不到正確的 session
+> - 試試看登入 ssh 的 domain name
+
 > 附註
 > - pos 掛掉，午餐系統也很容易連累掛掉，跟其他伺服器溝通是很耗費效能的事情
 > - 如果還有遇到什麼問題，請聯絡我，我會再把東西寫入問題集
