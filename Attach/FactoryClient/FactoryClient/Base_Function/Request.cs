@@ -58,7 +58,8 @@ namespace FactoryClient
             WebResponse wr = req.GetResponse();
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
-            JArray array = JsonConvert.DeserializeObject<JArray>(readStream.ReadToEnd());
+            string str = readStream.ReadToEnd();
+            JArray array = JsonConvert.DeserializeObject<JArray>(str);
             JArray ret = new JArray();
             foreach (JToken order in array)
             {
@@ -79,8 +80,13 @@ namespace FactoryClient
             WebResponse wr = req.GetResponse();
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
-            JArray array = JsonConvert.DeserializeObject<JArray>(readStream.ReadToEnd());
-            return array;
+            string str = readStream.ReadToEnd();
+            try {
+                JArray array = JsonConvert.DeserializeObject<JArray>(str);
+                return array;
+            } catch(Exception e) {
+                throw new Exception(e.ToString() + "\nCurrentJson:" + str);
+            }
         }
 
         public void Update_Dish(List<string> suffix, UpdateProgress invoker)
@@ -110,7 +116,8 @@ namespace FactoryClient
             WebResponse wr = req.GetResponse();
             Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
             StreamReader readStream = new StreamReader(wr.GetResponseStream(), encode);
-            JObject array = JsonConvert.DeserializeObject<JObject>(readStream.ReadToEnd());
+            string str = readStream.ReadToEnd();
+            JObject array = JsonConvert.DeserializeObject<JObject>(str);
             List<JToken> version = new List<JToken>();
             foreach (JToken v in array["factory"])
                 version.Add(v);

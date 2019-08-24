@@ -17,7 +17,6 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\Newtonsoft
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\bin\Release\zh-Hant\Microsoft.VisualStudio.TestTools.UITest.Extension.resources.dll
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\Interop.IWshRuntimeLibrary.dll
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.ResolveComReference.cache
-D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.Analysis.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.Form1.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.Login.resources
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.Properties.Resources.resources
@@ -26,3 +25,4 @@ D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryCli
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.csproj.CopyComplete
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.exe
 D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.pdb
+D:\github\dinnersystem\Attach\FactoryClient\FactoryClient\obj\Release\FactoryClient.csprojAssemblyReference.cache
