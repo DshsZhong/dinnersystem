@@ -283,6 +283,7 @@
 > 如果 App 一打開就 crash
 > - 確認 u_move_u_dead 存在於 frontend
 > - 確認 version.txt 存在於 u_move_u_dead
+> - 看 Crashlytics 裡面有沒有輸出
 
 > PHP 抓不到正確的 session
 > - 試試看登入 ssh 的 domain name
