@@ -5,10 +5,11 @@ function get_dish($did = null)
 {
     $mysqli = $_SESSION['sql_server'];
 
-    $sql = "SELECT D.id ,D.dish_name ,D.charge ,D.is_idle ,DP.id ,D.is_vegetarian ,D.daily_limit
-        FROM `dinnersys`.`dish` AS D ,`dinnersys`.`department` AS DP
+    $sql = "SELECT D.id ,D.dish_name ,D.charge ,D.is_idle ,DP.id ,D.is_vegetarian ,IF(F.daily_limit - F.sum = 0 , 0 ,D.daily_limit)
+        FROM `dinnersys`.`dish` AS D ,`dinnersys`.`department` AS DP ,`dinnersys`.`factory` AS F
         WHERE D.department_id = DP.id 
-		AND D.id = IFNULL(? ,D.id);";
+	AND F.id = DP.factory
+	AND D.id = IFNULL(? ,D.id);";
     $statement = $mysqli->prepare($sql);
     $statement->bind_param('i' ,$did);
     $statement->execute();
