@@ -25,8 +25,8 @@ function fetch_dish()
 {
     $mysqli = $_SESSION['sql_server'];
     $sql = "SELECT D.id ,(F.daily_limit - F.sum > 0 ,D.daily_limit ,0) ,D.sum ,D.last_update 
-        FROM `dinnersys`.`dish` AS D
-             `dinnersys`.`department` AS DP
+        FROM `dinnersys`.`dish` AS D,
+             `dinnersys`.`department` AS DP,
              `dinnersys`.`factory` AS F
         WHERE DP.id = D.department_id AND DP.factory = F.id;";
     $statement = $mysqli->prepare($sql);
