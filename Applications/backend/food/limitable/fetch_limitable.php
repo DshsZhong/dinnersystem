@@ -24,7 +24,7 @@ function fetch_factory()
 function fetch_dish()
 {
     $mysqli = $_SESSION['sql_server'];
-    $sql = "SELECT D.id ,IF(F.daily_limit = -1 ,D.daily_limit ,IF(F.daily_limit > F.sum ,D.sum ,D.daily_limit)) ,D.sum ,D.last_update
+    $sql = "SELECT D.id ,(F.daily_limit - F.sum > 0 ,D.daily_limit ,0) ,D.sum ,D.last_update 
         FROM `dinnersys`.`dish` AS D,
              `dinnersys`.`department` AS DP,
              `dinnersys`.`factory` AS F
