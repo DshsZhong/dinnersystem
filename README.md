@@ -1,7 +1,7 @@
 # 交換介面格式
 向後台發送請求，後台將會做出相對應的回應。
 - 後台位置 https://dinnersystem.com/dinnersystem_beta/backend/backend.php
-- 你可以採用 `get` 方法進行傳輸，也可以採用 `post` 進行傳輸
+- 你可以採用 `post` 進行傳輸
 
 ## 使用方法
 > # 登入
