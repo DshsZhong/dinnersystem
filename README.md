@@ -1,7 +1,7 @@
 # 交換介面格式
 向後台發送請求，後台將會做出相對應的回應。
-- 後台位置 https://dinnersystem.com/dinnersystem_beta/backend/backend.php
-- 你可以採用 `post` 進行傳輸
+- 後台位置 https://dinnersystem.com/dinnersys_beta/backend/backend.php
+- 你可以採用 `get` 或是 `post` 進行傳輸
 
 ## 使用方法
 > # 登入
@@ -61,7 +61,7 @@
 >>>>- `self` 僅限抓出自己的資料
 >>>> - `class` 僅限抓出自己班的資料
 >>>> - `other` 不限制，~~不要問我為什麼叫做 `other`~~
->>>> - `factory` 僅限抓出自己廠商的資料
+>>>> - `facto` 僅限抓出自己廠商的資料
 >>>>
 >>>> 時間上界 `?esti_start={Year/Month/Date-Hour:Minute:Second}`
 >>>>
@@ -83,7 +83,7 @@
 >>>> 廠商編號 `?factory_id={factory_id}`
 >>>>
 >>>
->> - 例如 `?cmd=select_self&esti_start=2019/01/01-00:00:00&history=true`
+>> - 例如 `?cmd=select_facto&esti_start=2019/01/01-00:00:00&history=true`
 >> 
 >> 回傳
 >> - 點單的 `json` 陣列
