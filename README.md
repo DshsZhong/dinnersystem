@@ -78,8 +78,6 @@
 >>>>
 >>>> 點單編號 `?oid={order_id}`
 >>>>
->>>> 是否繳款 `?payment={true ,false}`
->>>>
 >>>> 廠商編號 `?factory_id={factory_id}`
 >>>>
 >>>
